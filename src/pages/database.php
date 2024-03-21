@@ -5,9 +5,9 @@ function connect_to_database()
 	global $mysqli;
 
 	$dbhost = 'localhost';
-	$dbuser = 'root'; //team002
-	$dbpwd = ''; //uo4KXJgAT7fxEvEEVNKN
-	$db = 'team002';
+	$dbuser = 'team12';
+	$dbpwd = 'team12!';
+	$db = 'make_it_all';
 
 	$mysqli = new mysqli($dbhost, $dbuser, $dbpwd, $db);
 
