@@ -1,0 +1,205 @@
+body {
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+@media (max-width: 726px) {
+    #charts-tables {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #tables {
+        width: auto;
+        padding: 4%;
+    }
+
+    #chart, #tables {
+        width: auto !important;
+        max-width: none;
+    }
+
+    .table-heading {
+        font-size: var(--caption-1) !important;
+    }
+
+    .table-data {
+        font-size: var(--caption-1) !important;
+    }
+}
+
+#today {
+    font-size: var(--title-1);
+}
+
+#tables {
+    display: inline-block;
+    width: 66%;
+    max-width: none;
+}
+
+/* styling for link to create a new project when there are no currently active ones available */
+#new-project-link:hover {
+    border-color: var(--accent-color);
+    cursor: pointer;
+}
+
+#project-dropdown {
+    color: var(--text-color);
+    background-color: var(--window-background);
+    border: 0;
+    width: auto;
+}
+
+#all {
+    padding: 0;
+}
+
+/* header styling */
+h2 {
+    font-size: var(--title-1);
+    color: var(--text-color);
+    margin: .1em;
+}
+
+h3 {
+    font-size: var(--title-2);
+    color: var(--text-color);
+}
+
+h4 {
+    font-size: var(--title-3);
+    color: var(--text-color);
+    margin: 0;
+}
+
+.inline-large-title {
+    font-size: var(--title-1);
+    border-radius: 2px;
+    padding: .25em;
+    margin: .25em;
+}
+
+/* table styling */
+.table {
+    border-color: var(--secondary-label-color);
+    border-spacing: 0;
+    width: 100%;
+    margin-bottom: 0%;
+    table-layout: auto;
+}
+
+.table th, .table td {
+    width: 5%;
+    text-overflow: ellipsis;
+    padding: 1%;
+}
+
+.table td {
+    border-left: 1px solid var(--secondary-label-color);
+    border-bottom: 0;
+}
+
+.table td:first-child {
+    border-left: 0;
+}
+
+.table-heading {
+    color: var(--secondary-label-color);
+    font-size: var(--body);
+    font-weight: normal;
+}
+
+.table-data {
+    color: var(--text-color);
+    font-size: var(--body);
+    font-weight: normal;
+}
+
+.table th {
+    text-align: left;
+    border-bottom: 1px solid var(--secondary-label-color);
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* container class styling, used for the rectangular boxes on screen */
+.container {
+    display: block;
+    margin: 1em;
+    padding: 1%;
+    border: 1px solid var(--secondary-label-color);
+    border-radius: 15px;
+}
+
+.container-no-border {
+    border: 0;
+}
+
+.container-inline {
+    padding: 0;
+    margin-top: .33em;
+    align-items: center;
+    justify-content: center;
+}
+
+/* editing default styling for jQuery .ui-datepicker and others */
+.ui-datepicker {
+    background-color: var(--window-background);
+    border: 1px solid var(--grid-color);
+}
+
+.ui-datepicker-header {
+    background-color: var(--background-material);
+    color: var(--label-color);
+    border: 1px solid var(--grid-color);
+}
+
+.ui-datepicker-calendar {
+    background-color: var(--window-background);
+    border: 1px solid var(--grid-color);
+}
+
+.ui-datepicker-calendar a {
+    color: var(--label-color);
+}
+
+.ui-datepicker-calendar a.ui-state-active {
+    background-color: var(--secondary-fill-color);
+    color: var(--label-color);
+    border: 1px solid var(--grid-color);
+}
+
+#date-picker {
+    color: var(--accent-color);
+    background-color: var(--window-background);
+    border: 0;
+    width: 50%;
+}
+
+/* doughnut chart styling */
+#progress-chart {
+    display: block;
+    margin: auto;
+    max-width: none;
+}
+
+#charts-tables {
+    margin-top: 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#chart {
+    display: inline-block;
+    width: auto;
+    max-width: none;
+}
+
+.chart-canvas {
+    margin: 0;
+    color: var(--text-color);
+}

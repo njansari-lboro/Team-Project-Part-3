@@ -1,0 +1,145 @@
+body {
+    /* font-family: var(--font-family); */
+    background-color: var(--window-background) !important;
+    /* color: var(--text-color); */
+}
+
+#welcome-message {
+    color: var(--accent-color);
+}
+
+.inline-message {
+    display: inline;
+    color: var(--accent-color);
+}
+
+.general {
+    /* height: 100vh; */
+    /* height:100%; */
+    border-radius: 25px;
+    border: 1px solid #0000001A;
+    margin: 10px 50px 30px;
+    padding: 25px;
+}
+
+.tasks-preview {
+    /* styling for previewing tasks */
+    /* height: 100px; */
+    height: 60%;
+    border-radius: 25px;
+    border: 1px solid #0000001A;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 10px;
+    /* margin-bottom: 30px; */
+    padding: 25px;
+    text-align: center;
+}
+
+.preview-title {
+    color: var(--accent-color);
+}
+
+/* table styling */
+.table {
+    font-size: var(--body);
+    border-color: var(--grid-color);
+    background-color: var(--window-background);
+    margin: 0 auto;
+    width: 100%;
+}
+
+td, #tasks-table td {
+    border-left: 1px solid var(--grid-color);
+    border-bottom: 1px solid var(--grid-color);
+    padding: 5px;
+    color: var(--text-color) !important;
+    background-color: var(--window-background) !important;
+}
+
+#tasks-table td {
+    background-color: var(--window-background);
+}
+
+#project-table th, #forums-table th, #tasks-table th {
+    background-color: var(--window-background);
+    color: var(--secondary-label-color);
+    font-weight: lighter;
+    border-bottom: 1px solid var(--grid-color);
+    padding: 5px;
+}
+
+tr:last-child > td, #tasks-table tr:last-child > td {
+    border-bottom: 0;
+}
+
+th:first-child, td:first-child, #tasks-table td:first-child {
+    border-left: 0;
+}
+
+#taskname {
+    width: 70%;
+}
+
+.project-preview {
+    /* styling for previewing projects */
+    height: auto;
+    /* width: 300px; */
+    width: 35%;
+    border-radius: 25px;
+    border: 1px solid #0000001A;
+    margin: 10px 50px 30px;
+    padding: 20px;
+    float: left;
+    text-align: center;
+}
+
+.forums-preview {
+    /* styling for previewing forums */
+    height: auto;
+    /* width: 300px; */
+    width: 35%;
+    border-radius: 25px;
+    border: 1px solid #0000001A;
+    margin: 10px 50px 30px;
+    padding: 20px;
+    float: left;
+    text-align: center;
+}
+
+.previews {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.tasks-preview:hover, .project-preview:hover, .forums-preview:hover {
+    cursor: pointer;
+    border-color: var(--accent-color) !important;
+}
+
+@media (max-width: 800px) {
+    /* making page responsive */
+    .task-preview {
+        height: auto;
+    }
+
+    .previews {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .forums-preview {
+        width: 60%;
+        height: auto;
+    }
+
+    .project-preview {
+        width: 60%;
+        height: auto;
+    }
+
+    .general {
+        height: auto;
+    }
+}

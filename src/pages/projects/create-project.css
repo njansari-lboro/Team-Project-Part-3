@@ -1,0 +1,323 @@
+/* body {
+    font-family: var(--font-family);
+    background-color: var(--window-background);
+    color: var(--text-color);
+    margin-left: 50px;
+} */
+
+#details h1 {
+    /* id for the form */
+    color: var(--placeholder-text-color);
+}
+
+#outer-div {
+    /* id for div containing everything */
+    display: block;
+    margin: 2%;
+    padding: 1%;
+/*     border: 1px solid var(--secondary-label-color); */
+    border-radius: 15px;
+}
+
+#top-row {
+    width: 100%;
+    height: 5%;
+}
+
+#headers {
+    /* id for titles */
+    /*color: var(--accent-color);*/
+    font-size: var(--title-3);
+}
+
+#title {
+    text-align: center;
+    /* float: center; */
+    /* width: auto; */
+    color: var(--accent-color);
+    font-size: var(--title-2);
+}
+
+#project-details {
+    /* id for div containing all details for the project */
+    /* margin-top: 0; */
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#name-leader-brief-deadline {
+    /* id for div containing name,leader,brief,deadline */
+
+    /* display: inline-block; */
+    float: left;
+    width: 50%;
+    /* height: 50%; */
+    max-width: none;
+}
+
+#members {
+    /* id for div that contains the team members */
+
+    /* display: inline-block; */
+    float: left;
+    width: 50%;
+    max-width: none;
+}
+
+#members-box {
+    display: block;
+    margin: 2%;
+    padding: 1%;
+    border: 1px solid var(--secondary-label-color);
+    border-radius: 15px;
+/*     height: 100vh; */
+}
+
+#names {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    visibility: hidden;
+}
+
+#names li a {
+    text-decoration: none;
+    display: block;
+}
+
+#members-entry {
+    /* id for input box to enter a member */
+    border: 2px solid var(--grid-color);
+    border-radius: 5px;
+    font-size: var(--title-2);
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+#pname {
+    /* id for input box to enter title for project */
+    border: 2px solid var(--grid-color);
+    border-radius: 5px;
+    font-size: var(--title-2);
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+#pleader {
+    /* id for input box to enter leader for project */
+    border: 2px solid var(--grid-color);
+    border-radius: 5px;
+    font-size: var(--title-2);
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+#pbrief {
+    /* id for input box to enter brief for project */
+    width: 90%;
+    font-size: var(--title-3);
+    margin-right: 50px;
+    border: 2px solid var(--grid-color);
+    border-radius: 5px;
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+#resource-hours {
+    /* id for input box to enter resource hours for project */
+    border: 2px solid var(--grid-color);
+    border-radius: 5px;
+    font-size: var(--title-2);
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+#closebtn {
+    /* id for close button */
+    color: var(--placeholder-text-color);
+    font-size: var(--extra-large-title);
+    /*width: 2%;*/
+    cursor: pointer;
+    margin: unset;
+}
+
+#add-member, #submitBtn {
+    /* id for add member button and submit button */
+    color: white;
+    background-color: var(--accent-color);
+    padding: 15px 30px;
+    border: none;
+    font-size: var(--title-3);
+    overflow: hidden;
+    box-shadow: 0 4px var(--secondary-accent-color);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    /*position: fixed;*/
+    z-index: 1;
+    text-align: center;
+    border-radius: 30px;
+}
+
+#add-member:hover, #submitBtn:hover {
+    /* styling to change background-colour after hovering over button */
+    background-color: #FFC472;
+}
+
+#project-deadline {
+    /* id for input box to choose project deadline for project */
+    color: var(--accent-color);
+    font-size: var(--title-3);
+    background-color: var(--window-background);
+    border: 2px solid var(--grid-color);
+    border-radius: 5px;
+}
+
+.container {
+    border: solid #0000001A;
+    width: 300px;
+    height: 100px;
+    font-size: var(--body);
+    overflow-y: scroll;
+}
+
+/*@media screen and (max-width: 350px) {
+    .container {
+        width: 100%;
+    }
+
+    #pname {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    #project-deadline {
+        width: 100%;
+    }
+}*/
+
+.results-box {
+    /* class for div that displays names from database */
+    position: absolute;
+    width: 30%;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.results-box ul {
+    /* styling for displaying names from database */
+
+    /* border-top: 1px solid #999; */
+    padding: 5px 5px;
+    background: var(--window-background);
+}
+
+.results-box ul li {
+    /* styling for displaying names from database */
+    list-style: none;
+    border: 1px solid;
+    border-radius: 3px;
+    height: 50px;
+    font-size: var(--title-2);
+    padding: 5px 5px;
+    cursor: pointer;
+    background-color: var(--accent-color);
+}
+
+.results-box ul li:hover{
+    background: var(--secondary-accent-color);
+}
+
+#team-members li {
+    /* styling for the names that are part of a team */
+    list-style: none;
+    border: 1px solid;
+    border-radius: 3px;
+    height: 50px;
+    font-size: var(--title-2);
+    padding: 5px 5px;
+    /*cursor: pointer;*/
+    background-color: var(--accent-color);
+}
+
+#team-members li button {
+    /* styling for the 'remove' button to remove a person from project */
+    color: white;
+    background-color: var(--red-color);
+    padding: 5px 30px;
+    border: none;
+    font-size: var(--caption-1);
+    overflow: hidden;
+    box-shadow: 0 4px var(--secondary-accent-color);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    /* position: fixed; */
+    z-index: 1;
+    text-align: center;
+    border-radius: 30px;
+    float: right;
+}
+
+#team-members li button:hover {
+    background-color: rgb(255, 80, 80);
+}
+
+.leader-names {
+    /* styling for displaying names from database */
+    position: absolute;
+    width: 30%;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.leader-names ul {
+    /* styling for displaying names from database */
+    /* border-top: 1px solid #999; */
+    padding: 5px 5px;
+    background: var(--window-background);
+}
+
+.leader-names ul li {
+    /* styling for displaying names from database */
+    list-style: none;
+    border: 1px solid;
+    border-radius: 3px;
+    height: 50px;
+    font-size: var(--title-2);
+    padding: 5px 5px;
+    cursor: pointer;
+    background-color: var(--accent-color);
+}
+
+.leader-names ul li:hover{
+    background: var(--secondary-accent-color);
+}
+
+@media (max-width: 700px) {
+    /* making page responsive */
+    #name-leader-brief-deadline {
+        min-width: 100%;
+        float: none;
+    }
+
+    #members {
+        min-width: 100%;
+        float: none;
+    }
+}
+
+@media (max-width: 400px) {
+    input {
+        width: 90%;
+    }
+}
+
+.team-members-scroll {
+    /* adds scroll bar */
+    max-height: 400px;
+    overflow-y: scroll;
+    /* max-height: 100%;
+    overflow-y: auto; */
+}

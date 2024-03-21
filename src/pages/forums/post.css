@@ -1,0 +1,115 @@
+.modal-container {
+    background-color: var(--window-background);
+    width: 95%;
+    padding: 0 15px 60px;
+    border-radius: 10px;
+    position: static;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.flex-row {
+    justify-content: space-between;
+}
+
+.exit-btn {
+    background: none;
+    border: none;
+    width: 50px;
+    height: 50px;
+    margin: 0 20px 0 10px;
+    display: static;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.dropdown {
+    flex: 0.1;
+    padding: 8px 15px;
+    margin-right: 10px;
+    border: none;
+    color: var(--accent-color);
+    font-size: var(--title-2);
+    position: static;
+    background-color: var(--window-background);
+}
+
+.input {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    flex: 2.2;
+    font-size: var(--title-2);
+    outline: none;
+    color: var(--text-color);
+    background-color: var(--tertiary-fill-color);
+}
+
+.textarea {
+    width: 100%;
+    height: 500px;
+    padding: 10px;
+    border: 1px solid var(--separator-color);
+    border-radius: 5px;
+    font-size: var(--body);
+    resize: none;
+    color: var(--text-color);
+    background-color: var(--quaternary-fill-color);
+}
+
+.post-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: var(--body);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 5px var(--shadow-color);
+    position: absolute;
+    right: 20px;
+    width: 120px;
+    height: 45px;
+    margin-top: 45px;
+}
+
+.envelope-icon {
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .modal-container {
+        width: 100%;
+        padding: 0 10px 30px;
+    }
+
+    .textarea {
+        height: 300px;
+    }
+
+    .post-btn {
+        width: 100px;
+        height: 40px;
+        margin-top: 30px;
+    }
+
+    .exit-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .input, .dropdown {
+        font-size: calc(var(--title-2) - 2px);
+    }
+
+    .post-btn, .input, .dropdown, .textarea {
+        font-size: calc(var(--body) - 2px);
+    }
+}

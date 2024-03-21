@@ -1,0 +1,214 @@
+@media (max-width: 100%) {}
+
+select:focus {
+    outline: 0;
+}
+
+table {
+    font-size: var(--body);
+    width: 100%;
+    border-spacing: 0;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: var(--sub-headline);
+    white-space: pre;
+}
+
+th {
+    font-weight: normal;
+    color: var(--tertiary-label-color);
+    text-align: left;
+    border-top: 1px solid var(--tertiary-label-color);
+    padding: 5px;
+}
+
+td {
+    padding: 10px;
+    align-items: center;
+    white-space: pre;
+}
+
+td, th {
+    border-bottom: 1px solid var(--tertiary-label-color);
+}
+
+hr {
+    color: var(--tertiary-label-color);
+}
+
+button {
+    border: none;
+    background-color: var(--window-background);
+}
+
+#new-project-button {
+    color: var(--accent-color);
+    background-color: transparent;
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#new-project-button:focus {
+    outline: none;
+}
+
+#projects-filter {
+    appearance: none;
+    color: var(--accent-color);
+    background-color: var(--window-background);
+    width: auto;
+    border: 0;
+    border-radius: 5px;
+}
+
+#projects-header, #projects-filter {
+    font-size: var(--large-title);
+    display: inline;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    margin-bottom: 10px;
+    padding: 5px 5px;
+}
+
+#dropdown-div {
+    position: relative;
+    font-size: var(--title-2);
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-left: 5%;
+    align-items: center;
+}
+
+/* greying-out complete tasks */
+.complete > td {
+    color: var(--quaternary-label-color);
+}
+
+.scroll-wrapper {
+    overflow-x: auto;
+}
+
+/* editable cells/inputs styling */
+.editing .assignee-cell, .editing .editable {
+    width: 75%;
+    box-sizing: border-box;
+    overflow-x: auto;
+}
+
+.editable, .assignee-search, .hours-input {
+    background-color: var(--window-background);
+    /* color: var(--placeholder-text-color); */
+    border-color: var(--tertiary-label-color);
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 1em;
+    border-width: 1px;
+    padding: 0.5em;
+    width: auto;
+    height: auto;
+    flex: 1;
+}
+
+/* task editing button styling */
+.edit-button-cell {
+    border-bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-task-button, .save-task-button, .cancel-task-button {
+    color: var(--accent-color);
+}
+
+.edit-task-button:hover, .save-task-button:hover, .cancel-task-button:hover {
+    text-decoration: underline;
+}
+
+/* dropdown styling */
+.dropdown {
+    color: var(--accent-color);
+}
+
+.dropdown:focus {
+    outline: none !important;
+}
+
+.dropdown {
+    transform: rotate(-90deg);
+    transition: transform .5s ease;
+}
+
+.rotated {
+    transform: rotate(0deg);
+}
+
+.dropdown-content {
+    display: none; /* dropdown content is invisible before being toggled */
+    margin: 5px 10%;
+    padding-bottom: 10px;
+}
+
+/* progress bar styling */
+.progress-bar {
+    width: auto;
+    align-self: center;
+    color: var(--accent-color);
+    background-color: var(--window-background);
+    position: relative;
+    cursor: pointer;
+    border: none;
+}
+
+.progress-bar::before {
+    content: attr(data-value);
+    position: absolute;
+    top: -20px;
+    left: 50%; /* positioning tool-tip in the middle of a progress bar */
+    transform: translate(-50%, 110%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.2s linear;
+}
+
+.progress-bar:hover::before {
+    visibility: visible; /* on hovering over a progress bar, display percentage */
+    opacity: 1;
+}
+
+table td.ui-progressbar {
+    padding: 10px;
+    border-spacing: 0;
+}
+
+td.progress-bar.ui-progressbar.ui-corner-all.ui-widget.ui-widget-content {
+    border: 0;
+    border-bottom: 1px solid var(--tertiary-label-color);
+    border-radius: 0;
+}
+
+.ui-progressbar-value.ui-corner-left.ui-widget-header {
+    height: 50%;
+    border-radius: 25px;
+    border-color: var(--accent-color);
+    background-color: var(--accent-color);
+}
+
+/* link styling */
+.link:hover {
+    cursor: pointer;
+    text-decoration-line: underline;
+}
+
+.view-project-report-link, .edit-project-tasks-link {
+    font-size: var(--body);
+    color: var(--accent-color);
+    padding-right: 3%;
+}

@@ -1,0 +1,192 @@
+h1, h2 {
+    color: var(--header-text-color);
+    text-align: center;
+}
+
+#add-user-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+#add-user-form input, #add-user-form select {
+    padding: 8px;
+    border: 1px solid var(--separator-color);
+    border-radius: 8px;
+    font-size: var(--sub-headline);
+    color: var(--control-text-color);
+    background: var(--control-color);
+}
+
+#add-user-form input[type="checkbox"] {
+    padding: 0;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.checkbox-container input[type="checkbox"] {
+    transform: scale(1.5);
+    margin-right: -1rem;
+}
+
+.checkbox-container label {
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#add-user-form label {
+    display: flex;
+    align-items: center;
+    background: none;
+    box-shadow: none;
+    padding-left: 0;
+}
+
+#add-user-form button {
+    padding: 8px 16px;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    color: var(--control-text-color);
+    font-size: var(--sub-headline);
+    transition: background-color 0.3s ease;
+    grid-column: span 2;
+}
+
+#add-user-form button:hover:not(:disabled) {
+    background-color: var(--secondary-accent-color);
+}
+
+#add-user-form button:disabled {
+    background-color: var(--disabled-control-text-color);
+    color: var(--quaternary-label-color);
+}
+
+@media only screen and (max-width: 460px) {
+    #add-user-form {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    #add-user-form input, #add-user-form select, #add-user-form label {
+        width: 90%;
+        box-sizing: border-box;
+    }
+
+    #add-user-form button {
+        width: 90%;
+        grid-column: 1 / -1;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    #add-user-form select {
+        color: var(--selected-control-text-color);
+        background: var(--control-background-color);
+        border: 1px solid var(--separator-color);
+    }
+}
+
+#email-error {
+    font-size: var(--caption-2);
+    color: var(--secondary-label-color);
+    grid-column: 2;
+}
+
+#userTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#userTable th, #userTable td {
+    font-size: var(--callout);
+    border: 1px solid var(--secondary-accent-color);
+    padding: 3px;
+    text-align: left;
+}
+
+#userTable tr:hover {
+    background-color: var(--quaternary-accent-color);
+}
+
+.editBtn {
+    background-color: var(--green-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.deleteBtn {
+    background-color: var(--red-color);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.editBtn:hover, .deleteBtn:hover {
+    opacity: 0.9;
+}
+
+.table-wrapper {
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    overflow-x:hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+    #add-user-form select {
+        color: var(--selected-control-text-color);
+        background: var(--control-background-color);
+        border: 1px solid var(--separator-color);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #userTable th, #userTable td {
+        font-size: var(--footnote);
+    }
+    #userTable th, #userTable td {
+        padding: 1px;
+    }
+}
+
+.subtext {
+    text-align: center;
+    font-size: var(--caption-2);
+    color: var(--sub-headline);
+}
+
+.search-container {
+    text-align: center;
+}
+
+.search-container input {
+    background: var(--window-background);
+    border-radius: 10px;
+    border: 1px solid var(--tertiary-label-color);
+    width: 93%;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    color: var(--header-text-color);
+}

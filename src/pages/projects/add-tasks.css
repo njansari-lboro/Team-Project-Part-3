@@ -1,0 +1,299 @@
+@media (max-width: 100%) {}
+
+.container {
+    background-color: var(--window-background);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0 0 60px;
+}
+
+.container h3 {
+    font-size: medium;
+}
+
+.container h2 {
+    font-size: medium;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 10px;
+    font-size: small;
+}
+
+.search_sort {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#search {
+    width: 50%;
+    margin: 0 auto 0 20px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+form {
+    background-color: var(--window-background);
+    color: var(--text-color);
+    font-size: small;
+}
+
+select {
+    width: 22%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+option:hover {
+    background-color: var(--accent-color);
+}
+
+.dropdown-item:active {
+    background-color: var(--accent-color);
+}
+
+.container input {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+#start_date {
+    margin-right: 100px;
+    min-width: 50%;
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+#end_date {
+    margin-right: 100px;
+    margin-left: 5px;
+    min-width: 50%;
+    background-color: var(--window-background);
+    color: var(--text-color);
+}
+
+#assignee {
+    min-width: 45.5%;
+    padding: 10px;
+    margin: 5px 0 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.container button {
+    padding: 10px 20px;
+    background-color: var(--secondary-accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.container button:hover {
+    background-color: var(--accent-color);
+}
+
+.button-x {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    cursor: pointer;
+    font-size: large;
+}
+
+.task {
+    padding-bottom: 20px;
+    padding-right: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    max-width: 20%;
+    min-width: 25%;
+    font-size: xx-small;
+    position: relative;
+}
+
+.task:hover {
+    cursor: pointer;
+}
+
+#task_list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.footer {
+    position: fixed;
+    display: flex;
+    justify-content: space-between; /* Distribute items evenly along the main axis */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--window-background);
+    padding: 10px;
+    margin-right: 10px;
+    text-align: right;
+}
+
+.grid {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+}
+
+.box:nth-child(1), .box:nth-child(2), .box:nth-child(3), .box:nth-child(4) {
+    grid-column: span 2;
+    text-align: left;
+}
+
+.box:nth-child(5) {
+    grid-column: span 4;
+    text-align: center;
+}
+
+@media screen and (max-width: 575px) {
+    .grid {
+        display: block;
+    }
+
+    .box {
+        margin: 10px 0;
+    }
+}
+
+.ui-accordion-header {
+    background-color: var(--window-background);
+    border: 4px;
+    border-top-color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+    font-size: medium;
+}
+
+.ui-accordion-header.ui-state-active {
+    background-color: var(--window-background);
+    color: var(--text-color);
+    border-color: var(--accent-color);
+    font-size: medium;
+}
+
+.ui-accordion-content {
+    background-color: var(--window-background);
+    border: 4px;
+    border-top-color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+    font-size: medium;
+}
+
+.ui-accordion-header.ui-state-default {
+    background-color: var(--window-background);
+    color: var(--text-color);
+    border: 4px;
+    border-top-color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+    font-size: medium;
+}
+
+#tutname {
+    flex-grow: 1;
+    font-weight: bold;
+    font-size: var(--title-3);
+}
+
+.title-with-back {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+.back-icon, .back-icon-spacer {
+    flex: 0 0 24px;
+}
+
+.back-icon {
+    margin-right: 10px;
+    color: var(--accent-color);
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#submit_button {
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    /* margin-right: 20px; */
+    font-size: var(--body);
+}
+
+.add-button {
+    padding: 10px 20px !important;
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    /* margin-right: 20px; */
+    font-size: var(--title-3);
+    box-shadow: 0 3px var(--secondary-accent-color);
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    transition: all 0.3s ease-in-out !important;
+    z-index: 1 !important;
+    padding: 15px 30px !important;
+}
+
+@media (max-width: 1200px) {
+  .task {
+    min-width: 15%;
+    max-width: 15%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .task {
+    min-width: 25%;
+    max-width: 25%;
+  }
+}
+
+@media (max-width: 700px) {
+  .task {
+    min-width: 40%;
+    max-width: 40%;
+  }
+}

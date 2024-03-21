@@ -1,0 +1,387 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+    /* background-image: url('img/bgfinal.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;   */
+}
+
+.container-fluid {
+    background-image: url("img/bgfinal.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+#main {
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+form {
+    padding: 10px;
+}
+
+.form-group {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.btn.btn-primary {
+    font-size: 1.9em;
+    text-align: center;
+    border-radius: 30px;
+    display: block;
+    width: 100%;
+    background-color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    padding: 0.25em;
+}
+
+.btn.btn-primary:disabled {
+    color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+}
+
+.btn.btn-primary:not(:disabled):hover {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+}
+
+.btn.btn-primary:not(:disabled):active {
+    background-color: var(--secondary-accent-color) !important;
+    border: 2px solid var(--accent-color) !important;
+}
+
+input.form-control::placeholder {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.centered-content {
+    max-width: 400px;
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.85) 33%, var(--secondary-accent-color) 100%);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 30px;
+    box-shadow: 0 10px 10px var(--shadow-color);
+}
+
+a:hover {
+    text-decoration-color: rgba(209, 100, 0, 1);
+}
+
+input.form-control {
+    font-size: 1.9em;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 1.1em;
+}
+
+input.form-control:focus {
+    border-color: #ced4da;
+    box-shadow: none;
+}
+
+#displayedEmail {
+    font-size: var(--body);
+    vertical-align: center;
+}
+
+#changeEmail {
+    text-decoration: none;
+    color: rgba(209, 100, 0, 1);
+    font-size: var(--callout);
+    vertical-align: center;
+}
+
+#forgotPassword {
+    text-decoration: none;
+    color: var(--accent-color);
+    display: block;
+    text-align: center;
+    padding-top: 20px;
+    font-size: var(--callout);
+}
+
+#tryAgain {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    color: var(--accent-color);
+    font-size: var(--callout);
+}
+
+#resetPassword {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-size: var(--body);
+}
+
+#notRegistered {
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-size: var(--body);
+}
+
+.form-control {
+    border-radius: 20px !important;
+}
+
+.center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#register-account-card {
+    position: fixed;
+    padding: 1.5rem;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.85) 33%, var(--secondary-accent-color) 100%);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 30px;
+    box-shadow: 0 10px 10px var(--shadow-color);
+    width: 525px;
+    height: 75%;
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+    #register-account-card {
+        width: 80%;
+    }
+}
+
+h1 {
+    font-size: var(--title-1);
+    margin-bottom: 0.5em;
+}
+
+h2 {
+    font-size: var(--title-2);
+}
+
+h3 {
+    font-size: var(--title-3);
+}
+
+#register-form {
+    overflow: auto;
+    height: calc(100% - 140px);
+}
+
+.register-profile-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.register-profile-detail span {
+    font-size: var(--sub-headline);
+    padding-bottom: 5px;
+    text-align: start;
+    width: calc(80% - 2 * (10px + 0.5em + 1px));
+    margin: auto;
+}
+
+.register-profile-detail input {
+    font-size: var(--callout);
+    border-radius: 10px;
+    border: 1px solid rgba(209, 209, 214, 1);
+    color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(255, 255, 255, 0.85);
+    width: 80%;
+    padding: 0.5em calc(0.5em + 10px);
+    margin: auto;
+}
+
+#register-password-input {
+    margin-left: -0.3em;
+}
+
+#register-password-input-container, #register-confirm-password-input-container {
+    width: 100%;
+}
+
+#show-hide-password-button {
+    --icon-color: rgba(0, 0, 0, 0.5);
+    background-color: transparent;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: none;
+    height: 3em;
+    width: 3.4em;
+    margin-left: -42px;
+}
+
+#show-hide-password-button:hover {
+    --icon-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+#register-password-requirements {
+    margin-top: 0.5em;
+}
+
+#register-password-requirements, span.register-password-req {
+    font-size: var(--caption-1);
+    color: rgba(0, 0, 0, 0.5);
+}
+
+#register-button {
+    font-size: var(--body);
+    width: 75%;
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    position: fixed;
+    font-weight: bold;
+    color: var(--alt-selected-control-text-color);
+    text-align: center;
+    border-radius: 30px;
+    display: block;
+    background-color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    padding: 0.25em;
+}
+
+#register-button:hover {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+}
+
+#register-button:disabled {
+    color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+}
+
+#dialog-dimmed-overlay {
+    z-index: 4;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.32);
+    transition: 0.5s;
+}
+
+#dialog {
+    display: none;
+}
+
+.dialog-card {
+    position: fixed;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 8px 16px 0 var(--shadow-color);
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.dialog-card div:first-child {
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    justify-content: space-evenly;
+    overflow: hidden;
+}
+
+.dialog-card .dialog-title {
+    font-size: var(--title-3);
+    font-weight: bold;
+}
+
+.dialog-card .dialog-message {
+    font-size: var(--sub-headline);
+}
+
+#dialog-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    inset: auto 0 0 0;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+.column-layout #dialog-buttons {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dialog-card button {
+    flex: 1;
+    font-size: var(--body);
+    border-radius: 10px;
+    padding: 0.2em 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    box-sizing: border-box !important;
+}
+
+.dialog-card button {
+    color: rgba(0, 0, 0, 1);
+    background-color: rgba(0, 0, 0, 0.08);
+    border: 2px solid rgba(0, 0, 0, 0.08);
+}
+
+.column-layout #dialog-buttons button.cancel:last-child {
+    margin-top: 10px;
+}
+
+.dialog-card button.default {
+    font-weight: bold;
+    color: var(--alt-selected-control-text-color);
+    background-color: var(--dimmed-accent-color);
+    border: 2px solid transparent;
+}
+
+.dialog-card button.destructive {
+    color: rgba(255, 59, 48, 1);
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.dialog-card button.normal:hover, .dialog-card button.cancel:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .dialog-card button.normal:hover, .dialog-card button.cancel:hover {
+        background-color: rgba(0, 0, 0, 0.26);
+    }
+}
+
+.dialog-card button.default:hover {
+    background-color: var(--accent-color);
+}
+
+.dialog-card button.destructive:hover {
+    color: var(--alt-selected-control-text-color);
+    background-color: rgba(255, 59, 48, 1);
+    border: 2px solid transparent;
+}

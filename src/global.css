@@ -1,0 +1,300 @@
+/* --- Colour definitions --- */
+
+:root {
+    /* The colour for the brand */
+    --accent-color: rgba(255, 122, 0, 1);
+
+    /* The colour for the brand in a secondary context */
+    --secondary-accent-color: rgba(255, 122, 0, 0.5);
+
+    /* The colour for the brand in a tertiary context */
+    --tertiary-accent-color: rgba(255, 122, 0, 0.25);
+
+    /* The colour for the brand in a quaternary context */
+    --quaternary-accent-color: rgba(255, 122, 0, 0.18);
+
+    /* The colour for the brand in a dimmed context */
+    --dimmed-accent-color: rgba(255, 122, 0, 0.9);
+
+    /* A red colour adapted to the current environment */
+    --red-color: rgba(255, 59, 48, 1);
+
+    /* A red colour in a reduced context adapted to the current environment */
+    --reduced-red-color: rgba(255, 59, 48, 0.2);
+
+    /* A green colour adapted to the current environment */
+    --green-color: rgba(40, 205, 65, 1);
+
+    /* A green colour in a reduced context adapted to the current environment */
+    --reduced-green-color: rgba(40, 205, 65, 0.2)
+}
+
+/* Label colours */
+:root {
+    /* The colour for text labels that contain primary content */
+    --label-color: rgba(0, 0, 0, 0.85);
+
+    /* The colour for text labels that contain secondary content */
+    --secondary-label-color: rgba(0, 0, 0, 0.5);
+
+    /* The colour for text labels that contain tertiary content */
+    --tertiary-label-color: rgba(0, 0, 0, 0.26);
+
+    /* The colour for text labels that contain quaternary content */
+    --quaternary-label-color: rgba(0, 0, 0, 0.1)
+}
+
+/* Fill colours */
+:root {
+    /* An overlay fill colour for thin and small shapes */
+    --fill-color: rgba(0, 0, 0, 0.1);
+
+    /* An overlay fill colour for medium-size shapes */
+    --secondary-fill-color: rgba(0, 0, 0, 0.08);
+
+    /* An overlay fill colour for large shapes */
+    --tertiary-fill-color: rgba(0, 0, 0, 0.05);
+
+    /* An overlay fill colour for large areas that contain complex content */
+    --quaternary-fill-color: rgba(0, 0, 0, 0.03)
+}
+
+/* Text colours */
+:root {
+    /* The colour to use for text */
+    --text-color: rgba(0, 0, 0, 1);
+
+    /* The colour for placeholder text in controls or text views */
+    --placeholder-text-color: rgba(0, 0, 0, 0.25);
+
+    /* The colour to use for selected text */
+    --selected-text-color: rgba(0, 0, 0, 1);
+
+    /* The colour to use for the background of selected text */
+    --selected-text-background-color: rgba(255, 205, 165, 1);
+
+    /* The colour to use for the keyboard focus ring around controls */
+    --keyboard-focus-indicator-color: rgba(241, 97, 0, 0.5)
+}
+
+/* Content colours */
+:root {
+    /* The colour to use for links */
+    --link-color: rgba(209, 100, 0, 1);
+
+    /* The colour to use for separators between different sections of content */
+    --separator-color: rgba(0, 0, 0, 0.1);
+
+    /* The colour to use for the text in selected and emphasised content */
+    --selected-content-text-color: rgba(255, 255, 255, 1);
+
+    /* The colour to use for the background of selected and emphasised content */
+    --selected-content-background-color: rgba(217, 94, 0, 1);
+
+    /* The colour to use for the background of selected and unemphasised content */
+    --unemphasised-selected-content-background-color: rgba(0, 0, 0, 0.1)
+}
+
+/* Menu colours */
+:root {
+    /* The colour to use for the text in selected menu items */
+    --selected-menu-item-text-color: rgba(255, 255, 255, 1)
+}
+
+/* Table colours */
+:root {
+    /* The colour to use for gridlines, such as those in lists and tables */
+    --grid-color: rgba(224, 224, 224, 1);
+
+    /* The colour to use for text in headers in lists and tables */
+    --header-text-color: rgba(0, 0, 0, 1)
+}
+
+/* Control colours */
+:root {
+    /* The colour to use for the flat surfaces of a control */
+    --control-color: rgba(255, 255, 255, 1);
+
+    /* The colour to use for the background of large controls, such as scrolling elements or tables */
+    --control-background-color: rgba(255, 255, 255, 1);
+
+    /* The colour to use for text on enabled controls */
+    --control-text-color: rgba(0, 0, 0, 0.85);
+
+    /* The colour to use for text on disabled controls */
+    --disabled-control-text-color: rgba(0, 0, 0, 0.25);
+
+    /* The colour to use for the face of a selected control — that is, a control that has been clicked or is being dragged */
+    --selected-control-color: rgba(255, 205, 165, 1);
+
+    /* The colour to use for text in a selected control — that is, a control being clicked or dragged */
+    --selected-control-text-color: rgba(0, 0, 0, 0.85);
+
+    /* The colour to use for text in a selected control in lists and tables */
+    --alt-selected-control-text-color: rgba(255, 255, 255, 1)
+}
+
+/* Window colours */
+:root {
+    /* The colour to use for the window background */
+    --window-background: rgba(255, 255, 255, 1);
+
+    /* The colour to use for the background of bars, such as navigation bars, toolbars and sidebars */
+    --bar-background-color: rgba(241, 242, 242, 0.85)
+}
+
+/* Highlights and shadows */
+:root {
+    /* The highlight colour to use for the bubble that shows inline search result values */
+    --find-highlight-color: rgba(255, 255, 11, 1);
+
+    /* The colour to use for virtual shadows cast by raised objects on the screen */
+    --shadow-color: rgba(0, 0, 0, 0.25)
+}
+
+/* Dark variant colour definitions */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --red-colour: rgba(255, 69, 58, 1);
+        --reduced-red-color: rgba(255, 69, 58, 0.2);
+        --green-colour: rgba(50, 215, 75, 1);
+        --reduced-green-color: rgba(50, 215, 75, 0.2);
+        --label-color: rgba(255, 255, 255, 0.85);
+        --secondary-label-color: rgba(255, 255, 255, 0.55);
+        --tertiary-label-color: rgba(255, 255, 255, 0.25);
+        --quaternary-label-color: rgba(255, 255, 255, 0.1);
+        --fill-color: rgba(255, 255, 255, 0.1);
+        --secondary-fill-color: rgba(255, 255, 255, 0.08);
+        --tertiary-fill-color: rgba(255, 255, 255, 0.05);
+        --quaternary-fill-color: rgba(255, 255, 255, 0.03);
+        --text-color: rgba(255, 255, 255, 1);
+        --placeholder-text-color: rgba(255, 255, 255, 0.25);
+        --selected-text-color: rgba(255, 255, 255, 1);
+        --selected-text-background-color: rgba(220, 179, 149, 1);
+        --keyboard-focus-indicator-color: rgba(255, 78, 0, 0.5);
+        --link-color: rgba(194, 87, 0, 1);
+        --separator-color: rgba(255, 255, 255, 0.1);
+        --selected-content-background-color: rgba(198, 81, 0, 1);
+        --unemphasised-selected-content-background-color: rgba(255, 255, 255, 0.15);
+        --grid-color: rgba(20, 20, 20, 1);
+        --header-text-color: rgba(255, 255, 255, 1);
+        --control-color: rgba(255, 255, 255, 0.25);
+        --control-background-color: rgba(23, 23, 23, 1);
+        --control-text-color: rgba(255, 255, 255, 0.85);
+        --disabled-control-text-color: rgba(255, 255, 255, 0.25);
+        --selected-control-color: rgba(220, 179, 149, 1);
+        --selected-control-text-color: rgba(255, 255, 255, 0.85);
+        --window-background: rgba(30, 30, 30, 1);
+        --bar-background-color: rgba(42, 42, 42, 0.85);
+    }
+}
+
+/* --- Material definitions --- */
+
+:root {
+    /* A background material */
+    --background-material: rgba(0, 0, 0, 0.32);
+
+    /* The background material for menus */
+    --menu-background-material: rgba(255, 255, 255, 0.75)
+}
+
+/* Dark variant material definitions */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-material: rgba(30, 30, 30, 0.75);
+        --menu-background-material: rgba(30, 30, 30, 0.5)
+    }
+}
+
+/* --- Font definitions --- */
+
+:root {
+    font: 62.5% Arial, Helvetica, sans-serif;
+
+    --extra-large-title: 3.6rem;
+    --large-title: 3.4rem;
+    --title-1: 2.8rem;
+    --title-2: 2.2rem;
+    --title-3: 2rem;
+    --body: 1.7rem;
+    --callout: 1.6rem;
+    --sub-headline: 1.5rem;
+    --footnote: 1.3rem;
+    --caption-1: 1.2rem;
+    --caption-2: 1.1rem
+}
+
+/* --- Implementations --- */
+
+:root {
+    accent-color: var(--accent-color);
+    caret-color: var(--accent-color)
+}
+
+:focus-visible {
+    outline: 0.2em solid var(--keyboard-focus-indicator-color) !important;
+    outline-offset: 0;
+    transition: 0.2s;
+}
+
+::selection {
+    color: var(--selected-text-color);
+    background: var(--selected-text-background-color)
+}
+
+::placeholder {
+    color: var(--placeholder-text-color)
+}
+
+h1 {
+    font-size: var(--title-1);
+}
+
+h2 {
+    font-size: var(--title-2);
+}
+
+h3 {
+    font-size: var(--title-3);
+}
+
+/* --- Additional styling --- */
+
+button:not(:disabled):hover, input[type="submit"]:not(:disabled):hover, select:not(:disabled):hover {
+    cursor: pointer
+}
+
+textarea {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ::-webkit-scrollbar {
+    width: 20px;
+    scrollbar-width: thin;
+    margin: none;
+    z-index: 2;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--label-color);
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-color);
+}
+
+::-webkit-scrollbar-track-piece:start {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb:vertical:active {
+    background-color: var(--text-color);
+} */
