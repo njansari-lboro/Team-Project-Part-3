@@ -55,13 +55,13 @@
 
     switch ($current_user->role) {
     case "Employee":
-        $pages = ["dashboard", "tasks", "todo", "tutorials", "forums"];
+        $pages = ["dashboard", "tasks", "todo", "tutorials", "forums", "analytics", "chat"];
         break;
     case "Manager":
-        $pages = ["dashboard", "projects", "todo", "tutorials", "forums"];
+        $pages = ["dashboard", "projects", "todo", "tutorials", "forums", "analytics", "chat"];
         break;
     case "Admin":
-        $pages = ["dashboard", "projects", "todo", "tutorials", "forums", "users"];
+        $pages = ["dashboard", "projects", "todo", "tutorials", "forums", "users", "analytics", "chat"];
         break;
     default:
         echo "Invalid role: $current_user->role";
@@ -226,7 +226,7 @@
                         <load-svg class="sidebar-item-icon" src="../assets/dashboard-sidebar-item-icon.svg">
                             <style shadowRoot>
                                 svg {
-                                    width: 2.4em;
+                                    width: 2em;
                                     margin-bottom: 0.1em;
                                 }
 
@@ -346,6 +346,42 @@
                     </a>
                 <?php } ?>
 
+                <?php function analytics_sidebar_item() { ?>
+                    <a id="analytics-sidebar-item" class="sidebar-item" href="?page=analytics">
+                        <load-svg class="sidebar-item-icon" src="../assets/analytics-sidebar-item-icon.svg">
+                            <style shadowRoot>
+                                svg {
+                                    width: 2.6em;
+                                    margin-bottom: 0.1em;
+                                    margin-left: -0.2em
+                                }
+
+                                .fill {
+                                    fill: var(--fill-color);
+                                }
+                            </style>
+                        </load-svg>
+                        <span class="sidebar-item-text">Analytics</span>
+                    </a>
+                <?php } ?>
+
+                <?php function chat_sidebar_item() { ?>
+                    <a id="chat-sidebar-item" class="sidebar-item" href="?page=chat">
+                        <load-svg class="sidebar-item-icon" src="../assets/chat-sidebar-item-icon.svg">
+                            <style shadowRoot>
+                                svg {
+                                    width: 2.4em;
+                                }
+
+                                .fill {
+                                    fill: var(--fill-color);
+                                }
+                            </style>
+                        </load-svg>
+                        <span class="sidebar-item-text">Chat</span>
+                    </a>
+                <?php } ?>
+
                 <?php
                     // Map page names to defined sidebar item functions
 
@@ -356,7 +392,9 @@
                         "todo" => "todo_sidebar_item",
                         "tutorials" => "tutorials_sidebar_item",
                         "forums" => "forums_sidebar_item",
-                        "users" => "users_sidebar_item"
+                        "users" => "users_sidebar_item",
+                        "analytics" => "analytics_sidebar_item",
+                        "chat" => "chat_sidebar_item"
                     ];
 
                     foreach ($pages as $page) {
