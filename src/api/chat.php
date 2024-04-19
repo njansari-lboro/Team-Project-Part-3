@@ -3,10 +3,5 @@
 
     $action = htmlspecialchars($_GET["action"]);
 
-    switch ($action) {
-    case "repeat":
-        echo "Action is $action";
-        break;
-    default:
-        return;
-    }
+    echo "Action is $action";
+    echo "Chats are " . json_encode(fetch_chats());
