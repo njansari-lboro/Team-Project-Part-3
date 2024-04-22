@@ -12,8 +12,10 @@
 
     header("Content-Type: application/json");
 
+    session_start();
+
     if (empty($_SESSION["user"])) {
-        echo json_encode(["error" => "Not logged in"]);
+        http_response_code(401);
         die();
     }
 
@@ -26,7 +28,13 @@
         if ($chat_id === null) {
             echo json_encode(fetch_chats());
         } else {
-            echo json_encode(get_chat($chat_id));
+            $chat = get_chat($chat_id);
+
+            if ($chat) {
+                echo json_encode($chat);
+            } else {
+                http_response_code(404);
+            }
         }
 
         break;
@@ -35,7 +43,8 @@
         $name = $_POST["name"] ?? null;
 
         if ($chat_id === null && $name !== null) {
-            add_chat($name);
+            $result = add_chat($name);
+            http_response_code($result ? 201 : 500);
         } else {
             http_response_code(400);
         }
@@ -43,22 +52,30 @@
         break;
 
     case "PUT":
-        $name = $_POST["name"] ?? null;
+        $put_data = file_get_contents("php://input");
+        parse_str($put_data, $params);
 
-        if ($chat_id === null) {
-            http_response_code(400);
+        $name = $params["name"] ?? null;
+
+        if ($chat_id !== null) {
+            $result = update_chat($chat_id, name: $name);
+            http_response_code($result ? 204 : 404);
         } else {
-            update_chat($chat_id, name: $name);
+            http_response_code(400);
         }
 
         break;
 
     case "DELETE":
-        if ($chat_id === null) {
-            http_response_code(400);
+        if ($chat_id !== null) {
+            $result = delete_chat($chat_id);
+            http_response_code($result ? 204 : 404);
         } else {
-            delete_chat($chat_id);
+            http_response_code(400);
         }
 
         break;
+
+    default:
+        http_response_code(405);
     }

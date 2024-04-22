@@ -13,7 +13,7 @@
     header("Content-Type: application/json");
 
     if (empty($_SESSION["user"])) {
-        echo json_encode(["error" => "Not logged in"]);
+        http_response_code(401);
         die();
     }
 
@@ -24,14 +24,20 @@
 
     switch ($method) {
     case "GET":
-        if ($chat_id === null) {
-            http_response_code(400);
-        } else {
+        if ($chat_id !== null) {
             if ($message_id === null) {
                 echo json_encode(fetch_messages(chat_id: $chat_id));
             } else {
-                echo json_encode(get_message($message_id));
+                $message = get_message($message_id);
+
+                if ($message) {
+                    echo json_encode($message);
+                } else {
+                    http_response_code(404);
+                }
             }
+        } else {
+            http_response_code(400);
         }
 
         break;
@@ -41,7 +47,8 @@
         $body = $_POST["body"] ?? null;
 
         if ($chat_id !== null && $message_id === null && $author_id !== null && $body !== null) {
-            add_message($chat_id, $author_id, $body);
+            $result = add_message($chat_id, $author_id, $body);
+            http_response_code($result ? 201 : 500);
         } else {
             http_response_code(400);
         }
@@ -49,22 +56,30 @@
         break;
 
     case "PUT":
-        $body = $_POST["body"] ?? null;
+        $put_data = file_get_contents("php://input");
+        parse_str($put_data, $params);
 
-        if ($chat_id === null || $message_id === null) {
-            http_response_code(400);
+        $body = $params["body"] ?? null;
+
+        if ($chat_id !== null && $message_id !== null) {
+            $result = update_message($message_id, $body);
+            http_response_code($result ? 204 : 404);
         } else {
-            update_message($message_id, $body);
+            http_response_code(400);
         }
 
         break;
 
     case "DELETE":
-        if ($chat_id === null || $message_id === null) {
-            http_response_code(400);
+        if ($chat_id !== null && $message_id !== null) {
+            $result = delete_message($message_id);
+            http_response_code($result ? 204 : 404);
         } else {
-            delete_message($message_id);
+            http_response_code(400);
         }
 
         break;
+
+    default:
+        http_response_code(405);
     }
