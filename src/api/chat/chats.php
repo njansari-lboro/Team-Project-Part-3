@@ -32,8 +32,10 @@
         break;
 
     case "POST":
-        if ($chat_id === null) {
-            echo "New chat";
+        $name = $_POST["name"] ?? null;
+
+        if ($chat_id === null && $name !== null) {
+            add_chat($name);
         } else {
             http_response_code(400);
         }
@@ -41,10 +43,12 @@
         break;
 
     case "PUT":
+        $name = $_POST["name"] ?? null;
+
         if ($chat_id === null) {
             http_response_code(400);
         } else {
-            echo "Updating chat $chat_id";
+            update_chat($chat_id, name: $name);
         }
 
         break;
@@ -53,7 +57,7 @@
         if ($chat_id === null) {
             http_response_code(400);
         } else {
-            echo "Deleting chat $chat_id";
+            delete_chat($chat_id);
         }
 
         break;
