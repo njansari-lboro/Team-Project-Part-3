@@ -128,3 +128,129 @@
         $sql = "DELETE FROM chat WHERE id = ?";
         return modify_record($sql, "i", $chat_id);
     }
+
+    // FETCHING MESSAGES
+
+    /**
+     * Fetches the message with the specified ID from the database.
+     *
+     * @param int $message_id The ID of the message to be fetched.
+     *
+     * @return ?object Returns the message as an object, if found, else `null`.
+     *
+     * Usage example:
+     * ```
+     * $message = get_message(2);
+     * echo $chat->body; // "Hello there."
+     * ```
+     */
+    function get_message(int $message_id): ?object {
+        $sql = "SELECT * FROM message WHERE id = ?";
+        return get_record($sql, "i", $message_id);
+    }
+
+    /**
+     * Fetches the messages from the database filtered using the specified properties.
+     *
+     * @param ?int $chat_id [optional] The ID of the chat to filter by.
+     *
+     * @return array An array of messages as objects.
+     *
+     * Usage example:
+     * ```
+     * $all_messages = fetch_messages();
+     *
+     * // Get the all messages that are in the chat with id 5
+     * $messages = fetch_messages(chat_id: 5);
+     * echo $messages; // [(Hi!), (Hello, there.)]
+     * ```
+     */
+    function fetch_messages(?int $chat_id = null): array {
+        $sql = "SELECT * FROM message WHERE 1";
+
+        // Add filters based on the specified parameters
+        // Then bind parameters for filters
+
+        $types = "";
+        $vars = [];
+
+        if ($chat_id !== null) {
+            $sql .= " AND chat_id = ?";
+            $types .= "i";
+            $vars[] = $chat_id;
+        }
+
+        return fetch_records($sql, $types, ...$vars);
+    }
+
+    // MODIFYING MESSAGES
+
+    /**
+     * Adds a new message to the database with the specified property values.
+     *
+     * @param int $chat_id The ID of the chat to whom the new message belongs to.
+     * @param int $author_id The ID of the user who is the new message's author.
+     * @param string $body The new message's body.
+     *
+     * @return bool Returns a boolean value of whether the operation was a success or not.
+     *
+     * Usage example:
+     * ```
+     * add_message(5, 10, "Hello, there.");
+     * ```
+     */
+    function add_message(int $chat_id, int $author_id, string $body): bool {
+        $sql = "INSERT INTO messages (chat_id, author_id, body) VALUES (?, ?, ?)";
+        return modify_record($sql, "iis", $chat_id, $author_id, $body);
+    }
+
+    /**
+     * Updates the specified property values of a message.
+     *
+     * @param int $message_id The ID of the message being updated.
+     * @param ?string $body [optional] The updated body of the message.
+     *
+     * @return bool Returns a boolean value of whether the operation was a success or not.
+     *
+     * Usage example:
+     * ```
+     * update_message(2, name: "Sup");
+     * ```
+     */
+    function update_message(int $message_id, ?string $body = null): bool {
+        $update_fields = [];
+
+        $types = "";
+        $vars = [];
+
+        if ($body !== null) {
+            $update_fields[] = "body = ?";
+            $types .= "s";
+            $vars[] = $body;
+        }
+
+        if (empty($update_fields)) return false;
+
+        $sql = "UPDATE message SET " . implode(", ", $update_fields) . " WHERE id = ?";
+        $types .= "i";
+        $vars[] = $message_id;
+
+        return modify_record($sql, $types, ...$vars);
+    }
+
+    /**
+     * Deletes a message from the system with the specified ID.
+     *
+     * @param int $message_id The ID of the message to be deleted.
+     *
+     * @return bool Returns a boolean value of whether the operation was a success or not.
+     *
+     * Usage example:
+     * ```
+     * delete_message(2);
+     * ```
+     */
+    function delete_message(int $message_id): bool {
+        $sql = "DELETE FROM message WHERE id = ?";
+        return modify_record($sql, "i", $message_id);
+    }
