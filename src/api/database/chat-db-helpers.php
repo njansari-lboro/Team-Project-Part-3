@@ -58,3 +58,73 @@
 
         return fetch_records($sql, $types, ...$vars);
     }
+
+    // MODIFYING CHATS
+
+    /**
+     * Adds a new chat to the database with the specified property values.
+     *
+     * @param string $name The new chat's name.
+     *
+     * @return bool Returns a boolean value of whether the operation was a success or not.
+     *
+     * Usage example:
+     * ```
+     * add_chat("Team 12");
+     * ```
+     */
+    function add_chat(string $name): bool {
+        $sql = "INSERT INTO chat (name) VALUES (?)";
+        return modify_record($sql, "s", $name);
+    }
+
+    /**
+     * Updates the specified property values of a chat.
+     *
+     * @param int $chat_id The ID of the chat being updated.
+     * @param ?string $name [optional] The updated name of the chat.
+     *
+     * @return bool Returns a boolean value of whether the operation was a success or not.
+     *
+     * Usage example:
+     * ```
+     * update_chat(5, name: "Team Mieux");
+     * ```
+     */
+    function update_chat(int $chat_id, ?string $name = null): bool {
+        $update_fields = [];
+
+        $types = "";
+        $vars = [];
+
+        if ($name !== null) {
+            $update_fields[] = "name = ?";
+            $types .= "s";
+            $vars[] = $name;
+        }
+
+        if (empty($update_fields)) return false;
+
+        $sql = "UPDATE chat SET " . implode(", ", $update_fields) . " WHERE id = ?";
+        $types .= "i";
+        $vars[] = $chat_id;
+
+        return modify_record($sql, $types, ...$vars);
+    }
+
+    /**
+     * Deletes a chat from the system with the specified ID.
+     *
+     * @param int $chat_id The ID of the chat to be deleted.
+     *
+     * @return bool Returns a boolean value of whether the operation was a success or not.
+     *
+     * Usage example:
+     * ```
+     * delete_chat(5);
+     * ```
+     */
+    function delete_chat(int $chat_id): bool {
+        $sql = "DELETE FROM chat WHERE id = ?";
+        return modify_record($sql, "i", $chat_id);
+    }
