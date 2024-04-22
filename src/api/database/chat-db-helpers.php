@@ -200,7 +200,7 @@
      * ```
      */
     function add_message(int $chat_id, int $author_id, string $body): bool {
-        $sql = "INSERT INTO messages (chat_id, author_id, body) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO message (chat_id, author_id, body) VALUES (?, ?, ?)";
         return modify_record($sql, "iis", $chat_id, $author_id, $body);
     }
 
