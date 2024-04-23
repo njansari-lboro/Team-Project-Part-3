@@ -16,7 +16,11 @@
 
     switch ($method) {
     case "GET":
-        echo "Get";
+        if($project_id === null){
+            echo json_encode(fetch_projects());
+        } else {
+            echo json_encode(get_project($project_id));
+        }
         break;
     case "POST":
         echo "Post";
