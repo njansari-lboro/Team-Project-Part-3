@@ -27,7 +27,7 @@
      *
      * @param ?string $filter_text [optional] A filter string that matches a chat based on its name.
      *
-     * @return array An array of chats as objects.
+     * @return array An array of chats as objects sorted by most recently updated.
      *
      * Usage example:
      * ```
@@ -55,6 +55,8 @@
             $types .= "s";
             $vars[] = $filter_text;
         }
+
+        $sql .= " ORDER BY last_updated DESC";
 
         return fetch_records($sql, $types, ...$vars);
     }
