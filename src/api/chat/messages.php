@@ -1,13 +1,4 @@
 <?php
-    /*
-    HTTP GET /chats/{id}/messages            // Get all messages in chat with given id
-    HTTP POST /chats/{id}/messages           // Create new message in chat with given id
-
-    HTTP GET /chats/{id}/messages/{id}       // Get message for given id in chat with given id
-    HTTP PUT /chats/{id}/messages/{id}       // Update message for given id in chat with given id
-    HTTP DELETE /chats/{id}/messages/{id}    // Delete message for given id in chat with given id
-    */
-
     require_once(__DIR__ . "/../database/chat-db-helpers.php");
 
     header("Content-Type: application/json");
@@ -55,20 +46,20 @@
 
         break;
 
-    case "PUT":
-        $put_data = file_get_contents("php://input");
-        parse_str($put_data, $params);
-
-        $body = $params["body"] ?? null;
-
-        if ($chat_id !== null && $message_id !== null) {
-            $result = update_message($message_id, $body);
-            http_response_code($result ? 204 : 404);
-        } else {
-            http_response_code(400);
-        }
-
-        break;
+//    case "PUT":
+//        $put_data = file_get_contents("php://input");
+//        parse_str($put_data, $params);
+//
+//        $body = $params["body"] ?? null;
+//
+//        if ($chat_id !== null && $message_id !== null) {
+//            $result = update_message($message_id, $body);
+//            http_response_code($result ? 204 : 404);
+//        } else {
+//            http_response_code(400);
+//        }
+//
+//        break;
 
     case "DELETE":
         if ($chat_id !== null && $message_id !== null) {
