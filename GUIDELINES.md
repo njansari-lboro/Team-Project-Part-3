@@ -145,7 +145,7 @@ A dialog is a modal view that displays a title, optional informative text, and u
 
 **Get all chats**
 - `HTTP GET /chats`
-- Returns an array of all chats as JSON objects
+- Returns an array of all chats as JSON objects sorted by most recently updated
 
 **Create new chat**
 - `HTTP POST /chats`
@@ -170,7 +170,7 @@ A dialog is a modal view that displays a title, optional informative text, and u
 
 **Get all messages in chat with given ID**
 - `HTTP GET /chats/{id}/messages`
-- Returns an array of all messages in the specified chat as JSON objects
+- Returns an array of all messages in the specified chat as JSON objects sorted by most recently posted
 
 **Create new message in chat with given ID**
 - `HTTP POST /chats/{id}/messages`
