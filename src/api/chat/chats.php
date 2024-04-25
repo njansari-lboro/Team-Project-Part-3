@@ -1,13 +1,4 @@
 <?php
-    /*
-    HTTP GET /chats            // Get all chats
-    HTTP POST /chats           // Create new chat
-
-    HTTP GET /chats/{id}       // Get chat for given id
-    HTTP PUT /chats/{id}       // Update chat for given id
-    HTTP DELETE /chats/{id}    // Delete chat for given id
-    */
-
     require_once(__DIR__ . "/../database/chat-db-helpers.php");
 
     header("Content-Type: application/json");
@@ -41,9 +32,11 @@
 
     case "POST":
         $name = $_POST["name"] ?? null;
+        $is_private = $_POST["is_private"] ?? null;
+        $icon_name = $_POST["icon_name"] ?? null;
 
-        if ($chat_id === null && $name !== null) {
-            $result = add_chat($name);
+        if ($chat_id === null && $name !== null && $is_private !== null) {
+            $result = add_chat($name, $is_private, $icon_name);
             http_response_code($result ? 201 : 500);
         } else {
             http_response_code(400);
@@ -56,9 +49,10 @@
         parse_str($put_data, $params);
 
         $name = $params["name"] ?? null;
+        $icon_name = $params["icon_name"] ?? null;
 
         if ($chat_id !== null) {
-            $result = update_chat($chat_id, name: $name);
+            $result = update_chat($chat_id, name: $name, icon_name: $icon_name);
             http_response_code($result ? 204 : 404);
         } else {
             http_response_code(400);

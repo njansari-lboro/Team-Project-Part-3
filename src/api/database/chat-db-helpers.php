@@ -75,9 +75,9 @@
      * add_chat("Team 12");
      * ```
      */
-    function add_chat(string $name): bool {
-        $sql = "INSERT INTO chat (name) VALUES (?)";
-        return modify_record($sql, "s", $name);
+    function add_chat(string $name, bool $is_private, ?string $icon_name = null): bool {
+        $sql = "INSERT INTO chat (name, is_private, icon_name) VALUES (?, ?, ?)";
+        return modify_record($sql, "sis", $name, $is_private, $icon_name);
     }
 
     /**
@@ -93,7 +93,7 @@
      * update_chat(5, name: "Team Mieux");
      * ```
      */
-    function update_chat(int $chat_id, ?string $name = null): bool {
+    function update_chat(int $chat_id, ?string $name = null, ?string $icon_name = null): bool {
         $update_fields = [];
 
         $types = "";
@@ -103,6 +103,12 @@
             $update_fields[] = "name = ?";
             $types .= "s";
             $vars[] = $name;
+        }
+
+        if ($icon_name !== null) {
+            $update_fields[] = "icon_name = ?";
+            $types .= "s";
+            $vars[] = $icon_name;
         }
 
         if (empty($update_fields)) return false;
@@ -156,7 +162,7 @@
      *
      * @param ?int $chat_id [optional] The ID of the chat to filter by.
      *
-     * @return array An array of messages as objects.
+     * @return array An array of messages as objects sorted by most recently posted.
      *
      * Usage example:
      * ```
@@ -181,6 +187,8 @@
             $types .= "i";
             $vars[] = $chat_id;
         }
+
+        $sql .= " ORDER BY date_posted DESC";
 
         return fetch_records($sql, $types, ...$vars);
     }
