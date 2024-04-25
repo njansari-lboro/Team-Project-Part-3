@@ -138,3 +138,62 @@ A dialog is a modal view that displays a title, optional informative text, and u
 **Include a Cancel button when there's a destructive action.*** A Cancel button provides a clear, safe way to avoid a destructive action. Consider making the Cancel button the default button so that people must intentionally choose a button other than the default to continue with the destructive action. Always use the title "Cancel" for a button that cancels a dialog's action.
 
 **\*** Done automatically by the `showDialog()` function, unless overridden.
+
+## Subsystem APIs
+
+### Text Chat
+
+**Get all chats**
+- `HTTP GET /chats`
+- Returns an array of all chats as JSON objects
+
+**Create new chat**
+- `HTTP POST /chats`
+- Creates a new chat object from the provided POST data:
+    - `name`: string
+    - `is_private`: boolean
+    - `icon_name`: string [optional]
+
+**Get chat for given ID**
+- `HTTP GET /chats/{id}`
+- Returns the specified chat as a JSON object
+
+**Update chat for given ID**
+- `HTTP PUT /chats/{id}`
+- Updates the specified chat object with the provided PUT data:
+    - `name`: string [optional]
+    - `icon_name`: string [optional]
+
+**Delete chat for given ID**
+- `HTTP DELETE /chats/{id}`
+- Deletes the specified chat from the database
+
+**Get all messages in chat with given ID**
+- `HTTP GET /chats/{id}/messages`
+- Returns an array of all messages in the specified chat as JSON objects
+
+**Create new message in chat with given ID**
+- `HTTP POST /chats/{id}/messages`
+- Creates a new message object in the specified chat from the provided POST data:
+    - `chat_id`: integer
+    - `author_id`: integer
+    - `body`: string
+
+**Get message for given ID in chat with given ID**
+- `HTTP GET /chats/{id}/messages/{id}`
+- Returns the specified message in the specified chat as a JSON object
+
+**Delete message for given ID in chat with given ID**
+- `HTTP DELETE /chats/{id}/messages/{id}`
+- Deletes the specified message in the specified chat from the database
+
+### HTTP Response Codes
+- `200 OK` – The request succeded. The resource has been fetched and transmitted in the message body.
+- `201 Created` – The request succeeded, and a new resource was created as a result.
+- `204 No Content` – There is no content to send for this request, but the headers may be useful. This is the response sent after successful `PUT` or `DELETE` requests.
+- `400 Bad Request` – The server cannot process the request due to a client error, usually a malformed request syntax.
+- `401 Unauthorized` – The client must authenticate itself to get the requested response.
+- `403 Forbidden` – The client does not have access rights to the content.
+- `404 Not Found` – The server cannot find the requested resource. The endpoint is valid but the resource itself does not exist.
+- `405 Method Not Allowed` – The request method is known by the server but is not supported by the target resource. 
+- `500 Internal Server Error` – The server has encountered a situation it does not know how to handle. This is probably due to an error from the MySQL database or an invalid SQL query.
