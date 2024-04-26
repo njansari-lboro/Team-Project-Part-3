@@ -101,11 +101,11 @@
                 ['Month', 'Tasks Completed'],
                 ['January',2],
                 ['February',5],
-                ['March', 2].
+                ['March', 2],
                 ['April', 1],
                 ['May',1],
                 ['June',1],
-                ['July', 6].
+                ['July', 6],
                 ['August', 4],
                 ['September',5],
                 ['October',3],
