@@ -58,8 +58,8 @@
         }
         </script>
         
-        <div id = "taskspiechart" style = "width:400px; height:300px"></div>
-        <div id = "taskspiechart2" style = "width:400px; height:300px"></div>
+        <div class = 'inLineBlock' id = "taskspiechart" style = "width:400px; height:300px"></div>
+        <div class = 'inLineBlock' id = "taskspiechart2" style = "width:400px; height:300px"></div>
 
     </body>
 </html>
