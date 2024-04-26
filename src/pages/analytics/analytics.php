@@ -36,7 +36,8 @@
                 title: 'Project 1',
                 pieHole: 0.4,
                 backgroundColor: 'transparent',
-                titleTextStyle: {color: '#ffffff'}
+                titleTextStyle: {color: '#ffffff'},
+                legendTextStyle: {color: '#ffffff'} 
 
             };
             var taskpiechart = new google.visualization.PieChart(document.getElementById('taskspiechart'));
@@ -57,7 +58,8 @@
                 title: 'Project 2',
                 pieHole: 0.4,
                 backgroundColor: 'transparent',
-                titleTextStyle: {color: '#ffffff'}
+                titleTextStyle: {color: '#ffffff'},
+                legendTextStyle: {color: '#ffffff'}
 
             };
             var taskpiechart2 = new google.visualization.PieChart(document.getElementById('taskspiechart2'));
