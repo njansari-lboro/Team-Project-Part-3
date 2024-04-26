@@ -16,8 +16,8 @@
     </head>
 
     <body>
-        <p class="some-text">This is the analytics.</p>
-        <p class="some-text">This is the analytics.</p>
+        <p class="some-text">Data Analytics</p>
+        
         <script src = "https://www.gstatic.com/charts/loaders.js"></script>
         <script>
         google.charts.load('current', {'packages':['corechart']});
