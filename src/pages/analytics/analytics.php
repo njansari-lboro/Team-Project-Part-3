@@ -18,7 +18,7 @@
     <body>
         <p class="some-text">Data Analytics</p>
         
-        <script src = "https://www.gstatic.com/charts/loaders.js"></script>
+        <script src = "https://www.gstatic.com/charts/loader.js"></script>
         <script>
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawProjectPieChart);
