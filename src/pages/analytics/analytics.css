@@ -12,7 +12,7 @@ p.some-text {
 }
 
 .chart {
-    width: 50%;
+    width: 20%;
     box-sizing:border-box;
     padding: 20px;
     display: inline-block;
