@@ -37,5 +37,6 @@
             taskpiechart.draw(project1Data, optionsTitle);
         }
         </script>
+        <div id = "taskspiechart" style = "max-width:700px; height:400px"></div>
     </body>
 </html>
