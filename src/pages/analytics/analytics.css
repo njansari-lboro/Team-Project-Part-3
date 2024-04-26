@@ -2,6 +2,7 @@ p.some-text {
     font-weight: bold;
     font-size: 50px;
 }
+
 .inLineBlock {
     display: inline-block;
 }
