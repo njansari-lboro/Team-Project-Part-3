@@ -92,7 +92,38 @@
     <div id = "taskspiechart" class = "chart-container"></div>
     <div id = "taskspiechart2" class = "chart-container"></div>
     <div id = "taskspiechart3" class = "chart-container"></div>
+<p>Employee Performance</p>
+<script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawLineChart);
+        function drawLineChart(){
+            var LineData = google.visualization.arrayToDataTable([
+                ['Month', 'Tasks Completed'],
+                ['January',2],
+                ['February',5],
+                ['March', 2].
+                ['April', 1],
+                ['May',1],
+                ['June',1],
+                ['July', 6].
+                ['August', 4],
+                ['September',5],
+                ['October',3],
+                ['November', 3],
+                ['December', 3]]
+                );
+            var optionsTitle = {
+                title: 'Employee: Clive Turner',
+                backgroundColor: 'transparent',
+                titleTextStyle: {color: '#ffffff'},
+                legendTextStyle: {color: '#ffffff'},
+                legend: {position:'bottom'}
 
-    
+            };
+            var linechart1 = new google.visualization.LineChart(document.getElementById('linechart1'));
+            linechart1.draw(LineData, optionsTitle);
+        }
+        </script>
+    <div id = "linechart1" class = "chart-container"></div>
     </body>
 </html>
