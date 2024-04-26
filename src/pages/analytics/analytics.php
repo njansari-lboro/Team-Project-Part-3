@@ -23,7 +23,10 @@
         <script>
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawProjectPieChart);
-
+        function drawProjectPieCharts() {
+        drawProject1PieChart();
+        drawProject2PieChart();
+    }
         function drawProjectPieChart(){
             var project1Data = google.visualization.arrayToDataTable([
                 ['Task', 'Count'],
@@ -60,12 +63,13 @@
         }
         </script>
         <div class = "container">
-        <div class = "row">
-            <div id = "taskspiechart" class = "col-sm">
-    </div>
-    <div id = "taskspiechart2" class = "col-sm">
-    </div>
+        <div class = "row chart-container">
+    <div id = "taskspiechart" class = "col-sm"></div>
+    <div id = "taskspiechart2" class = "col-sm"></div>
     </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
 </html>
