@@ -7,9 +7,6 @@ p.some-text {
     display: inline-block;
 }
 
-#chartsContainer {
-    display: flex;
-}
 
 .chart {
     width: 50%;

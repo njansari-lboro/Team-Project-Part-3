@@ -13,6 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <link rel="stylesheet" href="analytics/analytics.css">
+        <link rel = "stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
 
     <body>
@@ -22,10 +23,6 @@
         <script>
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawProjectPieChart);
-        function drawCharts(){
-            drawProjectPieChart();
-            drawProject2PieChart();
-        }
 
         function drawProjectPieChart(){
             var project1Data = google.visualization.arrayToDataTable([
@@ -62,9 +59,13 @@
             taskpiechart2.draw(project2Data, optionsTitle);
         }
         </script>
-        <div id = "chartsContainer">
-        <div id = "taskspiechart" class = "chart"></div>
-        <div id = "taskspiechart2" class = "chart"></div>
-        </div>
+        <div class = "container">
+        <div class = "row">
+            <div id = "taskspiechart" class = "col-sm">
+    </div>
+    <div id = "taskspiechart2" class = "col-sm">
+    </div>
+    </div>
+    </div>
     </body>
 </html>
