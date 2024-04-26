@@ -63,11 +63,8 @@
             taskpiechart2.draw(project2Data, optionsTitle);
         }
         </script>
-        <div class = "container">
-        <div class = "row chart-container">
-    <div id = "taskspiechart" class = "col-sm"></div>
-    <div id = "taskspiechart2" class = "col-sm"></div>
-    </div>
-    </div>
+    <div id = "taskspiechart" class = "chart-container"></div>
+    <div id = "taskspiechart2" class = "chart-container"></div>
+    
     </body>
 </html>
