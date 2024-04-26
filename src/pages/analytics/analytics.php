@@ -30,13 +30,14 @@
                 ['In Process', 1]]
                 );
             var optionsTitle = {
-                title: 'Project 1'
+                title: 'Project 1',
+                pieHole: 0.4
 
             };
             var taskpiechart = new google.visualization.PieChart(document.getElementById('taskspiechart'));
             taskpiechart.draw(project1Data, optionsTitle);
         }
         </script>
-        <div id = "taskspiechart" style = "max-width:700px; height:400px"></div>
+        <div id = "taskspiechart" style = "width:400px; height:400px"></div>
     </body>
 </html>
