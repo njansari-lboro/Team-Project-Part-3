@@ -34,7 +34,8 @@
                 );
             var optionsTitle = {
                 title: 'Project 1',
-                pieHole: 0.4
+                pieHole: 0.4,
+                backgroundColor: 'transparent'
 
             };
             var taskpiechart = new google.visualization.PieChart(document.getElementById('taskspiechart'));
