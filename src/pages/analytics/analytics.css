@@ -15,4 +15,5 @@ p.some-text {
     width: 250;
     height: 250px;
     border: 10px white;
+    padding: 5px;
 }
