@@ -17,5 +17,6 @@
 
     <body>
         <p class="some-text">This is the analytics.</p>
+        <p class="some-text">This is the analytics.</p>
     </body>
 </html>
