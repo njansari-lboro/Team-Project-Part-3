@@ -22,6 +22,11 @@
         <script>
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawProjectPieChart);
+        function drawCharts(){
+            drawProjectPieChart();
+            drawProject2PieChart();
+        }
+
         function drawProjectPieChart(){
             var project1Data = google.visualization.arrayToDataTable([
                 ['Task', 'Count'],
