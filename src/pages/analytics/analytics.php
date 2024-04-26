@@ -66,8 +66,32 @@
             taskpiechart2.draw(project2Data, optionsTitle);
         }
         </script>
+        <script>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawProject3PieChart);
+        function drawProject3PieChart(){
+            var project2Data = google.visualization.arrayToDataTable([
+                ['Task', 'Count'],
+                ['Completed',1],
+                ['Uncompleted',3],
+                ['In Process', 3]]
+                );
+            var optionsTitle = {
+                title: 'Project 3',
+                pieHole: 0.4,
+                backgroundColor: 'transparent',
+                titleTextStyle: {color: '#ffffff'},
+                legendTextStyle: {color: '#ffffff'}
+
+            };
+            var taskpiechart3 = new google.visualization.PieChart(document.getElementById('taskspiechart3'));
+            taskpiechart3.draw(project3Data, optionsTitle);
+        }
+        </script>
     <div id = "taskspiechart" class = "chart-container"></div>
     <div id = "taskspiechart2" class = "chart-container"></div>
+    <div id = "taskspiechart3" class = "chart-container"></div>
+
     
     </body>
 </html>
