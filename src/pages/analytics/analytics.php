@@ -57,9 +57,9 @@
             taskpiechart2.draw(project2Data, optionsTitle);
         }
         </script>
-        
-        <div class = 'inLineBlock' id = "taskspiechart" style = "width:400px; height:300px"></div>
-        <div class = 'inLineBlock' id = "taskspiechart2" style = "width:400px; height:300px"></div>
-
+        <div id = "chartsContainer">
+        <div id = "taskspiechart" class = "chart"></div>
+        <div id = "taskspiechart2" class = "chart"></div>
+        </div>
     </body>
 </html>

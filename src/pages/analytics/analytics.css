@@ -6,3 +6,12 @@ p.some-text {
 .inLineBlock {
     display: inline-block;
 }
+
+#chartsContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart {
+    width: 30%;
+}
