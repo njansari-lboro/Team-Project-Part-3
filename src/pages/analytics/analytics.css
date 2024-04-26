@@ -9,9 +9,8 @@ p.some-text {
 
 #chartsContainer {
     display: flex;
-    justify-content: space-between;
 }
 
 .chart {
-    width: 30%;
+    flex:1;
 }
