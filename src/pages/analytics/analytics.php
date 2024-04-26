@@ -19,6 +19,7 @@
 
     <body>
         <p class="some-text">Data Analytics</p>
+        <p>Project Progresses</p>
         
         <script src = "https://www.gstatic.com/charts/loader.js"></script>
         <script>
