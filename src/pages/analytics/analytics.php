@@ -70,7 +70,7 @@
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawProject3PieChart);
         function drawProject3PieChart(){
-            var project2Data = google.visualization.arrayToDataTable([
+            var project3Data = google.visualization.arrayToDataTable([
                 ['Task', 'Count'],
                 ['Completed',1],
                 ['Uncompleted',3],
