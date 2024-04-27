@@ -54,3 +54,9 @@
         $sql = "SELECT * FROM project WHERE id = ?";
         return get_record($sql, "i", $project_id);
     }
+
+
+    function get_project_tasks(int $project_id): array {
+        $sql = "SELECT * FROM task WHERE project_id = ?";
+        return fetch_records($sql, "i", $project_id);
+    }
