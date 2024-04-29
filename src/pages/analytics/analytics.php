@@ -23,6 +23,9 @@
         
         <script src = "https://www.gstatic.com/charts/loader.js"></script>
         <script>
+            const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+            const bgColor = isDarkMode ? "#lelele" : "#ffffff"
+            const textColor = isDarkMode ? "#ffffff" : "#000000"
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawProjectPieChart);
         
@@ -37,8 +40,8 @@
                 title: 'Project 1',
                 pieHole: 0.4,
                 backgroundColor: 'transparent',
-                titleTextStyle: {color: '#ffffff'},
-                legendTextStyle: {color: '#ffffff'} 
+                titleTextStyle: {color: textColor},
+                legendTextStyle: {color: textColor} 
 
             };
             var taskpiechart = new google.visualization.PieChart(document.getElementById('taskspiechart'));
@@ -46,6 +49,7 @@
         }
         </script>
         <script>
+
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawProject2PieChart);
         function drawProject2PieChart(){
@@ -59,8 +63,8 @@
                 title: 'Project 2',
                 pieHole: 0.4,
                 backgroundColor: 'transparent',
-                titleTextStyle: {color: '#ffffff'},
-                legendTextStyle: {color: '#ffffff'}
+                titleTextStyle: {color: textColor},
+                legendTextStyle: {color: textColor}
 
             };
             var taskpiechart2 = new google.visualization.PieChart(document.getElementById('taskspiechart2'));
@@ -81,8 +85,8 @@
                 title: 'Project 3',
                 pieHole: 0.4,
                 backgroundColor: 'transparent',
-                titleTextStyle: {color: '#ffffff'},
-                legendTextStyle: {color: '#ffffff'}
+                titleTextStyle: {color: textColor},
+                legendTextStyle: {color: textColor}
 
             };
             var taskpiechart3 = new google.visualization.PieChart(document.getElementById('taskspiechart3'));
@@ -115,11 +119,14 @@
             var optionsTitle = {
                 title: 'Employee: Clive Turner',
                 backgroundColor: 'transparent',
-                titleTextStyle: {color: '#ffffff'},
-                legendTextStyle: {color: '#ffffff'},
-                legend: {position:'bottom'}
+                titleTextStyle: {color: textColor},
+                legendTextStyle: {color: textColor},
+                legend: {position:'bottom'},
+                hAxis:{ textStyle: {color: textColor}},
+                vAxis:{ textStyle: {color: textColor}}
 
             };
+
             var linechart1 = new google.visualization.LineChart(document.getElementById('linechart1'));
             linechart1.draw(LineData, optionsTitle);
         }
