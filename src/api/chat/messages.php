@@ -46,21 +46,6 @@
 
         break;
 
-//    case "PUT":
-//        $put_data = file_get_contents("php://input");
-//        parse_str($put_data, $params);
-//
-//        $body = $params["body"] ?? null;
-//
-//        if ($chat_id !== null && $message_id !== null) {
-//            $result = update_message($message_id, $body);
-//            http_response_code($result ? 204 : 404);
-//        } else {
-//            http_response_code(400);
-//        }
-//
-//        break;
-
     case "DELETE":
         if ($chat_id !== null && $message_id !== null) {
             $result = delete_message($message_id);
