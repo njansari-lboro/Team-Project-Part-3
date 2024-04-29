@@ -46,7 +46,7 @@
      *
      * Usage example:
      * ```
-     * $project = get_project(4);
+     * $project = get_projecst(4);
      * echo $project->name; // "Website Design"
      * ```
      */
@@ -59,4 +59,19 @@
     function get_project_tasks(int $project_id): array {
         $sql = "SELECT * FROM task WHERE project_id = ?";
         return fetch_records($sql, "i", $project_id);
+    }
+
+    function get_users(): array {
+        $sql = "SELECT * from user";
+        return fetch_records($sql);
+    }
+
+    function get_user_tasks(int $user_id): ?array {
+        $sql = "SELECT * from task where owner_id = ?";
+        return fetch_records($sql, "i", $user_id);
+    }
+
+    function get_user_projects(int $user_id): array{
+        $sql = "SELECT project_id from project_team_member where user_id = ?";
+        return fetch_records($sql, "i", $user_id);
     }

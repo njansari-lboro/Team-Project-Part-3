@@ -13,14 +13,19 @@
     $method = $_SERVER["REQUEST_METHOD"];
 
     $user_id = $_GET["user_id"] ?? null;
-
+    $project_id = $_GET["project_id"] ?? null;
 
 
     switch ($method) {
     case "GET":
-        echo "Get";
-        break;
-    case "POST":
-        echo "Post";
+        if ($user_id === null){
+            echo json_encode(get_users());
+        } else if ($project_id === null){
+            echo json_encode(get_user_tasks($user_id));
+        } else if ($project_id == -1){
+            echo json_encode(get_user_projects($user_id));
+        } else{
+
+        }
         break;
     }
