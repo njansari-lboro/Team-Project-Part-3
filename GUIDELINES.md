@@ -187,6 +187,19 @@ A dialog is a modal view that displays a title, optional informative text, and u
 - `HTTP DELETE /chats/{id}/messages/{id}`
 - Deletes the specified message in the specified chat from the database
 
+**Get all users in chat with given ID**
+- `HTTP GET /chats/{id}/users`
+- Returns an array of all user IDs in the specified chat as JSON objects
+
+**Add user with given ID to chat with given ID**
+- `HTTP POST /chats/{id}/users`
+- Adds the specified user to the specified chat from the provided POST data:
+    - `user_id`: integer
+
+**Remove user with given ID from chat with given ID**
+- `HTTP DELETE /chats/{id}/users/{id}`
+- Removes the specified user from the specified chat in the database
+
 ### HTTP Response Codes
 - `200 OK` – The request succeded. The resource has been fetched and transmitted in the message body.
 - `201 Created` – The request succeeded, and a new resource was created as a result.
