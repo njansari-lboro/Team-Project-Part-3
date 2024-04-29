@@ -74,7 +74,7 @@
             var project3Data = google.visualization.arrayToDataTable([
                 ['Task', 'Count'],
                 ['Completed',1],
-                ['Uncompleted',3],
+                ['Uncompleted',2],
                 ['In Process', 3]]
                 );
             var optionsTitle = {
