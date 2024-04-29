@@ -1,3 +1,64 @@
-p.some-text {
-    font-weight: bold;
-}
+  #wrapper{ 
+            max-width:1400px;;
+            min-height:800px;
+            display: flex;
+        }
+        
+        #left_pannel{
+            min-height:800px;
+            background-color: #FEFBF8;
+            flex: 1;
+        }
+
+        .sidebar-title{
+            font-weight: 700;
+            font-size: 20px;
+            padding-top: 20px;
+        }
+    
+        .sidebar-search{
+            position: relative;
+            padding-top: 20px;
+        }
+    
+        .sidebar-input{
+            border-radius: 7px;
+            background-color: #f7f2e8;
+            outline:none;
+            width:100%;
+            padding: 8px 10px;
+            border: 1px solid;
+            /*padding-right: 60px;
+            padding-left: 20px;*/
+        }
+    
+        .sidebar-input:focus{
+            border-color:#f7c663;
+        }
+    
+        .sidebar-submit{
+            cursor: pointer;
+            right:14px;
+            top:50%;
+            position: absolute;
+            background-color: transparent;
+            outline: transparent;
+            border: none;
+            /*transform: translateY(-30%)*/
+        }/*add text to show that the magnifying glass means search*/
+    
+        .sidebar-submit:hover{
+            font-size: 25px;
+        }
+    
+
+        #right_pannel{
+            min-height:700px;
+            background-color: #f7f2e8;
+            flex: 3;
+        }
+
+        #header{
+            background-color: #fab62d;
+            height:70px;
+        }
