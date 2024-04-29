@@ -15,7 +15,9 @@
     $user_id = $_GET["user_id"] ?? null;
     $chat_id = $_GET["chat_id"] ?? null;
 
-    if ($chat_id !== null && !is_user_member_of_chat($_SESSION["user"]->id, $chat_id)) {
+    $new_user_id = $_POST["user_id"] ?? null;
+
+    if ($chat_id !== null && $new_user_id === null && !is_user_member_of_chat($_SESSION["user"]->id, $chat_id)) {
         http_response_code(403);
         die();
     }
@@ -31,8 +33,6 @@
         break;
 
     case "POST":
-        $user_id = $_POST["user_id"] ?? null;
-
         if ($user_id !== null && $chat_id !== null) {
             $result = add_user_to_chat($user_id, $chat_id);
             http_response_code($result ? 201 : 500);
