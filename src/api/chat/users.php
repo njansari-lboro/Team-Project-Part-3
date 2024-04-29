@@ -12,8 +12,8 @@
 
     $method = $_SERVER["REQUEST_METHOD"];
 
+    $user_id = $_GET["user_id"] ?? null;
     $chat_id = $_GET["chat_id"] ?? null;
-    $message_id = $_GET["message_id"] ?? null;
 
     if ($chat_id !== null && !is_user_member_of_chat($_SESSION["user"]->id, $chat_id)) {
         http_response_code(403);
@@ -22,18 +22,8 @@
 
     switch ($method) {
     case "GET":
-        if ($chat_id !== null) {
-            if ($message_id === null) {
-                echo json_encode(fetch_messages(chat_id: $chat_id));
-            } else {
-                $message = get_message($message_id);
-
-                if ($message) {
-                    echo json_encode($message);
-                } else {
-                    http_response_code(404);
-                }
-            }
+        if ($user_id === null && $chat_id !== null) {
+            echo json_encode(fetch_users_in_chat(chat_id: $chat_id));
         } else {
             http_response_code(400);
         }
@@ -41,11 +31,10 @@
         break;
 
     case "POST":
-        $author_id = $_POST["author_id"] ?? null;
-        $body = $_POST["body"] ?? null;
+        $user_id = $_POST["user_id"] ?? null;
 
-        if ($chat_id !== null && $message_id === null && $author_id !== null && $body !== null) {
-            $result = add_message($chat_id, $author_id, $body);
+        if ($user_id !== null && $chat_id !== null) {
+            $result = add_user_to_chat($user_id, $chat_id);
             http_response_code($result ? 201 : 500);
         } else {
             http_response_code(400);
@@ -54,8 +43,8 @@
         break;
 
     case "DELETE":
-        if ($chat_id !== null && $message_id !== null) {
-            $result = delete_message($message_id);
+        if ($user_id !== null && $chat_id !== null) {
+            $result = delete_user_from_chat($user_id, $chat_id);
             http_response_code($result ? 204 : 404);
         } else {
             http_response_code(400);

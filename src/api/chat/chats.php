@@ -1,6 +1,4 @@
 <?php
-    require_once(__DIR__ . "/../database/chat-db-helpers.php");
-
     header("Content-Type: application/json");
 
     session_start();
@@ -10,14 +8,23 @@
         die();
     }
 
+    $current_user_id = $_SESSION["user"]->id;
+
+    require_once(__DIR__ . "/../database/chat-db-helpers.php");
+
     $method = $_SERVER["REQUEST_METHOD"];
 
     $chat_id = $_GET["chat_id"] ?? null;
 
+    if ($chat_id !== null && !is_user_member_of_chat($current_user_id, $chat_id)) {
+        http_response_code(403);
+        die();
+    }
+
     switch ($method) {
     case "GET":
         if ($chat_id === null) {
-            echo json_encode(fetch_chats());
+            echo json_encode(fetch_chats(user_id: $current_user_id));
         } else {
             $chat = get_chat($chat_id);
 
