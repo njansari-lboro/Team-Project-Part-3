@@ -16,7 +16,7 @@
     </head>
 
     <body>
-        <div id="wrapper"><!--start of wrapper-->
+         <div id="wrapper"><!--start of wrapper-->
         <div id="left_pannel">
             <div class="sidebar-title" style="text-align:center;"> My Messages  <i class="ri-message-2-line"></i> </div>
                 <form action="" class="sidebar-search">
@@ -27,6 +27,10 @@
         <div id="right_pannel">
             <div id="header"></div>
             <div id="container">
+                <form action="" class="container-messages">
+                    <input type="text" placeholder="Enter Message Here..." class="message-input">
+                    <button type="submit" class="message-submit"><i class="ri-send-plane-fill"></i></button>
+                </form>
             </div><!--end of container-->
         </div>
     </div> <!--end of wrapper-->
