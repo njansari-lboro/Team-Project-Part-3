@@ -1,4 +1,4 @@
-#wrapper{ 
+   #wrapper{ 
             width:100vw;
             height:100vh;
             display: flex;
@@ -61,4 +61,35 @@
         #header{
             background-color: #fab62d;
             height:70px;
+        }
+
+        #right_pannel .container-messages{
+            position: absolute;
+            display:flex;
+            bottom: 0;
+            width: 80%;
+            justify-content: center;
+            align-items: center;
+            padding-top: 10px;
+        }
+
+        #right_pannel .container-messages input{
+            width: 70%;
+            border-radius: 7px;
+            background-color: white;
+            outline:none;
+            padding: 8px 10px;
+            border: 1px solid;
+
+        }
+
+        #right_pannel .container-messages .message-submit{
+            cursor: pointer;
+            position: relative;
+            right: 40px;
+            background-color: transparent;
+            outline: transparent;
+            border: none;
+            font-size: 20px;
+            
         }
