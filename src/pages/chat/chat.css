@@ -1,4 +1,4 @@
-   #wrapper{ 
+#wrapper{ 
             width:100vw;
             height:100vh;
             display: flex;
@@ -10,18 +10,18 @@
             flex: 1;
         }
 
-        .sidebar-title{
+        #left_pannel .sidebar-title{
             font-weight: 700;
             font-size: 20px;
             padding-top: 20px;
         }
     
-        .sidebar-search{
+        #left_pannel .sidebar-search{
             position: relative;
             padding-top: 20px;
         }
     
-        .sidebar-input{
+        #left_pannel .sidebar-input{
             border-radius: 7px;
             background-color: #f7f2e8;
             outline:none;
@@ -32,11 +32,11 @@
             
         }
     
-        .sidebar-input:focus{
+        #left_pannel .sidebar-input:focus{
             border-color:#f7c663;
         }
     
-        .sidebar-submit{
+        #left_pannel .sidebar-submit{
             cursor: pointer;
             right:14px;
             top:50%;
@@ -47,7 +47,7 @@
             /*transform: translateY(-30%)*/
         }/*add text to show that the magnifying glass means search*/
     
-        .sidebar-submit:hover{
+        #left_pannel .sidebar-submit:hover{
             font-size: 25px;
         }
     
@@ -92,4 +92,44 @@
             border: none;
             font-size: 20px;
             
+        }
+
+        #right_pannel .conversation-messages{
+           
+           
+           width: calc(100%-40px);
+           /*flex-direction: column;*/
+           padding-top: 20px;
+        }
+
+        #right_pannel .conversation-messages .message-container{
+            display:flex;
+        }
+
+        #right_pannel .conversation-messages .arrived-chat{
+            margin-bottom:10px;
+            margin-left: 5px;
+            padding: 20px;
+        }
+
+        #right_pannel .conversation-messages .sent-chat{
+            margin-bottom:10px;
+            right:auto;
+            margin-left:auto;
+            padding: 20px;
+        }
+
+        #right_pannel .conversation-messages .arrived-chat p{
+            background-color: #F7E4BC;
+            border-bottom-left-radius: 0;
+        }
+
+        #right_pannel .conversation-messages .sent-chat p{
+            background-color: #f7c663;
+            border-bottom-right-radius: 0;
+        }
+
+        #right_pannel .conversation-messages p{
+            padding: 20px;
+            border-radius: 30px;
         }
