@@ -11,50 +11,156 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
 
         <link rel="stylesheet" href="chat/chat.css">
     </head>
-                <form action="" class="sidebar-search">
 
     <body>
-           <div id="wrapper"><!--start of wrapper-->
-        <div id="left_pannel">
-            <div class="sidebar-title" style="text-align:center;"> My Messages  <i class="ri-message-2-line"></i> </div>
-                <form action="" class="sidebar-search">
-                    <input type="search" placeholder="search" class="sidebar-input"><!--making the type earch means an x will show up to delete what you were typing-->
-                    <button type="submit" class="sidebar-submit"><i class="ri-search-line"></i></button>
-                </form>
-        </div>
-        <div id="right_pannel">
-            <div id="header"></div>
-            <div id="container">
-                <div class="conversation-messages">
+        <div id="wrapper">
+            <div id="left-panel" class="expanded">
+                <div class="sidebar-title" style="text-align: center">My Chats</div>
 
-                    <div class="message-container">
-                        <div class ="arrived-chat">
-                            <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
-                        </div><!--end of arrived chat-->
-                    </div><!--end of message-container-->
+                <input type="search" placeholder="Search" class="sidebar-input">
 
-                    <div class="message-container">
-                        <div class="sent-chat">
-                            <p> I am currently in team 012</p>
-                        </div><!--end of sent chat--> 
-                    </div><!--end of message-container-->
+                <div id="chats-list"></div>
+            </div>
 
+            <load-svg id="close-chat-list" class="toggle-chat-list" src="../assets/close-leading-bar-icon.svg">
+                <style shadowRoot>
+                    svg {
+                        width: 20px;
+                        padding-bottom: 1px;
+                    }
+
+                    .fill {
+                        fill: var(--fill-color);
+                    }
+                </style>
+            </load-svg>
+
+            <load-svg id="open-chat-list" class="toggle-chat-list" src="../assets/open-leading-bar-icon.svg">
+                <style shadowRoot>
+                    svg {
+                        width: 20px;
+                        padding-bottom: 1px;
+                    }
+
+                    .fill {
+                        fill: var(--fill-color);
+                    }
+                </style>
+            </load-svg>
+
+            <div id="right-panel">
+                <div id="header"></div>
+
+                <div id="container">
+                    <div class="conversation-messages">
+                        <div class="message-container arrived">
+                            <div class="message">
+                                <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
+                            </div>
+                        </div>
+
+                        <div class="message-group-timestamp"><strong>Today</strong> at 09:41</div>
+
+                        <div class="message-container sent">
+                            <div class="message">
+                                <p>I am currently in Team 12</p>
+                            </div>
+
+                            <div class="message">
+                                <p>But I wanted to be in Team 02</p>
+                            </div>
+                        </div>
+
+                        <div class="message-container arrived">
+                            <div class="message">
+                                <p>That's sounds amazing</p>
+                            </div>
+
+                            <div class="message">
+                                <p>I am in Team 17</p>
+                            </div>
+                        </div>
+
+                        <div class="message-container arrived">
+                            <div class="message">
+                                <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
+                            </div>
+                        </div>
+
+                        <div class="message-container sent">
+                            <div class="message">
+                                <p>I am currently in Team 12</p>
+                            </div>
+
+                            <div class="message">
+                                <p>But I wanted to be in Team 02</p>
+                            </div>
+                        </div>
+
+                        <div class="message-container arrived">
+                            <div class="message">
+                                <p>That's sounds amazing</p>
+                            </div>
+
+                            <div class="message">
+                                <p>I am in Team 17</p>
+                            </div>
+                        </div>
+
+                        <div class="message-container arrived">
+                            <div class="message">
+                                <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
+                            </div>
+                        </div>
+
+                        <div class="message-container sent">
+                            <div class="message">
+                                <p>I am currently in Team 12</p>
+                            </div>
+
+                            <div class="message">
+                                <p>But I wanted to be in Team 02</p>
+                            </div>
+                        </div>
+
+                        <div class="message-container arrived">
+                            <div class="message">
+                                <p>That's sounds amazing</p>
+                            </div>
+
+                            <div class="message">
+                                <p>I am in Team 17</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="compose-message-container">
+                        <input type="text" placeholder="New Message" id="compose-message-input">
+
+                        <button type="submit" id="compose-message-submit" disabled>
+                            <load-svg class="message-icon" src="../assets/message-icon.svg">
+                                <style shadowRoot>
+                                    svg {
+                                        width: 28px;
+                                        height: 28px;
+                                        margin-top: -1px;
+                                        margin-right: -0.75px
+                                    }
+
+                                    .fill {
+                                        fill: var(--fill-color)
+                                    }
+                                </style>
+                            </load-svg>
+                        </button>
+                    </div>
                 </div>
-                <form action="" class="container-messages">
-                    <input type="text" placeholder="Enter Message Here..." class="message-input">
-                    <button type="submit" class="message-submit"><i class="ri-send-plane-fill"></i></button>
-                </form>
-            </div><!--end of container-->
+            </div>
         </div>
-    </div> <!--end of wrapper-->
 
-
-    <script>
-
-    </script>
+        <script src="chat/chat.js"></script>
     </body>
 </html>
