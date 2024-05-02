@@ -139,6 +139,9 @@
     /* The colour to use for the window background */
     --window-background: rgba(255, 255, 255, 1);
 
+    /* The colour to use for the background of containers */
+    --container-background: rgba(255, 255, 255, 0.75);
+
     /* The colour to use for the background of bars, such as navigation bars, toolbars and sidebars */
     --bar-background-color: rgba(241, 242, 242, 0.85)
 }
@@ -185,6 +188,7 @@
         --selected-control-color: rgba(220, 179, 149, 1);
         --selected-control-text-color: rgba(255, 255, 255, 0.85);
         --window-background: rgba(30, 30, 30, 1);
+        --container-background: rgba(30, 30, 30, 0.75);
         --bar-background-color: rgba(42, 42, 42, 0.85);
     }
 }
