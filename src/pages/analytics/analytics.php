@@ -12,14 +12,15 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        
+           <!-- jQuery (Necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!--<link rel = "stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
         <link rel="stylesheet" href="analytics/analytics.css">
     </head>
 
     <body>
         <p class="some-text">Data Analytics</p>
-        <p>Project Progresses</p>
+        <p>User Progress</p>
         
         <script src = "https://www.gstatic.com/charts/loader.js"></script>
         <script>
@@ -92,8 +93,59 @@
             var taskpiechart3 = new google.visualization.PieChart(document.getElementById('taskspiechart3'));
             taskpiechart3.draw(project3Data, optionsTitle);
         }
+
+
+
+
+
+        function userPieChart(){
+    
+            $.ajax({
+                dataType: "json",
+                url: "/api/analytics/users.php",
+                method: "get",
+                success: function (data) {
+                    console.log(data)
+                    console.log(data[0].overall)
+                    google.charts.load('current', {'packages':['corechart']});
+                    google.charts.setOnLoadCallback(DrawUserChart);
+                    function DrawUserChart(){
+                        console.log(data);
+                        console.log(parseInt(data[0].overall));
+                        console.log(parseInt(data[2].in_progress));
+                        var project3Data = google.visualization.arrayToDataTable([
+                            ['Task', 'Count'],
+                            ['Completed',parseInt(data[1].completed)],
+                            ['Uncompleted',parseInt(data[3].not_started)],
+                            ['In Process', parseInt(data[2].in_progress)]]
+                        );
+            var optionsTitle = {
+                title: 'Project 3',
+                pieHole: 0.4,
+                backgroundColor: 'transparent',
+                titleTextStyle: {color: textColor},
+                legendTextStyle: {color: textColor}
+
+            };
+            var usersPieChart = new google.visualization.PieChart(document.getElementById('usersPieChart'));
+            usersPieChart.draw(project3Data, optionsTitle);
+        }
+
+                },
+            });
+        }
+
         </script>
-    <div id = "taskspiechart" class = "chart-container"></div>
+        
+
+    <div id = "usersPieChart" class = "chart-container"></div>
+    <p>Project Progress</p>
+    <select id = "projectDropdown" onchange = "displayProject()">Choose Project:</label>
+        <option value = "taskspiechart">Project 1</option>
+        <option value = "taskspiechart2">Project 2</option>
+        <option value = "taskspiechart3">Project 3</option>
+    </select>
+    <div id = "taskspiechart" style = "display: none;" class = "chart-container"></div>
     <div id = "taskspiechart2" class = "chart-container"></div>
     <div id = "taskspiechart3" class = "chart-container"></div>
 <p>Employee Performance</p>
@@ -130,6 +182,7 @@
             var linechart1 = new google.visualization.LineChart(document.getElementById('linechart1'));
             linechart1.draw(LineData, optionsTitle);
         }
+        userPieChart();
         </script>
     <div id = "linechart1" class = "chart-container"></div>
     </body>
