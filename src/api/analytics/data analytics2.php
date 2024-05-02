@@ -22,6 +22,8 @@ function projectData(jsonData){
 			$unstartedTasks++;
 		}
 	}
+	$returnData = json_encode({'total_tasks':$totalTasks,'complete_tasks':$completeTasks,'in_progress_tasks':$inProgTasks,'non-started_tasks':$unstartedTasks})
+	return $returnData;
 }
 //no tasks
 //no comp tasks
