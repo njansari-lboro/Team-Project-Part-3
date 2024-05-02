@@ -94,6 +94,8 @@
     <body>
         <!-- Navigation bar -->
 
+        <div id="profile-menu-dim" class="dimmed-overlay"></div>
+
         <div class="nav-bar">
             <load-svg id="sidebar-toggle" src="../assets/sidebar-toggle-icon.svg">
                 <style shadowRoot>
