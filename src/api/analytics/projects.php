@@ -3,7 +3,7 @@
     HTTP GET /
     */
     require_once(__DIR__ . "/../database/analytics-db-helpers.php");
-	require_once("data_analytics.php");
+    require_once("data_analytics.php");
     header("Content-Type: application/json");
     /*
     if (empty($_SESSION["user"])) {
@@ -16,13 +16,13 @@
     $project_id = $_GET["project_id"] ?? null;
     $tasks = $_GET["tasks"] ?? null;
 
-
     switch ($method) {
     case "GET":
         if($project_id === null){
             echo json_encode(fetch_projects());
         } else if ($tasks == "true") {
-            echo projectData(json_encode(get_project_tasks($project_id))); 
+            $jsonData = json_encode(get_project_tasks($project_id));
+            echo projectData($jsonData);
         } else{
             echo json_encode(get_project($project_id));
         }
@@ -31,3 +31,4 @@
         echo "Post";
         break;
     }
+?>
