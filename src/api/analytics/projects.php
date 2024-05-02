@@ -3,6 +3,7 @@
     HTTP GET /
     */
     require_once(__DIR__ . "/../database/analytics-db-helpers.php");
+	require_once("data analytics2.php");
     header("Content-Type: application/json");
     /*
     if (empty($_SESSION["user"])) {
@@ -21,7 +22,7 @@
         if($project_id === null){
             echo json_encode(fetch_projects());
         } else if ($tasks == "true") {
-            echo json_encode(get_project_tasks($project_id)); 
+            echo projectData(json_encode(get_project_tasks($project_id))); 
         } else{
             echo json_encode(get_project($project_id));
         }
