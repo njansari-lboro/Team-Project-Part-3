@@ -14,9 +14,10 @@
 
         <link rel="stylesheet" href="chat/chat.css">
     </head>
+                <form action="" class="sidebar-search">
 
     <body>
-         <div id="wrapper"><!--start of wrapper-->
+           <div id="wrapper"><!--start of wrapper-->
         <div id="left_pannel">
             <div class="sidebar-title" style="text-align:center;"> My Messages  <i class="ri-message-2-line"></i> </div>
                 <form action="" class="sidebar-search">
@@ -27,6 +28,21 @@
         <div id="right_pannel">
             <div id="header"></div>
             <div id="container">
+                <div class="conversation-messages">
+
+                    <div class="message-container">
+                        <div class ="arrived-chat">
+                            <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
+                        </div><!--end of arrived chat-->
+                    </div><!--end of message-container-->
+
+                    <div class="message-container">
+                        <div class="sent-chat">
+                            <p> I am currently in team 012</p>
+                        </div><!--end of sent chat--> 
+                    </div><!--end of message-container-->
+
+                </div>
                 <form action="" class="container-messages">
                     <input type="text" placeholder="Enter Message Here..." class="message-input">
                     <button type="submit" class="message-submit"><i class="ri-send-plane-fill"></i></button>
@@ -34,5 +50,10 @@
             </div><!--end of container-->
         </div>
     </div> <!--end of wrapper-->
+
+
+    <script>
+
+    </script>
     </body>
 </html>
