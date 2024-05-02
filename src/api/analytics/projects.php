@@ -3,7 +3,7 @@
     HTTP GET /
     */
     require_once(__DIR__ . "/../database/analytics-db-helpers.php");
-	require_once("data analytics2.php");
+	require_once("data_analytics.php");
     header("Content-Type: application/json");
     /*
     if (empty($_SESSION["user"])) {
