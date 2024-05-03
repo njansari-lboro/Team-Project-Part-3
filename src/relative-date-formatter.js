@@ -19,6 +19,10 @@
  * // "1 month ago"
  */
 function formatRelativeDate(date) {
+    const userTimeZoneOffset = new Date().getTimezoneOffset()
+    const timeZoneOffsetMillis = -userTimeZoneOffset * 60 * 1000
+    date = new Date(date.getTime() + timeZoneOffsetMillis)
+
     const locale = navigator.language
 
     const now = new Date()
