@@ -23,8 +23,10 @@
 
     switch ($method) {
     case "GET":
+        $filter_text = $_GET["filter_text"] ?? null;
+
         if ($chat_id === null) {
-            echo json_encode(fetch_chats(user_id: $current_user_id));
+            echo json_encode(fetch_chats(user_id: $current_user_id, filter_text: $filter_text));
         } else {
             $chat = get_chat($chat_id);
 
