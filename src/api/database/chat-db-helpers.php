@@ -169,7 +169,7 @@
      *
      * @param ?int $chat_id [optional] The ID of the chat to filter by.
      *
-     * @return array An array of messages as objects sorted by most recently posted.
+     * @return array An array of messages as objects sorted by date posted.
      *
      * Usage example:
      * ```
@@ -195,7 +195,7 @@
             $vars[] = $chat_id;
         }
 
-        $sql .= " ORDER BY date_posted DESC";
+        $sql .= " ORDER BY date_posted";
 
         return fetch_records($sql, $types, ...$vars);
     }
