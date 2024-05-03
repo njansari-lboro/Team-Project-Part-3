@@ -73,6 +73,84 @@ async function fetchMessagesForChat(chatID) {
     }
 }
 
+async function fetchUser(userID) {
+    try {
+        const formData = new FormData()
+        formData.append("user_id", userID)
+
+        const response = await fetch("chat/chat-functions.php?task=get_user", {
+            method: "POST",
+            body: formData
+        })
+
+        if (!response.ok) throw new Error("Failed to fetch data")
+
+        return await response.json()
+    } catch (error) {
+        console.error("Error fetching data:", error)
+    }
+}
+
+const messageGroupTimestampHTML = (date) => {
+    const dateTime = formatMessageGroupTimestamp(date)
+    return `
+    <div class="message-group-timestamp">
+        <strong>${dateTime.date}</strong> ${dateTime.time}
+    </div>
+    `
+}
+
+const messageHTML = (body) => {
+    return `
+    <div class="message">
+        <p>${body}</p>
+    </div>
+    `
+}
+
+const sentMessagesContainerHTML = (messages) => {
+    return `
+    <div class="messages-container sent">
+        ${messages.join("")}
+    </div>
+    `
+}
+
+const arrivedMessagesContainerHTML = (messages) => {
+    return `
+    <div class="messages-container arrived">
+        ${messages.join("")}
+    </div>
+    `
+}
+
+const arrivedUserMessagesContainerHTML = (user, messages) => {
+    let icon
+    const profileImagePath = user.profile_image_path
+
+    if (profileImagePath) {
+        icon = `<img id="profile-icon" src="${profileImagePath}" alt="User profile image">`
+    } else {
+        icon = `
+        <picture>
+            <source class="message-user-profile-icon-dark" srcset="../img/default-user-profile-image-dark.png" media="(prefers-color-scheme: dark)">
+            <img class="message-user-profile-icon" src="../img/default-user-profile-image.png" alt="User profile image">
+        </picture>
+        `
+    }
+
+    return `
+    <div class="message-user-container">
+        ${icon}
+
+        <div class="messages-container arrived">
+            <div class="message-user-name">${user.full_name}</div>
+            ${messages.join("")}
+        </div>
+    </div>
+    `
+}
+
 const getSelectedChatID = () => localStorage.getItem("selectedChat")
 
 async function displayChatsList(chats) {
@@ -158,7 +236,7 @@ async function displayChatsList(chats) {
         const chatRowElement = document.createElement("div")
         chatRowElement.innerHTML = chatRowHTML
 
-        chatRowElement.querySelector(".chat-row").addEventListener("click", function () {
+        chatRowElement.querySelector(".chat-row").addEventListener("click", async function() {
             document.querySelectorAll(".chat-row").forEach(row => {
                 row.classList.remove("selected")
             })
@@ -166,6 +244,8 @@ async function displayChatsList(chats) {
             this.classList.add("selected")
 
             localStorage.setItem("selectedChat", chat.id)
+
+            await displayConversationMessages()
         })
 
         chatsList.appendChild(chatRowElement)
@@ -178,15 +258,89 @@ async function displayChatsList(chats) {
     if (!isSelected && chatRows.length > 0) {
         chatRows[0].classList.add("selected")
     }
+}
+
+async function parseMessagesForChat(chatID) {
+    const messages = await fetchMessagesForChat(chatID)
+
+    let messageGroups = []
+    let currentGroup = null
+    let currentContainer = null
+
+    for (let i = 0; i < messages.length; i++) {
+        const message = messages[i]
+        const messageDate = new Date(message.date_posted)
+
+        if (!currentGroup || Math.abs(messageDate - currentGroup.date) > 1000 * 60 * 60) {
+            currentGroup = {
+                date: messageDate,
+                containers: []
+            }
+
+            messageGroups.push(currentGroup)
+        }
+
+        if (
+            !currentContainer
+            || Math.abs(messageDate - currentContainer.date) > 1000 * 60
+            || message.author_id !== currentContainer.author_id
+        ) {
+            currentContainer = {
+                type: (message.author_id === user.id) ? "sent" : "arrived",
+                messages: [message.body]
+            }
+
+            currentGroup.containers.push(currentContainer)
+        } else {
+            currentContainer.messages.push(message.body)
+        }
+
+        currentContainer.date = messageDate
+        currentContainer.author_id = message.author_id
+    }
+
+    return messageGroups
+}
+
+async function displayConversationMessages() {
+    const conversation = document.getElementById("conversation-messages")
 
     const chat = await fetchChat(getSelectedChatID())
     if (!chat.is_private) {
-        document.getElementById("conversation-messages").classList.add("group")
+        conversation.classList.add("group")
     }
+
+    conversation.innerHTML = ""
+
+    const messages = await parseMessagesForChat(getSelectedChatID())
+
+    for (const messageGroup of messages) {
+        conversation.innerHTML += messageGroupTimestampHTML(messageGroup.date)
+
+        for (const messageContainer of messageGroup.containers) {
+            const messages = messageContainer.messages.map(messageHTML)
+
+            switch (messageContainer.type) {
+            case "sent":
+                conversation.innerHTML += sentMessagesContainerHTML(messages)
+                break
+            case "arrived":
+                conversation.innerHTML += arrivedMessagesContainerHTML(messages)
+                break
+            case "arrivedUser":
+                conversation.innerHTML += arrivedUserMessagesContainerHTML(messageContainer.user, messages)
+                break
+            }
+        }
+    }
+
+    resetConversationScrollPosition()
 }
 
-const chats = fetchChats()
-    .then(async (chats) => { await displayChatsList(chats); resetConversationScrollPosition() })
+fetchChats().then(async (chats) => {
+    await displayChatsList(chats)
+    await displayConversationMessages()
+})
 
 document.querySelectorAll(".toggle-chat-list").forEach(toggle => {
     toggle.addEventListener("click", () => {
@@ -194,8 +348,8 @@ document.querySelectorAll(".toggle-chat-list").forEach(toggle => {
     })
 })
 
-document.querySelector(".sidebar-input").addEventListener("input", async function () {
-    let chats = []
+document.querySelector(".sidebar-input").addEventListener("input", async function() {
+    let chats
 
     if (this.value.trim().length === 0) {
         chats = await fetchChats()
@@ -203,7 +357,7 @@ document.querySelector(".sidebar-input").addEventListener("input", async functio
         chats = await fetchChats(this.value.trim())
     }
 
-    displayChatsList(chats)
+    await displayChatsList(chats)
 })
 
 function resetConversationScrollPosition() {
@@ -211,7 +365,7 @@ function resetConversationScrollPosition() {
     conversationMessages.scrollTop = conversationMessages.scrollHeight
 }
 
-document.getElementById("compose-message-input").addEventListener("input", function () {
+document.getElementById("compose-message-input").addEventListener("input", function() {
     const submitButton = document.getElementById("compose-message-submit")
 
     if (this.value.trim().length === 0) {
@@ -246,7 +400,7 @@ async function submitMessage(event) {
 
         if (!response.ok) throw new Error("Failed to fetch data")
 
-        // add message to ui
+        await displayConversationMessages()
     } catch (error) {
         console.error("Error fetching data:", error)
     } finally {
@@ -402,7 +556,7 @@ for (i = 0; i < chatsJS.length; i++) {
     //                               '<a href="#">'+
     //                           '<span class="message-info">'+
     //                              '<span class="message-name">Angela</span>'+
-    //                            '<span class="message-text">Thank you, I recieved your email!</span>'+
+    //                            '<span class="message-text">Thank you, I received your email!</span>'+
     //                      '</span>'+
     //                    '<span>'+
     //                      '<span class="message-unread">1</span>'+
