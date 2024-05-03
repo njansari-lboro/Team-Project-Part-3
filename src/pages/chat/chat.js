@@ -256,43 +256,66 @@ async function submitMessage(event) {
 }
 
 function formatChatLastUpdated(date) {
-    const userTimeZoneOffset = new Date().getTimezoneOffset()
-    const timeZoneOffsetMillis = -userTimeZoneOffset * 60 * 1000
-    date = new Date(date.getTime() + timeZoneOffsetMillis)
+    const components = getRelativeDateComponents(date)
 
     const locale = navigator.language
-
-    const now = new Date()
-    const diff = now - date
-
-    const seconds = Math.floor(diff / 1000)
-    const minutes = Math.floor(seconds / 60)
-    const hours = Math.floor(minutes / 60)
-    const days = Math.floor(hours / 24)
 
     const time = new Intl.DateTimeFormat(locale, { hour: "numeric", minute: "numeric" })
     const day = new Intl.DateTimeFormat(locale, { weekday: "long" })
     const fullDate = new Intl.DateTimeFormat(locale, { year: "numeric", month: "numeric", day: "numeric" })
 
-    if (seconds < 60) {
+    if (components.seconds < 60) {
         // Within a minute
         return "Now"
-    } else if (minutes < 60) {
+    } else if (components.minutes < 60) {
         // Within an hour
-        return time.format(date)
-    } else if (date.getDate() === now.getDate() - 1) {
+        return time.format(components.date)
+    } else if (components.date.getDate() === components.now.getDate() - 1) {
         // Within yesterday
         return "Yesterday"
-    } else if (hours < 24 && date.getDate() === now.getDate()) {
+    } else if (components.hours < 24 && components.date.getDate() === components.now.getDate()) {
         // Within today
-        return time.format(date)
-    } else if (days < 7) {
+        return time.format(components.date)
+    } else if (components.days < 7) {
         // Within a week
-        return day.format(date)
+        return day.format(components.date)
     } else {
         // Over a week ago
-        return fullDate.format(date)
+        return fullDate.format(components.date)
     }
+}
+
+function formatMessageGroupTimestamp(date) {
+    const components = getRelativeDateComponents(date)
+
+    const locale = navigator.language
+
+    const time = new Intl.DateTimeFormat(locale, { hour: "numeric", minute: "numeric" })
+    const day = new Intl.DateTimeFormat(locale, { weekday: "long" })
+    const shortDate = new Intl.DateTimeFormat(locale, { month: "short", weekday: "short", day: "numeric" })
+
+    let dateString
+    let timeString
+
+    if (components.date.getDate() === components.now.getDate() - 1) {
+        // Within yesterday
+        dateString = "Yesterday"
+        timeString = time.format(components.date)
+    } else if (components.hours < 24 && components.date.getDate() === components.now.getDate()) {
+        // Within today
+        dateString = "Today"
+        timeString = time.format(components.date)
+    } else if (components.days < 7) {
+        // Within a week
+        dateString = day.format(components.date)
+        timeString = time.format(components.date)
+    } else {
+        // Over a week ago
+        dateString = shortDate.format(components.date)
+        timeString = `at ${time.format(components.date)}`
+    }
+
+    return { date: dateString, time: timeString }
 }
 
 /*

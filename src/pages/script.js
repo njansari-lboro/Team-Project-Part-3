@@ -681,19 +681,9 @@ function removeNotification() {
 }
 
 function formatNotificationDate(date) {
-    const userTimeZoneOffset = new Date().getTimezoneOffset()
-    const timeZoneOffsetMillis = -userTimeZoneOffset * 60 * 1000
-    date = new Date(date.getTime() + timeZoneOffsetMillis)
+    const components = getRelativeDateComponents(date)
 
     const locale = navigator.language
-
-    const now = new Date()
-    const diff = now - date
-
-    const seconds = Math.floor(diff / 1000)
-    const minutes = Math.floor(seconds / 60)
-    const hours = Math.floor(minutes / 60)
-    const days = Math.floor(hours / 24)
 
     const relative = new Intl.RelativeTimeFormat(locale, { style: "narrow" })
     const time = new Intl.DateTimeFormat(locale, { hour: "numeric", minute: "numeric" })
@@ -701,29 +691,29 @@ function formatNotificationDate(date) {
     const dateTime = new Intl.DateTimeFormat(locale, { month: "numeric", day: "numeric", hour: "numeric", minute: "numeric" })
     const fullDate = new Intl.DateTimeFormat(locale, { year: "numeric", month: "numeric", day: "numeric" })
 
-    if (seconds < 60) {
+    if (components.seconds < 60) {
         // Within a minute
         return "now"
-    } else if (minutes < 60) {
+    } else if (components.minutes < 60) {
         // Within an hour
-        return relative.format(-minutes, "minutes").replace(" min", "m")
-    } else if (date.getDate() === now.getDate() - 1) {
+        return relative.format(-components.minutes, "minutes").replace(" min", "m")
+    } else if (components.date.getDate() === components.now.getDate() - 1) {
         // Within yesterday
-        return `Yesterday, ${time.format(date)}`
-    } else if (hours < 4) {
+        return `Yesterday, ${time.format(components.date)}`
+    } else if (components.hours < 4) {
         // Within 4 hours
-        return relative.format(-hours, "hours").replace(" hr", "h")
-    } else if (hours < 24 && date.getDate() === now.getDate()) {
+        return relative.format(-components.hours, "hours").replace(" hr", "h")
+    } else if (components.hours < 24 && components.date.getDate() === components.now.getDate()) {
         // Within today
-        return time.format(date)
-    } else if (days < 7) {
+        return time.format(components.date)
+    } else if (components.days < 7) {
         // Within a week
-        return dayTime.format(date)
-    } else if (days < 365) {
+        return dayTime.format(components.date)
+    } else if (components.days < 365) {
         // Within a year
-        return dateTime.format(date).replace(",", "")
+        return dateTime.format(components.date).replace(",", "")
     } else {
         // Over a year ago
-        return fullDate.format(date)
+        return fullDate.format(components.date)
     }
 }
