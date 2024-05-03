@@ -421,9 +421,6 @@ function formatChatLastUpdated(date) {
     if (components.seconds < 60) {
         // Within a minute
         return "Now"
-    } else if (components.minutes < 60) {
-        // Within an hour
-        return time.format(components.date)
     } else if (components.date.getDate() === components.now.getDate() - 1) {
         // Within yesterday
         return "Yesterday"
