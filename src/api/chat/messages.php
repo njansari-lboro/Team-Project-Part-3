@@ -41,11 +41,10 @@
         break;
 
     case "POST":
-        $author_id = $_POST["author_id"] ?? null;
         $body = $_POST["body"] ?? null;
 
-        if ($chat_id !== null && $message_id === null && $author_id !== null && $body !== null) {
-            $result = add_message($chat_id, $author_id, $body);
+        if ($chat_id !== null && $message_id === null && $body !== null) {
+            $result = add_message($chat_id, $_SESSION["user"]->id, $body);
             http_response_code($result ? 201 : 500);
         } else {
             http_response_code(400);
