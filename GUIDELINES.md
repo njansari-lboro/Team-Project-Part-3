@@ -175,8 +175,6 @@ A dialog is a modal view that displays a title, optional informative text, and u
 **Create new message in chat with given ID**
 - `HTTP POST /chats/{id}/messages`
 - Creates a new message object in the specified chat from the provided POST data:
-    - `chat_id`: integer
-    - `author_id`: integer
     - `body`: string
 
 **Get message for given ID in chat with given ID**
