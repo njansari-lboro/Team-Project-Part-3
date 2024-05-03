@@ -30,10 +30,6 @@
 }
 
 .toggle-chat-list {
-    --fill-color: white;
-}
-
-#left-panel.expanded ~ .toggle-chat-list {
     --fill-color: var(--label-color);
 }
 
@@ -67,28 +63,13 @@
 .sidebar-input {
     width: calc(100% - 40px);
     margin: 10px;
-    padding: 8px 10px;
+    padding: 5px 10px;
+    font-size: var(--footnote);
     color: var(--label-color);
     border: 1px solid var(--tertiary-label-color);
     border-radius: 10px;
     outline: none;
     background-color: var(--control-background-color);
-}
-
-.sidebar-submit {
-    position: absolute;
-    top: 50%;
-    right: 14px;
-    cursor: pointer;
-    border: none;
-    outline: transparent;
-    background-color: transparent;
-}
-
-/*add text to show that the magnifying glass means search*/
-
-.sidebar-submit:hover {
-    font-size: 25px;
 }
 
 .chat-row {
@@ -175,62 +156,104 @@
 #header {
     height: 70px;
     background-color: var(--quaternary-fill-color);
+    box-shadow: 0 2px 5px -2px var(--shadow-color);
 }
 
-.conversation-messages {
-    /* width: calc(100% - 20px); */
-    height: 80vh;
-    padding-top: 20px;
+#conversation-messages {
+    height: calc(100vh - 130px);
     overflow-y: scroll;
 }
 
-.conversation-messages .message-container {
+#conversation-messages .messages-container {
     display: flex;
     flex-direction: column;
 }
 
-.conversation-messages .message-container:last-child {
+#conversation-messages > .messages-container:last-child,
+#conversation-messages > .message-user-container:last-child {
     margin-bottom: 80px;
 }
 
-.message-container:not(:first-child) {
+.messages-container:not(:first-child) {
     margin-top: 20px;
 }
 
 .message {
-    margin-top: 1px;
+    margin-top: 2px;
 }
 
-.message-container.arrived .message {
+.messages-container.arrived .message {
     margin-left: 20px;
     margin-right: auto;
-    max-width: 80%;
+    /* max-width: 80%; */
+    /* margin-right: calc(max(20px, 50vw)); */
 }
 
-.message-container.sent .message {
+#conversation-messages.group > .messages-container.arrived .message {
+    margin-left: 50px;
+}
+
+#conversation-messages.group > .message-user-container .message {
+    margin-left: 0;
+}
+
+.messages-container.sent .message {
     margin-left: auto;
     margin-right: 20px;
     max-width: 80%;
 }
 
-.message-container.arrived .message p {
+.messages-container.arrived .message p {
     font-size: var(--sub-headline);
     color: var(--label-color);
     background-color: var(--secondary-fill-color);
 }
 
-.message-container.arrived .message:last-child p {
+.messages-container.arrived .message:last-child p {
     border-bottom-left-radius: 0;
 }
 
-.message-container.sent .message p {
+.messages-container.sent .message p {
     font-size: var(--sub-headline);
     color: white;
     background-color: var(--accent-color);
 }
 
-.message-container.sent .message:last-child p {
+.messages-container.sent .message:last-child p {
     border-bottom-right-radius: 0;
+}
+
+#conversation-messages.group > .message-user-container {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+}
+
+.message-user-name {
+    display: none;
+}
+
+#conversation-messages.group > .message-user-container .messages-container.arrived .message-user-name {
+    display: block;
+    font-size: var(--caption-2);
+    color: var(--secondary-label-color);
+    margin-left: 15px;
+    margin-bottom: 4px;
+}
+
+.message-user-profile-icon {
+    display: none;
+}
+
+#conversation-messages.group > .message-user-container .message-user-profile-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 100%;
+    border: 1px solid var(--separator-color);
+    margin: 0 5px 2px 15px;
 }
 
 .message p {
@@ -241,13 +264,13 @@
 
 .message-group-timestamp {
     margin-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: -5px;
     font-size: var(--caption-2);
     color: var(--secondary-label-color);
     text-align: center;
 }
 
-.compose-message-container {
+#compose-message-container {
     position: absolute;
     bottom: 0;
     display: flex;
@@ -270,7 +293,7 @@
     background-color: var(--secondary-fill-color);
 }
 
-.compose-message-container #compose-message-submit {
+#compose-message-container #compose-message-submit {
     display: flex;
     position: absolute;
     right: 20px;
@@ -279,7 +302,7 @@
     background-color: transparent;
 }
 
-.compose-message-container #compose-message-submit .message-icon {
+#compose-message-container #compose-message-submit .message-icon {
     --fill-color: var(--dimmed-accent-color);
     width: 27px;
     height: 27px;
@@ -287,11 +310,11 @@
     border-radius: 50%;
 }
 
-.compose-message-container #compose-message-submit:hover .message-icon {
+#compose-message-container #compose-message-submit:hover .message-icon {
     --fill-color: var(--accent-color);
 }
 
-.compose-message-container #compose-message-submit:disabled .message-icon {
+#compose-message-container #compose-message-submit:disabled .message-icon {
     --fill-color: var(--disabled-control-text-color);
     background-color: var(--separator-color);
 }

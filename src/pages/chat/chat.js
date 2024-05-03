@@ -1,6 +1,24 @@
-async function fetchChats() {
+async function fetchChats(filterText) {
     try {
-        const response = await fetch("/api/chats")
+        let url = "/api/chats"
+
+        if (filterText) {
+            url += `?filter_text=${filterText}`
+        }
+
+        const response = await fetch(url)
+
+        if (!response.ok) throw new Error("Failed to fetch data")
+
+        return await response.json()
+    } catch (error) {
+        console.error("Error fetching data:", error)
+    }
+}
+
+async function fetchChat(chatID) {
+    try {
+        const response = await fetch(`/api/chats/${chatID}`)
 
         if (!response.ok) throw new Error("Failed to fetch data")
 
@@ -43,11 +61,24 @@ async function fetchMemberCountForChat(chatID) {
     }
 }
 
-async function displayChatsList() {
-    const chats = await fetchChats()
+async function fetchMessagesForChat(chatID) {
+    try {
+        const response = await fetch(`/api/chats/${chatID}/messages`)
+
+        if (!response.ok) throw new Error("Failed to fetch data")
+
+        return await response.json()
+    } catch (error) {
+        console.error("Error fetching data:", error)
+    }
+}
+
+const getSelectedChatID = () => localStorage.getItem("selectedChat")
+
+async function displayChatsList(chats) {
     const chatsList = document.getElementById("chats-list")
 
-    const selectedChat = localStorage.getItem("selectedChat")
+    chatsList.innerHTML = ""
 
     for (const chat of chats) {
         const memberCount = await fetchMemberCountForChat(chat.id)
@@ -110,7 +141,7 @@ async function displayChatsList() {
         }
 
         const chatRowHTML = `
-        <div class="chat-row ${selectedChat === chat.id ? "selected" : ""}">
+        <div class="chat-row ${getSelectedChatID() == chat.id ? "selected" : ""}">
             ${icon}
 
             <div class="chat-row-content">
@@ -147,9 +178,15 @@ async function displayChatsList() {
     if (!isSelected && chatRows.length > 0) {
         chatRows[0].classList.add("selected")
     }
+
+    const chat = await fetchChat(getSelectedChatID())
+    if (!chat.is_private) {
+        document.getElementById("conversation-messages").classList.add("group")
+    }
 }
 
-displayChatsList()
+const chats = fetchChats()
+    .then(async (chats) => { await displayChatsList(chats); resetConversationScrollPosition() })
 
 document.querySelectorAll(".toggle-chat-list").forEach(toggle => {
     toggle.addEventListener("click", () => {
@@ -157,8 +194,22 @@ document.querySelectorAll(".toggle-chat-list").forEach(toggle => {
     })
 })
 
-const conversationMessages = document.querySelector(".conversation-messages")
-conversationMessages.scrollTop = conversationMessages.scrollHeight
+document.querySelector(".sidebar-input").addEventListener("input", async function () {
+    let chats = []
+
+    if (this.value.trim().length === 0) {
+        chats = await fetchChats()
+    } else {
+        chats = await fetchChats(this.value.trim())
+    }
+
+    displayChatsList(chats)
+})
+
+function resetConversationScrollPosition() {
+    const conversationMessages = document.getElementById("conversation-messages")
+    conversationMessages.scrollTop = conversationMessages.scrollHeight
+}
 
 document.getElementById("compose-message-input").addEventListener("input", function () {
     const submitButton = document.getElementById("compose-message-submit")
@@ -169,7 +220,7 @@ document.getElementById("compose-message-input").addEventListener("input", funct
         }
     } else {
         if (submitButton.hasAttribute("disabled")) {
-            submitButton.removeAttribute("disabled", "")
+            submitButton.removeAttribute("disabled")
         }
     }
 })
@@ -177,13 +228,31 @@ document.getElementById("compose-message-input").addEventListener("input", funct
 document.getElementById("compose-message-input").addEventListener("change", submitMessage)
 document.getElementById("compose-message-submit").addEventListener("click", submitMessage)
 
-function submitMessage(event) {
+async function submitMessage(event) {
     event.preventDefault()
 
-    // do submit
+    const messageInput = document.getElementById("compose-message-input")
 
-    document.getElementById("compose-message-input").value = ""
-    document.getElementById("compose-message-submit").setAttribute("disabled", "")
+    if (messageInput.value.trim().length === 0) return
+
+    try {
+        const formData = new FormData()
+        formData.append("body", messageInput.value)
+
+        const response = await fetch(`/api/chats/${getSelectedChatID()}/messages`, {
+            method: "POST",
+            body: formData
+        })
+
+        if (!response.ok) throw new Error("Failed to fetch data")
+
+        // add message to ui
+    } catch (error) {
+        console.error("Error fetching data:", error)
+    } finally {
+        messageInput.value = ""
+        document.getElementById("compose-message-submit").setAttribute("disabled", "")
+    }
 }
 
 function formatChatLastUpdated(date) {

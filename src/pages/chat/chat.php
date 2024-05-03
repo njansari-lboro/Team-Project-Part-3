@@ -55,16 +55,56 @@
                 <div id="header"></div>
 
                 <div id="container">
-                    <div class="conversation-messages">
-                        <div class="message-container arrived">
+                    <div id="conversation-messages">
+                        <div class="message-group-timestamp"><strong>Yesterday</strong> at 10:09</div>
+
+                        <div class="message-user-container">
+                            <picture>
+                                <source class="message-user-profile-icon-dark" srcset="../img/default-user-profile-image-dark.png" media="(prefers-color-scheme: dark)">
+                                <img class="message-user-profile-icon" src="../img/default-user-profile-image.png" alt="User profile image">
+                            </picture>
+
+                            <!-- <img id="profile-icon" src="$image_name" alt="User profile image"> -->
+
+                            <div class="messages-container arrived">
+                                <div class="message-user-name">John Cena</div>
+
+                                <div class="message">
+                                    <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="messages-container sent">
                             <div class="message">
-                                <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
+                                <p>I am currently in Team 12</p>
+                            </div>
+
+                            <div class="message">
+                                <p>But I wanted to be in Team 02</p>
                             </div>
                         </div>
 
                         <div class="message-group-timestamp"><strong>Today</strong> at 09:41</div>
 
-                        <div class="message-container sent">
+                        <div class="message-user-container">
+                            <picture>
+                                <source class="message-user-profile-icon-dark" srcset="../img/default-user-profile-image-dark.png" media="(prefers-color-scheme: dark)">
+                                <img class="message-user-profile-icon" src="../img/default-user-profile-image.png" alt="User profile image">
+                            </picture>
+
+                            <!-- <img id="profile-icon" src="$image_name" alt="User profile image"> -->
+
+                            <div class="messages-container arrived">
+                                <div class="message-user-name">John Cena</div>
+
+                                <div class="message">
+                                    <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="messages-container sent">
                             <div class="message">
                                 <p>I am currently in Team 12</p>
                             </div>
@@ -74,23 +114,47 @@
                             </div>
                         </div>
 
-                        <div class="message-container arrived">
-                            <div class="message">
-                                <p>That's sounds amazing</p>
-                            </div>
+                        <div class="message-user-container">
+                            <picture>
+                                <source class="message-user-profile-icon-dark" srcset="../img/default-user-profile-image-dark.png" media="(prefers-color-scheme: dark)">
+                                <img class="message-user-profile-icon" src="../img/default-user-profile-image.png" alt="User profile image">
+                            </picture>
 
-                            <div class="message">
-                                <p>I am in Team 17</p>
+                            <!-- <img id="profile-icon" src="$image_name" alt="User profile image"> -->
+
+                            <div class="messages-container arrived">
+                                <div class="message-user-name">John Cena</div>
+
+                                <div class="message">
+                                    <p>That's sounds amazing</p>
+                                </div>
+
+                                <div class="message">
+                                    <p>I am in Team 17</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="message-container arrived">
-                            <div class="message">
-                                <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
+                        <div class="message-group-timestamp"><strong>Today</strong> at 13:37</div>
+
+                        <div class="message-user-container">
+                            <picture>
+                                <source class="message-user-profile-icon-dark" srcset="../img/default-user-profile-image-dark.png" media="(prefers-color-scheme: dark)">
+                                <img class="message-user-profile-icon" src="../img/default-user-profile-image.png" alt="User profile image">
+                            </picture>
+
+                            <!-- <img id="profile-icon" src="$image_name" alt="User profile image"> -->
+
+                            <div class="messages-container arrived">
+                                <div class="message-user-name">John Cena</div>
+
+                                <div class="message">
+                                    <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="message-container sent">
+                        <div class="messages-container sent">
                             <div class="message">
                                 <p>I am currently in Team 12</p>
                             </div>
@@ -100,44 +164,29 @@
                             </div>
                         </div>
 
-                        <div class="message-container arrived">
-                            <div class="message">
-                                <p>That's sounds amazing</p>
-                            </div>
+                        <div class="message-user-container">
+                            <picture>
+                                <source class="message-user-profile-icon-dark" srcset="../img/default-user-profile-image-dark.png" media="(prefers-color-scheme: dark)">
+                                <img class="message-user-profile-icon" src="../img/default-user-profile-image.png" alt="User profile image">
+                            </picture>
 
-                            <div class="message">
-                                <p>I am in Team 17</p>
-                            </div>
-                        </div>
+                            <!-- <img id="profile-icon" src="$image_name" alt="User profile image"> -->
 
-                        <div class="message-container arrived">
-                            <div class="message">
-                                <p>Welcome to computer Science Semester 2. What team are you currently in?</p>
-                            </div>
-                        </div>
+                            <div class="messages-container arrived">
+                                <div class="message-user-name">John Cena</div>
 
-                        <div class="message-container sent">
-                            <div class="message">
-                                <p>I am currently in Team 12</p>
-                            </div>
+                                <div class="message">
+                                    <p>That's sounds amazing</p>
+                                </div>
 
-                            <div class="message">
-                                <p>But I wanted to be in Team 02</p>
-                            </div>
-                        </div>
-
-                        <div class="message-container arrived">
-                            <div class="message">
-                                <p>That's sounds amazing</p>
-                            </div>
-
-                            <div class="message">
-                                <p>I am in Team 17</p>
+                                <div class="message">
+                                    <p>I am in Team 17</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="compose-message-container">
+                    <div id="compose-message-container">
                         <input type="text" placeholder="New Message" id="compose-message-input">
 
                         <button type="submit" id="compose-message-submit" disabled>
