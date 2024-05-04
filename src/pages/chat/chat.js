@@ -260,8 +260,8 @@ async function displayChatsList(chats) {
     }
 }
 
-async function parseMessagesForChat(chatID) {
-    const messages = await fetchMessagesForChat(chatID)
+async function parseMessagesForChat(chat) {
+    const messages = await fetchMessagesForChat(chat.id)
 
     let messageGroups = []
     let currentGroup = null
@@ -285,9 +285,19 @@ async function parseMessagesForChat(chatID) {
             || Math.abs(messageDate - currentContainer.date) > 1000 * 60
             || message.author_id !== currentContainer.author_id
         ) {
-            currentContainer = {
-                type: (message.author_id === user.id) ? "sent" : "arrived",
-                messages: [message.body]
+            if (!chat.is_private && message.author_id !== user.id) {
+                const user = await fetchUser(message.author_id)
+
+                currentContainer = {
+                    type: "arrivedUser",
+                    user: user,
+                    messages: [message.body]
+                }
+            } else {
+                currentContainer = {
+                    type: message.author_id === user.id ? "sent" : "arrived",
+                    messages: [message.body]
+                }
             }
 
             currentGroup.containers.push(currentContainer)
@@ -312,7 +322,7 @@ async function displayConversationMessages() {
 
     conversation.innerHTML = ""
 
-    const messages = await parseMessagesForChat(getSelectedChatID())
+    const messages = await parseMessagesForChat(chat)
 
     for (const messageGroup of messages) {
         conversation.innerHTML += messageGroupTimestampHTML(messageGroup.date)
