@@ -5,14 +5,16 @@
 
     switch ($task) {
     case "get_user":
-        $user_id = $_POST["user_id"];
+        $user_id = $_POST["user_id"] ?? null;
+        if ($user_id === null) return;
+
         $user = get_user($user_id);
 
         $path = null;
         $name = $user->profile_image_name;
 
         if ($name) {
-            $absolute_path = realpath(__DIR__ . "/../uploads/user-profile-images/$name");
+            $absolute_path = realpath(__DIR__ . "/../../uploads/user-profile-images/$name");
             $path = "/" . trim(str_replace($_SERVER["DOCUMENT_ROOT"], "", $absolute_path), "/");
         }
 
