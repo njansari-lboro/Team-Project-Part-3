@@ -129,7 +129,7 @@ const arrivedUserMessagesContainerHTML = (user, messages) => {
     const profileImagePath = user.profile_image_path
 
     if (profileImagePath) {
-        icon = `<img id="profile-icon" src="${profileImagePath}" alt="User profile image">`
+        icon = `<img class="message-user-profile-icon" src="${profileImagePath}" alt="User profile image">`
     } else {
         icon = `
         <picture>
