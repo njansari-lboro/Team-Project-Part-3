@@ -142,7 +142,7 @@
     <p>Project Progress</p>
 
 
-    <select id = "projectDropdownMenu" onchange = "displayProject()">Choose Project:</label>
+    <select id = "projectDropdownMenu" onchange = "displayProject(this.id)">Choose Project:</label>
         </select>
 
     <div id = "taskspiechart" style = "display: none;" class = "chart-container"></div>
@@ -200,13 +200,36 @@
                         console.log(project.name)
                         var item = document.createElement("option");
                         item.text = project.name;
+                        item.projectID = project.id
                         project_dropdown.add(item)
                     });
                 }
             })
         }
+
+        function displayProject(selectedProjectId){
+            const project_dropdown = document.getElementById("projectDropdownMenu")
+            console.log(project_dropdown.options[project_dropdown.selectedIndex].projectID);
+            const project_id = project_dropdown.options[project_dropdown.selectedIndex].projectID
+            $.ajax({
+                dataType: "json",
+                url: "/api/analytics/projects.php",
+                data: {project_id : project_id}, 
+                method: "get",
+                success: function (projects) {
+                    console.log(projects)
+                    projects.forEach(project => {
+                        console.log(project);
+                        console.log(project.id);
+                        console.log(project.name)
+                    });
+                }
+            })
+        }
+
         userPieChart();
         fillProjectDropdown();
+        
         </script>
     <div id = "linechart1" class = "chart-container"></div>
     </body>
