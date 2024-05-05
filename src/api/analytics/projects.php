@@ -19,7 +19,7 @@
     switch ($method) {
     case "GET":
         if($project_id === null){
-            echo json_encode(fetch_projects());
+            echo json_encode(get_all_projects());
         } else if ($tasks == "true") {
             echo json_encode(get_project_tasks($project_id)); 
         } else{

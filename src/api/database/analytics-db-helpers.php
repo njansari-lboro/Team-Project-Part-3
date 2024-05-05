@@ -67,11 +67,34 @@
     }
 
     function get_user_tasks(int $user_id): ?array {
-        $sql = "SELECT * from task where owner_id = ?";
+        $sql = "SELECT * from task where assigned_user_id = ?";
         return fetch_records($sql, "i", $user_id);
     }
 
     function get_user_projects(int $user_id): array{
         $sql = "SELECT project_id from project_team_member where user_id = ?";
         return fetch_records($sql, "i", $user_id);
+    }
+
+    function get_all_projects(): array{
+        $sql = "SELECT name, id FROM project";
+        return fetch_records($sql);
+    }
+
+    function get_user_task_stats($user_id): array{
+        $return_array = array();
+        $sql = "Select count(assigned_user_id) as overall from task where assigned_user_id = ?";
+        $overall = get_record($sql, "i", $user_id);
+        array_push($return_array, $overall);
+        $sql = "Select count(assigned_user_id) as completed from task where is_completed = true and assigned_user_id = ?;";
+        $completed = get_record($sql, "i", $user_id);
+        array_push($return_array, $completed);
+        $sql = "select count(assigned_user_id) as in_progress from task where assigned_user_id = ? and hours_spent > 0 and is_completed = false;";
+        $in_progress = get_record($sql, "i", $user_id);
+        array_push($return_array, $in_progress);
+        $sql = "select count(assigned_user_id) as not_started from task where assigned_user_id = ? and hours_spent = 0 and is_completed = false;";
+        $not_started = get_record($sql, "i", $user_id);
+        array_push($return_array, $not_started);
+        $return_array['id']=$user_id;
+        return $return_array;
     }
