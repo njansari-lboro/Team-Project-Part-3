@@ -316,7 +316,10 @@ async function displayConversationMessages() {
     const conversation = document.getElementById("conversation-messages")
 
     const chat = await fetchChat(getSelectedChatID())
-    if (!chat.is_private) {
+
+    if (chat.is_private) {
+        conversation.classList.remove("group")
+    } else {
         conversation.classList.add("group")
     }
 
