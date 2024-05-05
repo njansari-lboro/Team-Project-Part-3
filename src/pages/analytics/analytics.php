@@ -21,7 +21,7 @@
     <body>
         <p class="some-text">Data Analytics</p>
         <p>User Progress</p>
-        
+
         <script src = "https://www.gstatic.com/charts/loader.js"></script>
         <script>
             const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -120,7 +120,7 @@
                             ['In Process', parseInt(data[2].in_progress)]]
                         );
             var optionsTitle = {
-                title: 'Project 3',
+                title: 'User statistics',
                 pieHole: 0.4,
                 backgroundColor: 'transparent',
                 titleTextStyle: {color: textColor},
@@ -140,11 +140,11 @@
 
     <div id = "usersPieChart" class = "chart-container"></div>
     <p>Project Progress</p>
-    <select id = "projectDropdown" onchange = "displayProject()">Choose Project:</label>
-        <option value = "taskspiechart">Project 1</option>
-        <option value = "taskspiechart2">Project 2</option>
-        <option value = "taskspiechart3">Project 3</option>
-    </select>
+
+
+    <select id = "projectDropdownMenu" onchange = "displayProject()">Choose Project:</label>
+        </select>
+
     <div id = "taskspiechart" style = "display: none;" class = "chart-container"></div>
     <div id = "taskspiechart2" class = "chart-container"></div>
     <div id = "taskspiechart3" class = "chart-container"></div>
@@ -182,7 +182,31 @@
             var linechart1 = new google.visualization.LineChart(document.getElementById('linechart1'));
             linechart1.draw(LineData, optionsTitle);
         }
+
+        function fillProjectDropdown(){
+            const project_dropdown = document.getElementById("projectDropdownMenu")
+            while (project_dropdown.hasChildNodes()){
+                project_dropdown.removeChild(project_dropdown.firstChild);
+            }
+            $.ajax({
+                dataType: "json",
+                url: "/api/analytics/projects.php",
+                method: "get",
+                success: function (projects) {
+                    console.log(projects)
+                    projects.forEach(project => {
+                        console.log(project);
+                        console.log(project.id);
+                        console.log(project.name)
+                        var item = document.createElement("option");
+                        item.text = project.name;
+                        project_dropdown.add(item)
+                    });
+                }
+            })
+        }
         userPieChart();
+        fillProjectDropdown();
         </script>
     <div id = "linechart1" class = "chart-container"></div>
     </body>
