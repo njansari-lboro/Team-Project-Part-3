@@ -1,4 +1,4 @@
-<?php
+<div?php
     if (!defined("MAIN_RAN")) {
         header("Location: ../?page=analytics");
         die();
@@ -27,76 +27,6 @@
             const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
             const bgColor = isDarkMode ? "#lelele" : "#ffffff"
             const textColor = isDarkMode ? "#ffffff" : "#000000"
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawProjectPieChart);
-        
-        function drawProjectPieChart(){
-            var project1Data = google.visualization.arrayToDataTable([
-                ['Task', 'Count'],
-                ['Completed',5],
-                ['Uncompleted',2],
-                ['In Process', 1]]
-                );
-            var optionsTitle = {
-                title: 'Project 1',
-                pieHole: 0.4,
-                backgroundColor: 'transparent',
-                titleTextStyle: {color: textColor},
-                legendTextStyle: {color: textColor} 
-
-            };
-            var taskpiechart = new google.visualization.PieChart(document.getElementById('taskspiechart'));
-            taskpiechart.draw(project1Data, optionsTitle);
-        }
-        </script>
-        <script>
-
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawProject2PieChart);
-        function drawProject2PieChart(){
-            var project2Data = google.visualization.arrayToDataTable([
-                ['Task', 'Count'],
-                ['Completed',2],
-                ['Uncompleted',5],
-                ['In Process', 2]]
-                );
-            var optionsTitle = {
-                title: 'Project 2',
-                pieHole: 0.4,
-                backgroundColor: 'transparent',
-                titleTextStyle: {color: textColor},
-                legendTextStyle: {color: textColor}
-
-            };
-            var taskpiechart2 = new google.visualization.PieChart(document.getElementById('taskspiechart2'));
-            taskpiechart2.draw(project2Data, optionsTitle);
-        }
-        </script>
-        <script>
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawProject3PieChart);
-        function drawProject3PieChart(){
-            var project3Data = google.visualization.arrayToDataTable([
-                ['Task', 'Count'],
-                ['Completed',1],
-                ['Uncompleted',2],
-                ['In Process', 3]]
-                );
-            var optionsTitle = {
-                title: 'Project 3',
-                pieHole: 0.4,
-                backgroundColor: 'transparent',
-                titleTextStyle: {color: textColor},
-                legendTextStyle: {color: textColor}
-
-            };
-            var taskpiechart3 = new google.visualization.PieChart(document.getElementById('taskspiechart3'));
-            taskpiechart3.draw(project3Data, optionsTitle);
-        }
-
-
-
-
 
         function userPieChart(){
     
@@ -141,13 +71,14 @@
     <div id = "usersPieChart" class = "chart-container"></div>
     <p>Project Progress</p>
 
-
-    <select id = "projectDropdownMenu" onchange = "displayProject(this.id)">Choose Project:</label>
+    <div id="projectAnalysis">
+    <select id = "projectDropdownMenu" onchange = "displayProject(this.options[this.selectedIndex].projectID)">Choose Project:</label>
         </select>
+        <h1 id="projectName"></h1>
+        <div id = "projectAnalysisPieChart" class = "chart-container"></div>
+    </div>
 
-    <div id = "taskspiechart" style = "display: none;" class = "chart-container"></div>
-    <div id = "taskspiechart2" class = "chart-container"></div>
-    <div id = "taskspiechart3" class = "chart-container"></div>
+
 <p>Employee Performance</p>
 <script>
         google.charts.load('current', {'packages':['corechart']});
@@ -203,26 +134,56 @@
                         item.projectID = project.id
                         project_dropdown.add(item)
                     });
+                    console.log(projects[0].id)
+                    console.log("above")
+                    displayProject(projects[0].id);
                 }
             })
         }
 
-        function displayProject(selectedProjectId){
+        function displayProject(project_id){
+            console.log("displayProject()");
             const project_dropdown = document.getElementById("projectDropdownMenu")
-            console.log(project_dropdown.options[project_dropdown.selectedIndex].projectID);
-            const project_id = project_dropdown.options[project_dropdown.selectedIndex].projectID
             $.ajax({
                 dataType: "json",
                 url: "/api/analytics/projects.php",
                 data: {project_id : project_id}, 
                 method: "get",
-                success: function (projects) {
-                    console.log(projects)
-                    projects.forEach(project => {
+                success: function (project) {
+                    console.log(project);
+                    document.getElementById("projectName").innerHTML = project.name;
+                    if (project.overall.overall == 0){
+                        noTasks = 1;
+                    } else {
+                        noTasks = 0;
+                    }
+                    google.charts.load('current', {'packages':['corechart']});
+                    google.charts.setOnLoadCallback(DrawProjectPieChart);
+                    function DrawProjectPieChart(){
                         console.log(project);
-                        console.log(project.id);
-                        console.log(project.name)
-                    });
+                        console.log(parseInt(project.overall.overall));
+                        console.log(parseInt(project.in_progress.in_progress));
+                        var projectPieData = google.visualization.arrayToDataTable([
+                            ['Task', 'Count'],
+                            ['Completed',parseInt(project.completed.completed)],
+                            ['Not started',parseInt(project.not_started.not_started)],
+                            ['In Progress', parseInt(project.in_progress.in_progress)],
+                            ['No tasks set', noTasks]]
+                        );
+            var optionsTitle = {
+                title: 'Project task completion',
+                pieHole: 0.4,
+                backgroundColor: 'transparent',
+                titleTextStyle: {color: textColor},
+                legendTextStyle: {color: textColor},
+                colors: ['#0fbf18', '#bf0f0f', '#ed9f0e', 'a3a3a3'],
+
+            };
+            var projectPieChart = new google.visualization.PieChart(document.getElementById('projectAnalysisPieChart'));
+            projectPieChart.draw(projectPieData, optionsTitle);
+            document.getElementById('projectAnalysisPieChart').style.display = "block";
+        }
+
                 }
             })
         }
