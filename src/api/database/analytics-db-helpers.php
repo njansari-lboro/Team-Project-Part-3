@@ -65,6 +65,9 @@
         $sql = "Select Count(project_id) as not_started from task where project_id = ? and hours_spent = 0 and is_completed = false";
         $not_started = get_record($sql, "i", $project_id);
         $return_project->not_started = $not_started;
+        $sql = "select datediff(deadline, curdate()) as project_due_in from project where id = ?;";
+        $project_due_in = get_record($sql, "i", $project_id);
+        $return_project->project_overdue = $project_due_in;
         return $return_project;
     }
 
