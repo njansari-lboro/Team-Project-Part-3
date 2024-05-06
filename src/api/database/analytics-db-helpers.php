@@ -52,7 +52,20 @@
      */
     function get_project(int $project_id): ?object {
         $sql = "SELECT * FROM project WHERE id = ?";
-        return get_record($sql, "i", $project_id);
+        $return_project = get_record($sql, "i", $project_id);
+        $sql = "Select Count(project_id) as overall from task where project_id = ?";
+        $overall = get_record($sql, "i", $project_id);
+        $return_project->overall = $overall;
+        $sql = "Select Count(project_id) as completed from task where project_id = ? and is_completed = true";
+        $completed = get_record($sql, "i", $project_id);
+        $return_project->completed = $completed;
+        $sql = "Select Count(project_id) as in_progress from task where project_id = ? and hours_spent > 0 and is_completed = false";
+        $in_progress = get_record($sql, "i", $project_id);
+        $return_project->in_progress = $in_progress;
+        $sql = "Select Count(project_id) as not_started from task where project_id = ? and hours_spent = 0 and is_completed = false";
+        $not_started = get_record($sql, "i", $project_id);
+        $return_project->not_started = $not_started;
+        return $return_project;
     }
 
 
