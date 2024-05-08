@@ -46,16 +46,13 @@ async function fetchChatIcon(chatIconName) {
     }
 }
 
-async function fetchMemberCountForChat(chatID) {
+async function fetchMembersForChat(chatID) {
     try {
         const response = await fetch(`/api/chats/${chatID}/users`)
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch data")
-        }
+        if (!response.ok) throw new Error("Failed to fetch data")
 
-        const data = await response.json()
-        return data.length
+        return await response.json()
     } catch (error) {
         console.error("Error fetching data:", error)
     }
@@ -159,7 +156,9 @@ async function displayChatsList(chats) {
     chatsList.innerHTML = ""
 
     for (const chat of chats) {
-        const memberCount = await fetchMemberCountForChat(chat.id)
+        const chatMembers = await fetchMembersForChat(chat.id)
+
+        const memberCount = chatMembers.length
         const memberCountText = (() => {
             switch (memberCount) {
             case 0:
@@ -173,16 +172,31 @@ async function displayChatsList(chats) {
 
         let icon = ""
         let iconPath = null
+        let chatName = ""
 
-        if (chat.icon_name) {
-            iconPath = await fetchChatIcon(chat.icon_name)
+        if (chat.is_private) {
+            if (chatMembers.length !== 2) {
+                console.error(`Private chat (${chat.id}) has invalid number of users (${chatMembers.length})`)
+            }
+
+            const otherUserID = chatMembers.filter(member => member.user_id !== user.id)[0].user_id
+            const otherUser = await fetchUser(otherUserID)
+
+            chatName = otherUser.full_name
+            iconPath = otherUser.profile_image_path
+        } else {
+            chatName = chat.name
+
+            if (chat.icon_name) {
+                iconPath = await fetchChatIcon(chat.icon_name)
+            }
         }
 
         if (iconPath) {
             icon = `<img class="chat-icon" src="${iconPath}" alt="Chat icon">`
         } else {
             icon = `
-            <load-svg class="chat-icon" src="../assets/chat-icon.svg">
+            <load-svg class="chat-icon" src="../assets/${chat.is_private ? "profile-icon" : "chat-icon"}.svg">
                 <style shadowRoot>
                     svg {
                         width: 30px;
@@ -224,7 +238,7 @@ async function displayChatsList(chats) {
 
             <div class="chat-row-content">
                 <div class="chat-row-header">
-                    <div class="chat-name">${chat.name}</div>
+                    <div class="chat-name">${chatName}</div>
                     <div class="chat-last-updated">${formatChatLastUpdated(new Date(chat.last_updated))}</div>
                 </div>
 
