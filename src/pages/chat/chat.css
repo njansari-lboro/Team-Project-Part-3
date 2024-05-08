@@ -95,6 +95,7 @@
 
 .chat-icon-container {
     position: relative;
+    display: inherit;
 }
 
 .chat-icon {
