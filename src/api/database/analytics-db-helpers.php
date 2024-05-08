@@ -159,3 +159,8 @@
 
         return $return_array;
     }
+    
+    function get_all_users(): array{
+        $sql = "SELECT id, full_name from user";
+        return fetch_records($sql);
+    }
