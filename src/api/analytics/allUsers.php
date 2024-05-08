@@ -20,14 +20,6 @@
 
     switch ($method) {
     case "GET":
-        if ($user_id === null && $taskCount === null){
-            echo json_encode(get_user_task_stats($requester_id));
-        } else if ($project_id === null && $taskCount === null){
-            echo json_encode(get_user_tasks($user_id));
-        } else if ($project_id == -1){
-            echo json_encode(get_user_projects($user_id));
-        } else if ($taskCount != null){
-            echo json_encode(get_user_task_count($requester_id));
-        }
-        break;
+        echo json_encode(get_all_users());
+    break;
     }

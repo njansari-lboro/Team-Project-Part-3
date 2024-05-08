@@ -114,3 +114,48 @@
         $return_array['id']=$user_id;
         return $return_array;
     }
+
+    function get_user_task_count($user_id): array{
+        $return_array = array();
+        $sql = "Select curdate() as date";
+        $current_date = get_record($sql);
+        
+        $parts = explode('-', $current_date->date);
+        $parts[1] = $parts[1]*1;
+        $max_date=date_create($parts[0]."-".$parts[1]."-1");
+
+        $sql = "Select count(id) as completed from task where assigned_user_id = ? and date_completed > ?";
+        $first_month = get_record($sql, "id", $user_id, $max_date);
+        $return_array[strval($parts[1])]=$first_month;
+
+        if ($parts[1] == 1){
+            $parts[0] = $parts[0]-1;
+            $parts[1] == 12;
+            $min_date = date_create(($parts[0])."-12-1");
+        } else{
+            $parts[1] = $parts[1]-1;
+            $min_date = date_create($parts[0]."-".($parts[1])."-1");
+        }
+
+        $sql = "Select count(id) as completed from task where assigned_user_id = ? and date_completed > ? and date_completed < ?";
+        $next_month = get_record($sql, "idd", $user_id,$min_date, $max_date);
+        $return_array[strval($parts[1])]=$next_month;
+
+        for ($i = 0; $i<4; $i++){
+            $max_date = $min_date;
+            if ($parts[1] == 1){
+                $parts[0] = $parts[0]-1;
+                $min_date = date_create(($parts[0])."-12-1");
+            } else{
+                $parts[1] = $parts[1]-1;
+                $min_date = date_create($parts[0]."-".($parts[1]-1)."-1");
+            }
+    
+            $sql = "Select count(id) as completed from task where assigned_user_id = ? and date_completed > ? and date_completed < ?";
+            $next_month = get_record($sql, "idd", $user_id,$min_date, $max_date);
+            $return_array[strval($parts[1])]=$next_month;
+        }
+
+
+        return $return_array;
+    }
