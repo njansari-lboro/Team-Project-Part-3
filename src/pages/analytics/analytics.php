@@ -36,8 +36,13 @@
                 url: "/api/analytics/users.php",
                 method: "get",
                 success: function (data) {
-                    console.log(data)
-                    console.log(data[0].overall)
+                    if (data[0].overall == 0){
+                        noTasks = 1;
+                    } else {
+                        noTasks = 0;
+                    }
+                    console.log(data);
+                    console.log(data[0].overall);
                     google.charts.load('current', {'packages':['corechart']});
                     google.charts.setOnLoadCallback(DrawUserChart);
                     function DrawUserChart(){
@@ -48,14 +53,16 @@
                             ['Task', 'Count'],
                             ['Completed',parseInt(data[1].completed)],
                             ['Uncompleted',parseInt(data[3].not_started)],
-                            ['In Process', parseInt(data[2].in_progress)]]
+                            ['In Progress', parseInt(data[2].in_progress)],
+                            ['No tasks set', noTasks]]
                         );
             var optionsTitle = {
                 title: 'User statistics',
                 pieHole: 0.4,
                 backgroundColor: 'transparent',
                 titleTextStyle: {color: textColor},
-                legendTextStyle: {color: textColor}
+                legendTextStyle: {color: textColor},
+                colors: ['#0fbf18', '#bf0f0f', '#ed9f0e', 'a3a3a3'],
 
             };
             var usersPieChart = new google.visualization.PieChart(document.getElementById('usersPieChart'));
@@ -210,7 +217,16 @@
                 method: "get",
                 success: function (project) {
                     console.log(project);
-                    document.getElementById("projectName").innerHTML = project.name;
+                    console.log(project.name + " - Due in " + project.project_overdue.project_due_in + " days");
+                    if (project.is_completed == 1){
+                        document.getElementById("projectName").innerHTML = project.name + " - Completed";
+                    } else if (project.project_overdue.project_due_in > 0){
+                        document.getElementById("projectName").innerHTML = project.name + " - Due in " + project.project_overdue.project_due_in + " days";
+                    } else if (project.project_overdue.project_due_in == 0){
+                        document.getElementById("projectName").innerHTML = project.name + " - Due in Today";
+                    } else {
+                        document.getElementById("projectName").innerHTML = project.name + " - Overdue by " + (project.project_overdue.project_due_in*-1) + " days";
+                    }
                     if (project.overall.overall == 0){
                         noTasks = 1;
                     } else {
