@@ -257,6 +257,7 @@ async function displayChatsList(chats) {
 
     if (!isSelected && chatRows.length > 0) {
         chatRows[0].classList.add("selected")
+        localStorage.setItem("selectedChat", chats[0].id)
     }
 }
 
