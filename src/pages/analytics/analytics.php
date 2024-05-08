@@ -27,6 +27,7 @@
             const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
             const bgColor = isDarkMode ? "#lelele" : "#ffffff"
             const textColor = isDarkMode ? "#ffffff" : "#000000"
+            
 
         function userPieChart(){
     
@@ -81,8 +82,66 @@
 
 <p>Employee Performance</p>
 <script>
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawLineChart);
+
+    
+    const NumToMonths ={
+        1: "January",
+        2: "February",
+        3: "March",
+        4: "April",
+        5: "May",
+        6: "June",
+        7: "July",
+        8: "August",
+        9: "September",
+        10: "October",
+        11: "November",
+        12: "December"
+    }
+        
+    function userLineChart(){
+    
+    $.ajax({
+        dataType: "json",
+        url: "/api/analytics/users.php?taskCount=1",
+        method: "get",
+        success: function (data) {
+            console.log("hello")
+            console.log(data)
+            //console.log(data[0].overall)
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(DrawEmployeeLineChart);
+            function DrawEmployeeLineChart(){
+                console.log("goodbye");
+                console.log(data[1]);
+                console.log(data[1].completed)
+                //console.log(parseInt(data[0].overall));
+                //console.log(parseInt(data[2].in_progress));
+                var employeeData = google.visualization.arrayToDataTable([
+                ['Month', 'Tasks Completed'],
+                ["January",data[1].completed],
+                ["February",data[2].completed],
+                ["March", data[3].completed],
+                ["April", data[4].completed],
+                ["May",data[5].completed]]
+                );
+    var optionsTitle = {
+        title: 'Employee statistics',
+        pieHole: 0.4,
+        backgroundColor: 'transparent',
+        titleTextStyle: {color: textColor},
+        legendTextStyle: {color: textColor}
+
+    };
+    var lineChart = new google.visualization.LineChart(document.getElementById('lineChart'));
+    lineChart.draw(employeeData, optionsTitle);
+}
+
+        },
+    });
+}
+
+
         function drawLineChart(){
             var LineData = google.visualization.arrayToDataTable([
                 ['Month', 'Tasks Completed'],
@@ -190,8 +249,10 @@
 
         userPieChart();
         fillProjectDropdown();
+        userLineChart();
         
         </script>
     <div id = "linechart1" class = "chart-container"></div>
+    <div id = "lineChart" class = "chart-container"></div>
     </body>
 </html>
