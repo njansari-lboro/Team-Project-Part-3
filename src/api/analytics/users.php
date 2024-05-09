@@ -23,7 +23,7 @@
         if ($user_id === null && $taskCount === null){
             echo json_encode(get_user_task_stats($requester_id));
         } else if ($project_id === null && $taskCount === null){
-            echo json_encode(get_user_tasks($user_id));
+            echo json_encode(get_user_task_stats($user_id));
         } else if ($project_id == -1){
             echo json_encode(get_user_projects($user_id));
         } else if ($taskCount != null){
