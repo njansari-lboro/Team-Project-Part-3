@@ -20,14 +20,31 @@
 
     <body>
         <p class="some-text">Data Analytics</p>
-        <p>User Progress</p>
+        <h1>User Progress</h1>
+        <div id = "usersPieChart" class = "chart-container"></div>
+        <h1>Employee Performance</h1>
+    
+    <div id = "lineChart" class = "chart-container"></div>
+    <h1 id = "projectTitle">Project Progress</h1>
+
+    <div id="projectAnalysis">
+    <select id = "projectDropdownMenu" onchange = "displayProject(this.options[this.selectedIndex].projectID);ProjectLineChart(this.options[this.selectedIndex].projectID)">Choose Project:</label>
+        </select>
+        <h1 id="projectName"></h1>
+        <div id = "projectAnalysisPieChart" class = "chart-container"></div>
+        <h1 id = "projectLineName"></h1>
+        <div id = "ProjectlineChart" class = "chart-container"></div>
+    </div>
+
+
 
         <script src = "https://www.gstatic.com/charts/loader.js"></script>
         <script>
             const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
             const bgColor = isDarkMode ? "#lelele" : "#ffffff"
             const textColor = isDarkMode ? "#ffffff" : "#000000"
-            
+            console.log(user)
+
 
         function userPieChart(){
     
@@ -73,22 +90,7 @@
             });
         }
 
-        </script>
         
-
-    <div id = "usersPieChart" class = "chart-container"></div>
-    <p>Project Progress</p>
-
-    <div id="projectAnalysis">
-    <select id = "projectDropdownMenu" onchange = "displayProject(this.options[this.selectedIndex].projectID)">Choose Project:</label>
-        </select>
-        <h1 id="projectName"></h1>
-        <div id = "projectAnalysisPieChart" class = "chart-container"></div>
-    </div>
-
-
-<p>Employee Performance</p>
-<script>
 
     
     const NumToMonths ={
@@ -110,7 +112,8 @@
     
     $.ajax({
         dataType: "json",
-        url: "/api/analytics/users.php?taskCount=1",
+        url: "/api/analytics/users.php",
+        data:{taskCount: true},
         method: "get",
         success: function (data) {
             console.log("hello")
@@ -120,24 +123,39 @@
             google.charts.setOnLoadCallback(DrawEmployeeLineChart);
             function DrawEmployeeLineChart(){
                 console.log("goodbye");
-                console.log(data[1]);
+                console.log(data);
+                console.log(data[0]);
+                console.log(data[0][0]);
+                console.log(data[0][1].completed);
+
+
+                console.log("below");
+
                 console.log(data[1].completed)
                 //console.log(parseInt(data[0].overall));
                 //console.log(parseInt(data[2].in_progress));
                 var employeeData = google.visualization.arrayToDataTable([
-                ['Month', 'Tasks Completed'],
-                ["January",data[1].completed],
-                ["February",data[2].completed],
-                ["March", data[3].completed],
-                ["April", data[4].completed],
-                ["May",data[5].completed]]
+                ['Month','Tasks Completed'],
+                [NumToMonths[data[5][0]],data[5][1].completed],
+                [NumToMonths[data[4][0]],data[4][1].completed],
+                [NumToMonths[data[3][0]],data[3][1].completed],
+                [NumToMonths[data[2][0]], data[2][1].completed],
+                [NumToMonths[data[1][0]], data[1][1].completed],
+                [NumToMonths[data[0][0]],data[0][1].completed]]
                 );
     var optionsTitle = {
         title: 'Employee statistics',
-        pieHole: 0.4,
         backgroundColor: 'transparent',
         titleTextStyle: {color: textColor},
-        legendTextStyle: {color: textColor}
+        legendTextStyle: {color: textColor},
+        hAxis:{textStyle:{color: textColor},title:"Months",titleTextStyle : {
+							
+							color : textColor
+						}},
+        vAxis:{textStyle:{color: textColor},title: "Tasks Completed",titleTextStyle : {
+							
+							color : textColor
+						}}
 
     };
     var lineChart = new google.visualization.LineChart(document.getElementById('lineChart'));
@@ -148,37 +166,64 @@
     });
 }
 
+function ProjectLineChart(project_id){
+    
+    $.ajax({
+        dataType: "json",
+        url: "/api/analytics/projects.php",
+        data:{taskCount: true, project_id:project_id},
+        method: "get",
+        success: function (data) {
+            console.log("hello")
+            console.log(data)
+            //console.log(data[0].overall)
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(DrawProjectLineChart);
+            function DrawProjectLineChart(){
+                console.log("goodbye");
+                console.log(data);
+                console.log(data[0]);
+                console.log(data[0][0]);
+                console.log(data[0][1].completed);
 
-        function drawLineChart(){
-            var LineData = google.visualization.arrayToDataTable([
-                ['Month', 'Tasks Completed'],
-                ['January',2],
-                ['February',5],
-                ['March', 2],
-                ['April', 1],
-                ['May',1],
-                ['June',1],
-                ['July', 6],
-                ['August', 4],
-                ['September',5],
-                ['October',3],
-                ['November', 3],
-                ['December', 3]]
+
+                console.log("below");
+
+                console.log(data[1].completed)
+                //console.log(parseInt(data[0].overall));
+                //console.log(parseInt(data[2].in_progress));
+                var employeeData = google.visualization.arrayToDataTable([
+                ['Month','Tasks Completed'],
+                [NumToMonths[data[5][0]],data[5][1].completed],
+                [NumToMonths[data[4][0]],data[4][1].completed],
+                [NumToMonths[data[3][0]],data[3][1].completed],
+                [NumToMonths[data[2][0]], data[2][1].completed],
+                [NumToMonths[data[1][0]], data[1][1].completed],
+                [NumToMonths[data[0][0]],data[0][1].completed]]
                 );
-            var optionsTitle = {
-                title: 'Employee: Clive Turner',
-                backgroundColor: 'transparent',
-                titleTextStyle: {color: textColor},
-                legendTextStyle: {color: textColor},
-                legend: {position:'bottom'},
-                hAxis:{ textStyle: {color: textColor}},
-                vAxis:{ textStyle: {color: textColor}}
+    var optionsTitle = {
+        title: 'Project statistics',
+        backgroundColor: 'transparent',
+        titleTextStyle: {color: textColor},
+        legendTextStyle: {color: textColor},
+        hAxis:{textStyle:{color: textColor},title:"Months",titleTextStyle : {
+							
+							color : textColor
+						}},
+        vAxis:{textStyle:{color: textColor},title: "Tasks Completed",titleTextStyle : {
+							
+							color : textColor
+						}}
 
-            };
+    };
+    var ProjectlineChart = new google.visualization.LineChart(document.getElementById('ProjectlineChart'));
+    ProjectlineChart.draw(employeeData, optionsTitle);
+}
 
-            var linechart1 = new google.visualization.LineChart(document.getElementById('linechart1'));
-            linechart1.draw(LineData, optionsTitle);
-        }
+        },
+    });
+}
+        
 
         function fillProjectDropdown(){
             const project_dropdown = document.getElementById("projectDropdownMenu")
@@ -203,6 +248,7 @@
                     console.log(projects[0].id)
                     console.log("above")
                     displayProject(projects[0].id);
+                    ProjectLineChart(projects[0].id)
                 }
             })
         }
@@ -262,13 +308,27 @@
                 }
             })
         }
+        
+if (user.role == "Employee"){
+    userPieChart();
+    userLineChart();
+    document.getElementById("projectDropdownMenu").style.display = "none";
+    document.getElementById("projectName").style.display = "none";
+    document.getElementById("projectLineName").style.display = "none";
 
-        userPieChart();
-        fillProjectDropdown();
-        userLineChart();
+    document.getElementById("projectTitle").style.display = "none";
+}
+else{
+    userPieChart();
+    fillProjectDropdown();
+    userLineChart();
+    //ProjectLineChart();
+}
+  
         
         </script>
-    <div id = "linechart1" class = "chart-container"></div>
-    <div id = "lineChart" class = "chart-container"></div>
+
+
+
     </body>
 </html>
