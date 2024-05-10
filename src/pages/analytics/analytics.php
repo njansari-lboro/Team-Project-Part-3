@@ -25,6 +25,7 @@
         <h1>Employee Performance</h1>
     
     <div id = "lineChart" class = "chart-container"></div>
+    <div id = "userBarChart" class = "chart-container"></div>
     <h1 id = "projectTitle">Project Progress</h1>
 
     <div id="projectAnalysis">
@@ -160,6 +161,49 @@
     };
     var lineChart = new google.visualization.LineChart(document.getElementById('lineChart'));
     lineChart.draw(employeeData, optionsTitle);
+}
+//----------bar chart ---------------------
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(DrawEmployeeBarChart);
+            function DrawEmployeeBarChart(){
+                console.log("goodbye");
+                console.log(data);
+                console.log(data[0]);
+                console.log(data[0][0]);
+                console.log(data[0][1].completed);
+
+
+                console.log("below");
+
+                console.log(data[1].completed)
+                //console.log(parseInt(data[0].overall));
+                //console.log(parseInt(data[2].in_progress));
+                var employeeData = google.visualization.arrayToDataTable([
+                ['Month','Hours spent'],
+                [NumToMonths[data[5][0]],data[5][1].hours],
+                [NumToMonths[data[4][0]],data[4][1].hours],
+                [NumToMonths[data[3][0]],data[3][1].hours],
+                [NumToMonths[data[2][0]], data[2][1].hours],
+                [NumToMonths[data[1][0]], data[1][1].hours],
+                [NumToMonths[data[0][0]],data[0][1].hours]]
+                );
+    var optionsTitle = {
+        title: 'Employee statistics',
+        backgroundColor: 'transparent',
+        titleTextStyle: {color: textColor},
+        legendTextStyle: {color: textColor},
+        hAxis:{textStyle:{color: textColor},title:"Hours spent",titleTextStyle : {
+							
+							color : textColor
+						}},
+        vAxis:{textStyle:{color: textColor},title: "Month",titleTextStyle : {
+							
+							color : textColor
+						}}
+
+    };
+    var barChart = new google.visualization.BarChart(document.getElementById('userBarChart'));
+    barChart.draw(employeeData, optionsTitle);
 }
 
         },
