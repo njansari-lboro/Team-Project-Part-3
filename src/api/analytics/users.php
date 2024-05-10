@@ -26,8 +26,10 @@
             echo json_encode(get_user_task_stats($user_id));
         } else if ($project_id == -1){
             echo json_encode(get_user_projects($user_id));
-        } else if ($taskCount != null){
+        } else if ($taskCount != null and $user_id === null){
             echo json_encode(get_user_task_count($requester_id));
+        } else if($taskCount != null and $user_id != null){
+            echo json_encode(get_user_task_count($user_id));
         }
         break;
     }
