@@ -20,9 +20,12 @@
 
     <body>
         <p class="some-text">Data Analytics</p>
-        <h1>User Progress</h1>
-        <div id = "usersPieChart" class = "chart-container"></div>
         <h1>Employee Performance</h1>
+        <select id = "userDropdownMenu" onchange = "userPieChart(this.options[this.selectedIndex].userID);userLineChart(this.options[this.selectedIndex].projectID)">Choose Project:</label>
+        </select>
+        <div id = "usersPieChart" class = "chart-container"></div>
+        
+
     
     <div id = "lineChart" class = "chart-container"></div>
     <div id = "userBarChart" class = "chart-container"></div>
@@ -47,7 +50,7 @@
             console.log(user)
 
 
-        function userPieChart(){
+        function userPieChart(user_id){
     
             $.ajax({
                 dataType: "json",
@@ -109,7 +112,7 @@
         12: "December"
     }
         
-    function userLineChart(){
+    function userLineChart(user_id){
     
     $.ajax({
         dataType: "json",
@@ -297,6 +300,30 @@ function ProjectLineChart(project_id){
             })
         }
 
+        function fillUserDropdown(){
+            const user_dropdown = document.getElementById("userDropdownMenu")
+            while (user_dropdown.hasChildNodes()){
+                user_dropdown.removeChild(user_dropdown.firstChild);
+            }
+            $.ajax({
+                dataType: "json",
+                url: "/api/analytics/allUsers.php",
+                method: "get",
+                success: function (users) {
+                    console.log("get all users");
+                    console.log(users);
+                    users.forEach(user => {
+                        var item = document.createElement("option");
+                        item.text = user.full_name;
+                        item.userID = user.id
+                        user_dropdown.add(item)
+                    });
+                    userPieChart(users[0].id);
+                    userLineChart(users[0].id)
+                }
+            })
+        }
+
         function displayProject(project_id){
             console.log("displayProject()");
             const project_dropdown = document.getElementById("projectDropdownMenu")
@@ -354,18 +381,17 @@ function ProjectLineChart(project_id){
         }
         
 if (user.role == "Employee"){
-    userPieChart();
-    userLineChart();
+    userPieChart(user.id);
+    userLineChart(user.id);
     document.getElementById("projectDropdownMenu").style.display = "none";
+    document.getElementById("userDropdownMenu").style.display = "none";
     document.getElementById("projectName").style.display = "none";
     document.getElementById("projectLineName").style.display = "none";
-
     document.getElementById("projectTitle").style.display = "none";
 }
 else{
-    userPieChart();
     fillProjectDropdown();
-    userLineChart();
+    fillUserDropdown();
     //ProjectLineChart();
 }
   
