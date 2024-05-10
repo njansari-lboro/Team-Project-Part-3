@@ -21,7 +21,7 @@
     <body>
         <p class="some-text">Data Analytics</p>
         <h1>Employee Performance</h1>
-        <select id = "userDropdownMenu" onchange = "userPieChart(this.options[this.selectedIndex].userID);userLineChart(this.options[this.selectedIndex].projectID)">Choose Project:</label>
+        <select id = "userDropdownMenu" onchange = "userPieChart(this.options[this.selectedIndex].userID);userLineChart(this.options[this.selectedIndex].userID)">Choose Project:</label>
         </select>
         <div id = "usersPieChart" class = "chart-container"></div>
         
@@ -55,6 +55,7 @@
             $.ajax({
                 dataType: "json",
                 url: "/api/analytics/users.php",
+                data:{user_id: user_id},
                 method: "get",
                 success: function (data) {
                     if (data[0].overall == 0){
@@ -117,7 +118,9 @@
     $.ajax({
         dataType: "json",
         url: "/api/analytics/users.php",
-        data:{taskCount: true},
+        data:{taskCount: true,
+            user_id: user_id
+        },
         method: "get",
         success: function (data) {
             console.log("hello")
@@ -166,6 +169,16 @@
     lineChart.draw(employeeData, optionsTitle);
 }
 //----------bar chart ---------------------
+            let display = false;
+            for (let i = 0; i<6; i++){
+                if (data[i][1].hours > 0){
+                    display = true;
+                }
+            }
+            console.log("display:");
+            console.log(display);
+            if (display == true){
+            document.getElementById('userBarChart').style.display = "block"           
             google.charts.load('current', {'packages':['corechart']});
             google.charts.setOnLoadCallback(DrawEmployeeBarChart);
             function DrawEmployeeBarChart(){
@@ -181,7 +194,7 @@
                 console.log(data[1].completed)
                 //console.log(parseInt(data[0].overall));
                 //console.log(parseInt(data[2].in_progress));
-                var employeeData = google.visualization.arrayToDataTable([
+                var employeeData2 = google.visualization.arrayToDataTable([
                 ['Month','Hours spent'],
                 [NumToMonths[data[5][0]],data[5][1].hours],
                 [NumToMonths[data[4][0]],data[4][1].hours],
@@ -196,7 +209,6 @@
         titleTextStyle: {color: textColor},
         legendTextStyle: {color: textColor},
         hAxis:{textStyle:{color: textColor},title:"Hours spent",titleTextStyle : {
-							
 							color : textColor
 						}},
         vAxis:{textStyle:{color: textColor},title: "Month",titleTextStyle : {
@@ -206,8 +218,12 @@
 
     };
     var barChart = new google.visualization.BarChart(document.getElementById('userBarChart'));
-    barChart.draw(employeeData, optionsTitle);
+    barChart.draw(employeeData2, optionsTitle);
 }
+        } else{
+            document.getElementById('userBarChart').style.display = "none"
+        }
+
 
         },
     });
