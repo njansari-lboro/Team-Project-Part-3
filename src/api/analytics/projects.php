@@ -14,6 +14,7 @@
 
     $project_id = $_GET["project_id"] ?? null;
     $tasks = $_GET["tasks"] ?? null;
+    $taskCount = $_GET["taskCount"] ?? null;
 
 
     switch ($method) {
@@ -22,6 +23,8 @@
             echo json_encode(get_all_projects());
         } else if ($tasks == "true") {
             echo json_encode(get_project_tasks($project_id)); 
+        } else if($taskCount != null){
+            echo json_encode(get_project_task_count($project_id));
         } else{
             echo json_encode(get_project($project_id));
         }
