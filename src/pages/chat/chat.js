@@ -360,60 +360,10 @@ async function displayChatsList(chats) {
     chatsList.innerHTML = ""
 
     for (const chat of chats) {
-        const chatMembers = await fetchMembersForChat(chat.id)
+        const chatInfo = await chatInfoHTML(chat, 30)
 
-        const memberCount = chatMembers.length
-        const memberCountText = (() => {
-            switch (memberCount) {
-            case 0:
-                return "No members"
-            case 1:
-                return "1 member"
-            default:
-                return `${memberCount} members`
-            }
-        })()
-
-        let icon = ""
-        let iconPath = null
-        let chatName = ""
-
-        if (chat.is_private) {
-            if (chatMembers.length !== 2) {
-                console.error(`Private chat (${chat.id}) has invalid number of users (${chatMembers.length})`)
-            }
-
-            const otherUserID = chatMembers.filter(member => member.user_id !== user.id)[0].user_id
-            const otherUser = await fetchUser(otherUserID)
-
-            chatName = otherUser.full_name
-            iconPath = otherUser.profile_image_path
-        } else {
-            chatName = chat.name
-
-            if (chat.icon_name) {
-                iconPath = await fetchChatIcon(chat.icon_name)
-            }
-        }
-
-        if (iconPath) {
-            icon = `<img class="chat-icon" src="${iconPath}" alt="Chat icon">`
-        } else {
-            icon = `
-            <load-svg class="chat-icon" src="../assets/${chat.is_private ? "profile-icon" : "chat-icon"}.svg">
-                <style shadowRoot>
-                    svg {
-                        width: 30px;
-                        height: 30px;
-                    }
-
-                    .fill {
-                        fill: var(--fill-color);
-                    }
-                </style>
-            </load-svg>
-            `
-        }
+        let icon = chatInfo.icon
+        let chatName = chatInfo.name
 
         if (chat.is_private) {
             icon = `
@@ -436,6 +386,9 @@ async function displayChatsList(chats) {
             `
         }
 
+        const chatMessages = await fetchMessagesForChat(chat.id)
+        const lastMessage = chatMessages.length > 0 ? chatMessages[chatMessages.length - 1].body : ""
+
         const chatRowHTML = `
         <div class="chat-row ${getSelectedChatID() == chat.id ? "selected" : ""}">
             ${icon}
@@ -446,7 +399,7 @@ async function displayChatsList(chats) {
                     <div class="chat-last-updated">${formatChatLastUpdated(new Date(chat.last_updated))}</div>
                 </div>
 
-                <div class="chat-member-count">${memberCountText}</div>
+                <div class="chat-last-message">${lastMessage}</div>
             </div>
         </div>
         `
@@ -454,7 +407,7 @@ async function displayChatsList(chats) {
         const chatRowElement = document.createElement("div")
         chatRowElement.innerHTML = chatRowHTML
 
-        chatRowElement.querySelector(".chat-row").addEventListener("click", async function() {
+        chatRowElement.querySelector(".chat-row").onclick = async function () {
             document.querySelectorAll(".chat-row").forEach(row => {
                 row.classList.remove("selected")
             })
@@ -464,7 +417,8 @@ async function displayChatsList(chats) {
             localStorage.setItem("selectedChat", chat.id)
 
             await displayConversationMessages()
-        })
+
+        }
 
         chatsList.appendChild(chatRowElement)
     }
