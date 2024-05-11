@@ -581,6 +581,9 @@ async function displayConversationHeader() {
     document.getElementById("edit-chat-button").style.display = chat.is_private ? "none" : ""
 }
 
+document.getElementById("add-chat-button").onclick = configureAddChatModal
+document.getElementById("edit-chat-button").onclick = configureEditChatModal
+
 fetchChats().then(async (chats) => {
     await displayChatsList(chats)
     await displayConversationMessages()
@@ -656,6 +659,479 @@ async function submitMessage(event) {
         messageInput.value = ""
         document.getElementById("compose-message-submit").setAttribute("disabled", "")
     }
+}
+
+const chatUserRowContainer = async (user, canEdit) => {
+    let profileImage
+
+    if (user.profile_image_name) {
+        const profileImageURL = await fetchUserProfileImage(user.id)
+        profileImage = `<img class="edit-chat-user-profile-image" src="${profileImageURL}" alt="User profile image">`
+    } else {
+        profileImage = `
+        <picture>
+            <source class="edit-chat-user-profile-image-dark" srcset="../img/default-user-profile-image-dark.png" media="(prefers-color-scheme: dark)">
+            <img class="edit-chat-user-profile-image" src="../img/default-user-profile-image.png" alt="User profile image">
+        </picture>
+        `
+    }
+
+    const removeButton = canEdit ? `
+    <load-svg class="edit-chat-remove-user" src="../assets/close-icon.svg">
+        <style shadowRoot>
+            svg {
+                width: 12px;
+                height: 12px;
+            }
+
+            .fill {
+                fill: var(--fill-color);
+            }
+        </style>
+    </load-svg>
+    ` : ""
+
+    const container = document.createElement("div")
+    container.classList.add("edit-chat-user")
+
+    container.innerHTML = `
+    ${profileImage}
+    <div class="edit-chat-user-name">${user.full_name}</div>
+    ${removeButton}
+    `
+
+    return container
+}
+
+function checkEditChatCanSave() {
+    const name = document.getElementById("edit-chat-name-input").value
+    const chatType = document.getElementById("edit-chat-type-option").value
+    const numUsers = document.getElementById("edit-chat-users").children.length
+
+    if (chatType === "private" && numUsers >= 1) {
+        document.getElementById("add-chat-user").setAttribute("disabled", "")
+    } else {
+        document.getElementById("add-chat-user").removeAttribute("disabled")
+    }
+
+    let saveIsDisabled = true
+    setTimeout(() => {
+        if (saveIsDisabled) {
+            document.getElementById("edit-chat-save-button").setAttribute("disabled", "")
+        } else {
+            document.getElementById("edit-chat-save-button").removeAttribute("disabled")
+        }
+    }, 0)
+
+    if (chatType !== "private" && name.trim().length === 0) return
+
+    if (numUsers < 1) return
+    if (chatType === "private" && numUsers > 1) return
+
+    saveIsDisabled = false
+}
+
+function uploadedImage(uploader) {
+    if (uploader.files && uploader.files[0]) {
+        const url = window.URL.createObjectURL(uploader.files[0])
+
+        const image = document.getElementById("edit-chat-icon-image")
+        image.setAttribute("src", url)
+        image.style.display = ""
+
+        document.getElementById("edit-chat-placeholder-icon").style.display = "none"
+    }
+}
+
+async function configureAddChatModal() {
+    $("#edit-chat-modal").fadeIn(500, "swing")
+
+    document.getElementById("edit-chat-card").setAttribute("status", "add")
+
+    document.getElementById("edit-chat-title").innerText = "New Chat"
+
+    document.querySelector("#edit-chat-icon .image-upload").onchange = function () {
+        uploadedImage(this)
+    }
+
+    document.getElementById("edit-chat-upload-image").onclick = () => document.querySelector("#edit-chat-icon .image-upload").click()
+
+    document.getElementById("edit-chat-name-input").oninput = checkEditChatCanSave
+
+    document.getElementById("edit-chat-type-option").onchange = async function () {
+        switch (this.value) {
+        case "private":
+            document.getElementById("edit-chat-icon").style.display = "none"
+            document.getElementById("edit-chat-name").style.display = "none"
+
+            document.getElementById("chat-add-user-button").innerText = "Set User"
+
+            document.getElementById("edit-chat-users").innerHTML = ""
+            const allUsers = await fetchAllUsers()
+            const availableUsers = allUsers.filter((e) => e.id != user.id)
+
+            document.getElementById("chat-users-list").innerHTML = availableUsers
+                .map((user) => `<option value="${user.full_name}">`)
+                .join("")
+
+            break
+
+        case "group":
+            document.getElementById("edit-chat-icon").style.display = ""
+            document.getElementById("edit-chat-name").style.display = ""
+
+            document.getElementById("chat-add-user-button").innerText = "Add User"
+
+            break
+        }
+
+        checkEditChatCanSave()
+    }
+
+    document.getElementById("add-chat-user").oninput = function () {
+        const name = this.value.trim()
+        const availableNames = Array.from(document.querySelectorAll("#chat-users-list option")).map((e) => e.value)
+
+        const addButton = document.getElementById("chat-add-user-button")
+
+        if (availableNames.includes(name)) {
+            addButton.removeAttribute("disabled")
+        } else {
+            addButton.setAttribute("disabled", "")
+        }
+    }
+
+    const allUsers = await fetchAllUsers()
+    const availableUsers = allUsers.filter((e) => e.id != user.id)
+
+    document.getElementById("chat-users-list").innerHTML = availableUsers
+        .map((user) => `<option value="${user.full_name}">`)
+        .join("")
+
+    document.getElementById("chat-add-user-button").onclick = async () => {
+        const addUserInput = document.getElementById("add-chat-user")
+        const selectedUserName = addUserInput.value
+        const selectedUser = allUsers.find((e) => e.full_name === selectedUserName)
+
+        if (selectedUser) {
+            const chatUsersList = document.getElementById("edit-chat-users")
+            const container = await chatUserRowContainer(selectedUser, true)
+            chatUsersList.append(container)
+
+            addUserInput.value = ""
+            document.getElementById("chat-add-user-button").setAttribute("disabled", "")
+
+            document.querySelectorAll("#chat-users-list option").forEach((option) => {
+                if (option.value === selectedUser.full_name) {
+                    option.remove()
+                }
+            })
+
+            document.querySelectorAll(".edit-chat-remove-user").forEach((e) => {
+                e.onclick = () => {
+                    const userRow = e.closest(".edit-chat-user")
+                    const userName = userRow.querySelector(".edit-chat-user-name").innerText
+                    document.getElementById("chat-users-list").innerHTML += `<option value="${userName}">`
+                    userRow.remove()
+
+                    checkEditChatCanSave()
+                }
+            })
+
+            checkEditChatCanSave()
+        }
+    }
+
+    document.getElementById("edit-chat-cancel-button").onclick = dismissAddChatModal
+
+    document.getElementById("edit-chat-save-button").onclick = async () => {
+        dismissAddChatModal()
+
+        const chatName = document.getElementById("edit-chat-name-input").value.trim()
+        const isChatPrivate = document.getElementById("edit-chat-type-option").value === "private"
+
+        window.URL.revokeObjectURL(document.getElementById("edit-chat-icon-image").getAttribute("src"))
+
+        const profileImageUpload = document.querySelector("#edit-chat-icon .image-upload")
+
+        let result
+
+        if (profileImageUpload.files && profileImageUpload.files[0]) {
+            const chatIconName = await uploadChatIcon(profileImageUpload.files[0])
+            result = await addChat(chatName, isChatPrivate, chatIconName)
+        } else {
+            result = await addChat(chatName, isChatPrivate)
+        }
+
+        if (!result) return
+
+        const newChat = (await fetchChats())[0]
+        if (!newChat) return
+
+        await addUserToChat(user.id, newChat.id)
+
+        const users = await fetchAllUsers()
+
+        document.querySelectorAll("#edit-chat-users .edit-chat-user-name").forEach(async (e) => {
+            const userName = e.innerText
+            const user = users.find((e) => e.full_name === userName)
+
+            await addUserToChat(user.id, newChat.id)
+        })
+    }
+
+    const image = document.getElementById("edit-chat-icon-image")
+    image.removeAttribute("src")
+    image.style.display = "none"
+
+    document.getElementById("edit-chat-placeholder-icon").style.display = ""
+
+    document.getElementById("edit-chat-name-input").focus()
+
+    document.getElementById("edit-chat-type-option").value = "private"
+
+    document.getElementById("edit-chat-icon").style.display = "none"
+    document.getElementById("edit-chat-name").style.display = "none"
+
+    document.getElementById("edit-chat-name-input").removeAttribute("disabled")
+    document.getElementById("chat-add-user-button").innerText = "Set User"
+
+    document.getElementById("chat-add-user-button").setAttribute("disabled", "")
+    document.getElementById("edit-chat-save-button").setAttribute("disabled", "")
+}
+
+function dismissAddChatModal() {
+    $("#edit-chat-modal").fadeOut(() => {
+        document.getElementById("edit-chat-name-input").value = ""
+        document.getElementById("add-chat-user").value = ""
+        document.getElementById("edit-chat-users").innerHTML = ""
+    })
+}
+
+async function configureEditChatModal() {
+    const selectedChatID = getSelectedChatID()
+
+    const chat = await fetchChat(selectedChatID)
+    const chatMembers = await fetchMembersForChat(selectedChatID)
+
+    const canEdit = chat.owner_id === user.id
+
+    $("#edit-chat-modal").fadeIn(500, "swing")
+
+    document.getElementById("edit-chat-card").setAttribute("status", canEdit ? "edit" : "view")
+
+    document.getElementById("edit-chat-title").innerText = canEdit ? "Edit Chat" : "View Chat"
+
+    document.getElementById("close-edit-chat-modal-button").onclick = dismissEditChatModal
+
+    document.querySelector("#edit-chat-icon .image-upload").onchange = function () {
+        uploadedImage(this)
+        document.getElementById("edit-chat-icon").setAttribute("changed", "")
+    }
+
+    document.getElementById("edit-chat-upload-image").onclick = () => document.querySelector("#edit-chat-icon .image-upload").click()
+
+    document.getElementById("edit-chat-name-input").oninput = function () {
+        this.setAttribute("changed", "")
+        checkEditChatCanSave()
+    }
+
+    document.getElementById("add-chat-user").oninput = function () {
+        const name = this.value.trim()
+        const availableNames = Array.from(document.querySelectorAll("#chat-users-list option")).map((e) => e.value)
+
+        const addButton = document.getElementById("chat-add-user-button")
+
+        if (availableNames.includes(name)) {
+            addButton.removeAttribute("disabled")
+        } else {
+            addButton.setAttribute("disabled", "")
+        }
+    }
+
+    const allUsers = await fetchAllUsers()
+    const availableUsers = allUsers.filter((e) => e.id != user.id)
+
+    document.getElementById("chat-users-list").innerHTML = availableUsers
+        .map((user) => `<option value="${user.full_name}">`)
+        .join("")
+
+    document.getElementById("chat-add-user-button").onclick = async () => {
+        const addUserInput = document.getElementById("add-chat-user")
+        const selectedUserName = addUserInput.value
+        const selectedUser = allUsers.find((e) => e.full_name === selectedUserName)
+
+        if (selectedUser) {
+            const chatUsersList = document.getElementById("edit-chat-users")
+            const container = await chatUserRowContainer(selectedUser, canEdit)
+            chatUsersList.append(container)
+
+            addUserInput.value = ""
+            document.getElementById("chat-add-user-button").setAttribute("disabled", "")
+
+            document.querySelectorAll("#chat-users-list option").forEach((option) => {
+                if (option.value === selectedUser.full_name) {
+                    option.remove()
+                }
+            })
+
+            document.querySelectorAll(".edit-chat-remove-user").forEach((e) => {
+                e.onclick = () => {
+                    const userRow = e.closest(".edit-chat-user")
+                    const userName = userRow.querySelector(".edit-chat-user-name").innerText
+                    document.getElementById("chat-users-list").innerHTML += `<option value="${userName}">`
+                    userRow.remove()
+
+                    checkEditChatCanSave()
+                }
+            })
+
+            document.getElementById("edit-chat-users").setAttribute("changed", "")
+
+            checkEditChatCanSave()
+        }
+    }
+
+    document.getElementById("edit-chat-cancel-button").onclick = () => {
+        if (document.querySelectorAll("#edit-chat-card [changed]").length) {
+            showDialog(
+                "Discard Changes?",
+                "You have unsaved changes that will be discarded. This action cannot be undone.",
+                { title: "Discard", role: DESTRUCTIVE, action: dismissEditChatModal }
+            )
+        } else {
+            dismissEditChatModal()
+        }
+    }
+
+    document.getElementById("edit-chat-save-button").onclick = async () => {
+        dismissEditChatModal()
+
+        if (!document.querySelectorAll("#edit-chat-card [changed]").length) return
+
+        let chatName = null
+
+        const chatNameInput = document.getElementById("edit-chat-name-input")
+        if (chatNameInput.hasAttribute("changed")) {
+            chatName = chatNameInput.value.trim()
+        }
+
+        let chatIconName = null
+
+        if (document.getElementById("edit-chat-icon").hasAttribute("changed")) {
+            window.URL.revokeObjectURL(document.getElementById("edit-chat-icon-image").getAttribute("src"))
+
+            const profileImageUpload = document.querySelector("#edit-chat-icon .image-upload")
+
+            if (profileImageUpload.files && profileImageUpload.files[0]) {
+                chatIconName = await uploadChatIcon(profileImageUpload.files[0])
+            }
+        }
+
+        if (chatName || chatIconName) {
+            await updateChat(chat.id, chatName, chatIconName)
+        }
+
+        if (!document.getElementById("edit-chat-users").hasAttribute("changed")) return
+
+        function findAddedRemoved(arr1, arr2) {
+            const added = new Set(arr2).difference(new Set(arr1))
+            const removed = new Set(arr1).difference(new Set(arr2))
+            return { added: [...added], removed: [...removed] }
+        }
+
+        const users = await fetchAllUsers()
+
+        const previousMembers = chatMembers.map((e) => e.user_id)
+
+        const newMembers = Array.from(document.querySelectorAll("#edit-chat-users .edit-chat-user-name")).map((e) => {
+            const userName = e.innerText
+            const user = users.find((e) => e.full_name === userName)
+            return parseInt(user.id)
+        })
+
+        const difference = findAddedRemoved(previousMembers, newMembers)
+
+        difference.removed.forEach(async (userID) => {
+            await removeUserFromChat(userID, chat.id)
+        })
+
+        difference.added.forEach(async (userID) => {
+            await addUserToChat(userID, chat.id)
+        })
+    }
+
+    const chatIconImage = document.getElementById("edit-chat-icon-image")
+
+    if (chat.icon_name) {
+        const chatIconURL = await fetchChatIcon(chat.icon_name)
+
+        chatIconImage.setAttribute("src", chatIconURL)
+        chatIconImage.style.display = ""
+
+        document.getElementById("edit-chat-placeholder-icon").style.display = "none"
+    } else {
+        chatIconImage.removeAttribute("src")
+        chatIconImage.style.display = "none"
+
+        document.getElementById("edit-chat-placeholder-icon").style.display = ""
+    }
+
+    const chatUsersList = document.getElementById("edit-chat-users")
+
+    chatMembers.forEach(async (chatUser) => {
+        const member = await fetchUser(chatUser.user_id)
+        const container = await chatUserRowContainer(member, canEdit && member.id !== user.id)
+        chatUsersList.append(container)
+
+        document.querySelectorAll("#chat-users-list option").forEach((option) => {
+            if (option.value === member.full_name) {
+                option.remove()
+            }
+        })
+
+        document.querySelectorAll(".edit-chat-remove-user").forEach((e) => {
+            e.onclick = () => {
+                const userRow = e.closest(".edit-chat-user")
+                const userName = userRow.querySelector(".edit-chat-user-name").innerText
+                document.getElementById("chat-users-list").innerHTML += `<option value="${userName}">`
+                userRow.remove()
+
+                document.getElementById("edit-chat-users").setAttribute("changed", "")
+                checkEditChatCanSave()
+            }
+        })
+    })
+
+    document.getElementById("edit-chat-type-option").value = "group"
+
+    document.getElementById("edit-chat-name-input").value = chat.name
+
+    document.getElementById("edit-chat-icon").style.display = ""
+    document.getElementById("edit-chat-name").style.display = ""
+
+    if (canEdit) {
+        document.getElementById("edit-chat-name-input").removeAttribute("disabled")
+
+        document.getElementById("chat-add-user-button").innerText = "Add User"
+
+        document.getElementById("chat-add-user-button").setAttribute("disabled", "")
+        document.getElementById("edit-chat-save-button").setAttribute("disabled", "")
+    } else {
+        document.getElementById("edit-chat-name-input").setAttribute("disabled", "")
+    }
+}
+
+function dismissEditChatModal() {
+    $("#edit-chat-modal").fadeOut(() => {
+        document.getElementById("edit-chat-name-input").value = ""
+        document.getElementById("add-chat-user").value = ""
+        document.getElementById("edit-chat-users").innerHTML = ""
+
+        document.getElementById("edit-chat-icon").removeAttribute("changed")
+        document.getElementById("edit-chat-name-input").removeAttribute("changed")
+        document.getElementById("edit-chat-users").removeAttribute("changed")
+    })
 }
 
 function formatChatLastUpdated(date) {
