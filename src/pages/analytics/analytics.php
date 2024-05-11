@@ -38,6 +38,7 @@
         <div id = "projectAnalysisPieChart" class = "chart-container"></div>
         <h1 id = "projectLineName"></h1>
         <div id = "ProjectlineChart" class = "chart-container"></div>
+        <div id = "projectBarChart" class = "chart-container"></div>
     </div>
 
 
@@ -47,7 +48,7 @@
             const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
             const bgColor = isDarkMode ? "#lelele" : "#ffffff"
             const textColor = isDarkMode ? "#ffffff" : "#000000"
-            console.log(user)
+
 
 
         function userPieChart(user_id){
@@ -63,14 +64,11 @@
                     } else {
                         noTasks = 0;
                     }
+                    console.log("/api/analytcis/users.php?user_id="+user_id)
                     console.log(data);
-                    console.log(data[0].overall);
                     google.charts.load('current', {'packages':['corechart']});
                     google.charts.setOnLoadCallback(DrawUserChart);
                     function DrawUserChart(){
-                        console.log(data);
-                        console.log(parseInt(data[0].overall));
-                        console.log(parseInt(data[2].in_progress));
                         var project3Data = google.visualization.arrayToDataTable([
                             ['Task', 'Count'],
                             ['Completed',parseInt(data[1].completed)],
@@ -123,24 +121,12 @@
         },
         method: "get",
         success: function (data) {
-            console.log("hello")
+            console.log("/api/analytics/users.php?taskCount=true&user_id="+user_id)
             console.log(data)
             //console.log(data[0].overall)
             google.charts.load('current', {'packages':['corechart']});
             google.charts.setOnLoadCallback(DrawEmployeeLineChart);
             function DrawEmployeeLineChart(){
-                console.log("goodbye");
-                console.log(data);
-                console.log(data[0]);
-                console.log(data[0][0]);
-                console.log(data[0][1].completed);
-
-
-                console.log("below");
-
-                console.log(data[1].completed)
-                //console.log(parseInt(data[0].overall));
-                //console.log(parseInt(data[2].in_progress));
                 var employeeData = google.visualization.arrayToDataTable([
                 ['Month','Tasks Completed'],
                 [NumToMonths[data[5][0]],data[5][1].completed],
@@ -175,25 +161,11 @@
                     display = true;
                 }
             }
-            console.log("display:");
-            console.log(display);
             if (display == true){
             document.getElementById('userBarChart').style.display = "block"           
             google.charts.load('current', {'packages':['corechart']});
             google.charts.setOnLoadCallback(DrawEmployeeBarChart);
             function DrawEmployeeBarChart(){
-                console.log("goodbye");
-                console.log(data);
-                console.log(data[0]);
-                console.log(data[0][0]);
-                console.log(data[0][1].completed);
-
-
-                console.log("below");
-
-                console.log(data[1].completed)
-                //console.log(parseInt(data[0].overall));
-                //console.log(parseInt(data[2].in_progress));
                 var employeeData2 = google.visualization.arrayToDataTable([
                 ['Month','Hours spent'],
                 [NumToMonths[data[5][0]],data[5][1].hours],
@@ -237,24 +209,12 @@ function ProjectLineChart(project_id){
         data:{taskCount: true, project_id:project_id},
         method: "get",
         success: function (data) {
-            console.log("hello")
+            console.log("/api/analytics/projects.php?taskCount=true&project_id="+project_id);
             console.log(data)
-            //console.log(data[0].overall)
+
             google.charts.load('current', {'packages':['corechart']});
             google.charts.setOnLoadCallback(DrawProjectLineChart);
             function DrawProjectLineChart(){
-                console.log("goodbye");
-                console.log(data);
-                console.log(data[0]);
-                console.log(data[0][0]);
-                console.log(data[0][1].completed);
-
-
-                console.log("below");
-
-                console.log(data[1].completed)
-                //console.log(parseInt(data[0].overall));
-                //console.log(parseInt(data[2].in_progress));
                 var employeeData = google.visualization.arrayToDataTable([
                 ['Month','Tasks Completed'],
                 [NumToMonths[data[5][0]],data[5][1].completed],
@@ -281,6 +241,48 @@ function ProjectLineChart(project_id){
     };
     var ProjectlineChart = new google.visualization.LineChart(document.getElementById('ProjectlineChart'));
     ProjectlineChart.draw(employeeData, optionsTitle);
+    //bar chart
+    let display = false;
+            for (let i = 0; i<6; i++){
+                if (data[i][1].hours > 0){
+                    display = true;
+                }
+            }
+            if (display == true){
+                console.log("display it")
+            document.getElementById('projectBarChart').style.display = "block"           
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(DrawProjectBarChart);
+            function DrawProjectBarChart(){
+                var projectData2 = google.visualization.arrayToDataTable([
+                ['Month','Hours spent'],
+                [NumToMonths[data[5][0]],data[5][1].hours],
+                [NumToMonths[data[4][0]],data[4][1].hours],
+                [NumToMonths[data[3][0]],data[3][1].hours],
+                [NumToMonths[data[2][0]], data[2][1].hours],
+                [NumToMonths[data[1][0]], data[1][1].hours],
+                [NumToMonths[data[0][0]],data[0][1].hours]]
+                );
+    var optionsTitle = {
+        title: 'project statistics',
+        backgroundColor: 'transparent',
+        titleTextStyle: {color: textColor},
+        legendTextStyle: {color: textColor},
+        hAxis:{textStyle:{color: textColor},title:"Hours spent",titleTextStyle : {
+							color : textColor
+						}},
+        vAxis:{textStyle:{color: textColor},title: "Month",titleTextStyle : {
+							
+							color : textColor
+						}}
+
+    };
+    var barChart = new google.visualization.BarChart(document.getElementById('projectBarChart'));
+    barChart.draw(projectData2, optionsTitle);
+}
+        } else{
+            document.getElementById('projectBarChart').style.display = "none"
+        }
 }
 
         },
@@ -298,18 +300,14 @@ function ProjectLineChart(project_id){
                 url: "/api/analytics/projects.php",
                 method: "get",
                 success: function (projects) {
+                    console.log("/api/analytics/projects.php")
                     console.log(projects)
                     projects.forEach(project => {
-                        console.log(project);
-                        console.log(project.id);
-                        console.log(project.name)
                         var item = document.createElement("option");
                         item.text = project.name;
                         item.projectID = project.id
                         project_dropdown.add(item)
                     });
-                    console.log(projects[0].id)
-                    console.log("above")
                     displayProject(projects[0].id);
                     ProjectLineChart(projects[0].id)
                 }
@@ -326,7 +324,7 @@ function ProjectLineChart(project_id){
                 url: "/api/analytics/allUsers.php",
                 method: "get",
                 success: function (users) {
-                    console.log("get all users");
+                    console.log("/api/analytics/allUsers.php");
                     console.log(users);
                     users.forEach(user => {
                         var item = document.createElement("option");
@@ -341,7 +339,6 @@ function ProjectLineChart(project_id){
         }
 
         function displayProject(project_id){
-            console.log("displayProject()");
             const project_dropdown = document.getElementById("projectDropdownMenu")
             $.ajax({
                 dataType: "json",
@@ -349,8 +346,8 @@ function ProjectLineChart(project_id){
                 data: {project_id : project_id}, 
                 method: "get",
                 success: function (project) {
+                    console.log("/api/analytics/projects.php?project_id="+project_id);
                     console.log(project);
-                    console.log(project.name + " - Due in " + project.project_overdue.project_due_in + " days");
                     if (project.is_completed == 1){
                         document.getElementById("projectName").innerHTML = project.name + " - Completed";
                     } else if (project.project_overdue.project_due_in > 0){
@@ -368,9 +365,6 @@ function ProjectLineChart(project_id){
                     google.charts.load('current', {'packages':['corechart']});
                     google.charts.setOnLoadCallback(DrawProjectPieChart);
                     function DrawProjectPieChart(){
-                        console.log(project);
-                        console.log(parseInt(project.overall.overall));
-                        console.log(parseInt(project.in_progress.in_progress));
                         var projectPieData = google.visualization.arrayToDataTable([
                             ['Task', 'Count'],
                             ['Completed',parseInt(project.completed.completed)],
@@ -404,6 +398,7 @@ if (user.role == "Employee"){
     document.getElementById("projectName").style.display = "none";
     document.getElementById("projectLineName").style.display = "none";
     document.getElementById("projectTitle").style.display = "none";
+    document.getElementById("projectBarChart").style.display = "none";
 }
 else{
     fillProjectDropdown();
