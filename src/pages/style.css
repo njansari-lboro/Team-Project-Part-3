@@ -1067,14 +1067,8 @@ body {
 
 .edit-chat-remove-user {
     --fill-color: var(--reduced-red-color);
-    display: none;
     width: 12px;
     height: 12px;
-}
-
-.edit-chat-user:hover .edit-chat-remove-user {
-    --fill-color: var(--reduced-red-color);
-    display: block;
 }
 
 .edit-chat-remove-user:hover {
