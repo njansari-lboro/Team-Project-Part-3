@@ -560,6 +560,27 @@ async function displayConversationMessages() {
     resetConversationScrollPosition()
 }
 
+async function displayConversationHeader() {
+    const selectedChatID = getSelectedChatID()
+
+    const chat = await fetchChat(selectedChatID)
+    const usersList = await fetchMembersForChat(selectedChatID)
+
+    let displayNames = ""
+
+    for (const userID of usersList) {
+        const user = await fetchUser(userID.user_id)
+        displayNames += user.full_name + " "
+    }
+
+    const chatInfo = await chatInfoHTML(chat, 40)
+
+    document.getElementById("header-chat-icon-container").innerHTML = chatInfo.icon
+    document.getElementById("header-chat-name").innerHTML = chatInfo.name
+
+    document.getElementById("edit-chat-button").style.display = chat.is_private ? "none" : ""
+}
+
 fetchChats().then(async (chats) => {
     await displayChatsList(chats)
     await displayConversationMessages()
