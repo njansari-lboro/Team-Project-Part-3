@@ -18,7 +18,24 @@
     <body>
         <div id="wrapper">
             <div id="left-panel" class="expanded">
-                <div class="sidebar-title" style="text-align: center">My Chats</div>
+                <div class="sidebar-title">
+                    My Chats
+
+                    <button id="add-chat-button">
+                        <load-svg src="../assets/add-icon.svg">
+                            <style shadowRoot>
+                                svg {
+                                    width: 20px;
+                                    height: 20px;
+                                }
+
+                                .fill {
+                                    fill: var(--icon-color);
+                                }
+                            </style>
+                        </load-svg>
+                    </button>
+                </div>
 
                 <input type="search" placeholder="Search" class="sidebar-input">
 
