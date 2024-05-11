@@ -184,9 +184,40 @@
 }
 
 #header {
-    height: 70px;
     background-color: var(--quaternary-fill-color);
     box-shadow: 0 2px 5px -2px var(--shadow-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    transition: 0.5s;
+}
+
+@media screen and (max-width: 1000px) {
+    #left-panel:not(.expanded) ~ #right-panel #header {
+        padding-left: 50px;
+    }
+}
+
+#header-chat-info {
+    display: inherit;
+    align-items: inherit;
+    gap: 10px;
+}
+
+#header-chat-icon-container {
+    display: inherit;
+}
+
+#header-chat-icon-container .chat-icon {
+    --fill-color: var(--label-color);
+    width: 40px;
+    height: 40px;
+}
+
+#header-chat-name {
+    font-size: var(--title-2);
+    font-weight: bold;
 }
 
 #conversation-messages {
