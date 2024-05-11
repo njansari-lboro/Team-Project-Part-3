@@ -55,9 +55,24 @@
 }
 
 .sidebar-title {
+    position: relative;
     font-size: var(--title-2);
     font-weight: 700;
     padding-top: 20px;
+}
+
+#add-chat-button {
+    --icon-color: var(--accent-color);
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 8px;
+}
+
+#add-chat-button:hover {
+    --icon-color: var(--link-color);
 }
 
 .sidebar-input {
