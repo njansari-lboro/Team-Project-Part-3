@@ -68,6 +68,9 @@
         $sql = "select datediff(deadline, curdate()) as project_due_in from project where id = ?;";
         $project_due_in = get_record($sql, "i", $project_id);
         $return_project->project_overdue = $project_due_in;
+        $sql = "select count(assigned_user_id) as overdue from task where project_id = ? and estimated_end_date < Select curdate();";
+        $overdue = get_record($sql, "i", $project_id);
+        $return_project->not_started = $not_started;
         return $return_project;
     }
 
@@ -111,6 +114,9 @@
         $sql = "select count(assigned_user_id) as not_started from task where assigned_user_id = ? and hours_spent = 0 and is_completed = false;";
         $not_started = get_record($sql, "i", $user_id);
         array_push($return_array, $not_started);
+        $sql = "select count(assigned_user_id) as overdue from task where assigned_user_id = ? and estimated_end_date < Select curdate();";
+        $overdue = get_record($sql, "i", $user_id);
+        array_push($return_array, $overdue);
         $return_array['id']=$user_id;
         return $return_array;
     }
