@@ -92,6 +92,10 @@
     </head>
 
     <body>
+        <script>
+            const user = JSON.parse(`<?php echo json_encode($_SESSION["user"]) ?>`)
+        </script>
+
         <!-- Navigation bar -->
 
         <div id="profile-menu-dim" class="dimmed-overlay"></div>
@@ -522,10 +526,6 @@
         <!-- Edit profile modal -->
 
         <div id="edit-profile-modal" class="modal">
-            <script>
-                const user = JSON.parse(`<?php echo json_encode($_SESSION["user"]) ?>`)
-            </script>
-
             <div class="dimmed-overlay"></div>
 
             <div id="edit-profile-card" class="modal-card center">
