@@ -198,6 +198,36 @@ async function fetchUser(userID) {
     }
 }
 
+async function fetchUserProfileImage(userID) {
+    try {
+        const formData = new FormData()
+        formData.append("user_id", userID)
+
+        const response = await fetch("chat/chat-functions.php?task=get_user_profile_image", {
+            method: "POST",
+            body: formData
+        })
+
+        if (!response.ok) throw new Error("Failed to fetch data")
+
+        return await response.json()
+    } catch (error) {
+        console.error("Error fetching data:", error)
+    }
+}
+
+async function fetchAllUsers() {
+    try {
+        const response = await fetch("chat/chat-functions.php?task=fetch_users")
+
+        if (!response.ok) throw new Error("Failed to fetch data")
+
+        return await response.json()
+    } catch (error) {
+        console.error("Error fetching data:", error)
+    }
+}
+
 const messageGroupTimestampHTML = (date) => {
     const dateTime = formatMessageGroupTimestamp(date)
     return `
