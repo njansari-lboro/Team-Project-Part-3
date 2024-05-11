@@ -587,12 +587,12 @@ fetchChats().then(async (chats) => {
 })
 
 document.querySelectorAll(".toggle-chat-list").forEach(toggle => {
-    toggle.addEventListener("click", () => {
+    toggle.onclick = () => {
         document.getElementById("left-panel").classList.toggle("expanded")
-    })
+    }
 })
 
-document.querySelector(".sidebar-input").addEventListener("input", async function() {
+document.querySelector(".sidebar-input").oninput = async function () {
     let chats
 
     if (this.value.trim().length === 0) {
@@ -602,14 +602,14 @@ document.querySelector(".sidebar-input").addEventListener("input", async functio
     }
 
     await displayChatsList(chats)
-})
+}
 
 function resetConversationScrollPosition() {
     const conversationMessages = document.getElementById("conversation-messages")
     conversationMessages.scrollTop = conversationMessages.scrollHeight
 }
 
-document.getElementById("compose-message-input").addEventListener("input", function() {
+document.getElementById("compose-message-input").oninput = function () {
     const submitButton = document.getElementById("compose-message-submit")
 
     if (this.value.trim().length === 0) {
@@ -621,10 +621,15 @@ document.getElementById("compose-message-input").addEventListener("input", funct
             submitButton.removeAttribute("disabled")
         }
     }
-})
+}
 
-document.getElementById("compose-message-input").addEventListener("change", submitMessage)
-document.getElementById("compose-message-submit").addEventListener("click", submitMessage)
+document.getElementById("compose-message-input").onkeyup = (e) => {
+    if (e.key === "Enter") {
+        submitMessage(e)
+    }
+}
+
+document.getElementById("compose-message-submit").onclick = submitMessage
 
 async function submitMessage(event) {
     event.preventDefault()
