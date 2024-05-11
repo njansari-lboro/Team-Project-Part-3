@@ -26,7 +26,8 @@
         $filter_text = $_GET["filter_text"] ?? null;
 
         if ($chat_id === null) {
-            echo json_encode(fetch_chats(user_id: $current_user_id, filter_text: $filter_text));
+            $chats = fetch_chats(user_id: $current_user_id, filter_text: $filter_text);
+            echo json_encode($chats);
         } else {
             $chat = get_chat($chat_id);
 
@@ -60,7 +61,7 @@
 
     case "PUT":
         $put_data = file_get_contents("php://input");
-        parse_str($put_data, $params);
+        $params = json_decode($put_data, true);
 
         $name = $params["name"] ?? null;
         $icon_name = $params["icon_name"] ?? null;
