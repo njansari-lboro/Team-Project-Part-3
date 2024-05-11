@@ -158,7 +158,7 @@
 /* Dark variant colour definitions */
 @media (prefers-color-scheme: dark) {
     :root {
-        --red-colour: rgba(255, 69, 58, 1);
+        --red-color: rgba(255, 69, 58, 1);
         --reduced-red-color: rgba(255, 69, 58, 0.2);
         --green-colour: rgba(50, 215, 75, 1);
         --reduced-green-color: rgba(50, 215, 75, 0.2);
