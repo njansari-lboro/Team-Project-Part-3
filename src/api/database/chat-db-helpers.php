@@ -40,7 +40,7 @@
      * ```
      */
     function fetch_chats(?int $user_id = null, ?string $filter_text = null): array {
-        $sql = "SELECT chat.* FROM chat JOIN chat_user cu ON chat.id = cu.chat_id WHERE 1";
+        $sql = "SELECT chat.* FROM chat WHERE 1";
 
         // Add filters based on the specified parameters
         // Then bind parameters for filters
@@ -49,8 +49,9 @@
         $vars = [];
 
         if ($user_id !== null) {
-            $sql .= " AND cu.user_id = ?";
-            $types .= "i";
+            $sql .= " AND (chat.owner_id = ? OR EXISTS (SELECT 1 FROM chat_user cu WHERE cu.user_id = ? AND cu.chat_id = chat.id))";
+            $types .= "ii";
+            $vars[] = $user_id;
             $vars[] = $user_id;
         }
 
@@ -268,8 +269,8 @@
      * @return bool Returns a boolean value of whether the user is a member of the chat or not.
      */
     function is_user_member_of_chat(int $user_id, int $chat_id): bool {
-        $sql = "SELECT * FROM chat_user WHERE user_id = ? AND chat_id = ?";
-        return get_record($sql, "ii", $user_id, $chat_id) !== null;
+        $sql = "SELECT EXISTS (SELECT 1 FROM chat WHERE owner_id = ? AND id = ?) OR (SELECT 1 FROM chat_user cu WHERE cu.user_id = ? AND cu.chat_id = ?)";
+        return get_record($sql, "iiii", $user_id, $chat_id, $user_id, $chat_id) !== null;
     }
 
     /**
