@@ -228,6 +228,53 @@ async function fetchAllUsers() {
     }
 }
 
+const chatInfoHTML = async (chat, iconSize) => {
+    const chatMembers = await fetchMembersForChat(chat.id)
+
+    let icon
+    let iconPath = null
+    let chatName
+
+    if (chat.is_private) {
+        if (chatMembers.length !== 2) {
+            console.error(`Private chat (${chat.id}) has invalid number of users (${chatMembers.length})`)
+        }
+
+        const otherUserID = chatMembers.filter(member => member.user_id !== user.id)[0].user_id
+        const otherUser = await fetchUser(otherUserID)
+
+        chatName = otherUser.full_name
+        iconPath = otherUser.profile_image_path
+    } else {
+        chatName = chat.name
+
+        if (chat.icon_name) {
+            iconPath = await fetchChatIcon(chat.icon_name)
+        }
+    }
+
+    if (iconPath) {
+        icon = `<img class="chat-icon" src="${iconPath}" alt="Chat icon">`
+    } else {
+        icon = `
+            <load-svg class="chat-icon" src="../assets/${chat.is_private ? "profile-icon" : "chat-icon"}.svg">
+                <style shadowRoot>
+                    svg {
+                        width: ${iconSize}px;
+                        height: ${iconSize}px;
+                    }
+
+                    .fill {
+                        fill: var(--fill-color);
+                    }
+                </style>
+            </load-svg>
+            `
+    }
+
+    return { icon: icon, name: chatName }
+}
+
 const messageGroupTimestampHTML = (date) => {
     const dateTime = formatMessageGroupTimestamp(date)
     return `
@@ -237,10 +284,27 @@ const messageGroupTimestampHTML = (date) => {
     `
 }
 
-const messageHTML = (body) => {
+const messageHTML = (body, canDelete) => {
+    const deleteButton = canDelete ? `
+    <button class="message-delete-button">
+        <load-svg class="message-delete-icon" src="../assets/close-icon.svg">
+            <style shadowRoot>
+                svg {
+                    width: 0.6em;
+                    height: 0.6em;
+                }
+
+                .fill {
+                    fill: var(--secondary-label-color)
+                }
+            </style>
+        </load-svg>
+    </button>` : ""
+
     return `
     <div class="message">
         <p>${body}</p>
+        ${deleteButton}
     </div>
     `
 }
