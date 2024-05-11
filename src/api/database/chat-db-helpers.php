@@ -71,20 +71,39 @@
     // MODIFYING CHATS
 
     /**
-     * Adds a new chat to the database with the specified property values.
+     * Adds a new private chat to the database with the specified property values.
      *
-     * @param string $name The new chat's name.
+     * @param int $owner_id The ID of the new chat's owner.
      *
      * @return bool Returns a boolean value of whether the operation was a success or not.
      *
      * Usage example:
      * ```
-     * add_chat("Team 12");
+     * add_private_chat(10);
      * ```
      */
-    function add_chat(string $name, bool $is_private, ?string $icon_name = null): bool {
-        $sql = "INSERT INTO chat (name, is_private, icon_name) VALUES (?, ?, ?)";
-        return modify_record($sql, "sis", $name, $is_private, $icon_name);
+    function add_private_chat(int $owner_id): bool {
+        $sql = "INSERT INTO chat (is_private, owner_id) VALUES (TRUE, ?)";
+        return modify_record($sql, "i", $owner_id);
+    }
+
+    /**
+     * Adds a new group chat to the database with the specified property values.
+     *
+     * @param string $name The new chat's name.
+     * @param ?string $icon_name The new chat's icon name.
+     * @param int $owner_id The ID of the new chat's owner.
+     *
+     * @return bool Returns a boolean value of whether the operation was a success or not.
+     *
+     * Usage example:
+     * ```
+     * add_group_chat("Team 12", "team-12-icon.png", 10);
+     * ```
+     */
+    function add_group_chat(string $name, ?string $icon_name = null, int $owner_id): bool {
+        $sql = "INSERT INTO chat (name, is_private, icon_name, owner_id) VALUES (?, FALSE, ?, ?)";
+        return modify_record($sql, "ssi", $name, $icon_name ?? "null", $owner_id);
     }
 
     /**
