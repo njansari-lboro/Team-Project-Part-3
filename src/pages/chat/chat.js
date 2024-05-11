@@ -46,6 +46,79 @@ async function fetchChatIcon(chatIconName) {
     }
 }
 
+async function uploadChatIcon(iconFile) {
+    try {
+        const formData = new FormData()
+        formData.append("upload_chat_icon", iconFile)
+
+        const response = await fetch("chat/chat-functions.php?task=upload_chat_icon", {
+            method: "POST",
+            body: formData
+        })
+
+        const data = await response.json()
+
+        if (data.success) {
+            return data.file_name
+        } else {
+            throw new Error(data.message)
+        }
+    } catch (error) {
+        console.error("Error uploading image:", error)
+        return false
+    }
+}
+
+async function addChat(name, isPrivate, iconName) {
+    try {
+        const formData = new FormData()
+
+        if (name) {
+            formData.append("name", name)
+        }
+
+        formData.append("is_private", isPrivate)
+
+        if (iconName) {
+            formData.append("icon_name", iconName)
+        }
+
+        const response = await fetch("/api/chats", {
+            method: "POST",
+            body: formData
+        })
+
+        return response.ok
+    } catch (error) {
+        console.error("Error adding chat:", error)
+        return false
+    }
+}
+
+async function updateChat(chatID, name, iconName) {
+    try {
+        const putData = {}
+
+        if (name) {
+            putData.name = name
+        }
+
+        if (iconName) {
+            putData.icon_name = iconName
+        }
+
+        const response = await fetch(`/api/chats/${chatID}`, {
+            method: "PUT",
+            body: JSON.stringify(putData)
+        })
+
+        return response.ok
+    } catch (error) {
+        console.error("Error updating chat:", error)
+        return false
+    }
+}
+
 async function fetchMembersForChat(chatID) {
     try {
         const response = await fetch(`/api/chats/${chatID}/users`)
@@ -58,6 +131,33 @@ async function fetchMembersForChat(chatID) {
     }
 }
 
+async function addUserToChat(userID, chatID) {
+    try {
+        const formData = new FormData()
+        formData.append("user_id", userID)
+
+        const response = await fetch(`/api/chats/${chatID}/users`, {
+            method: "POST",
+            body: formData
+        })
+
+        return response.ok
+    } catch (error) {
+        console.error("Error adding user to chat:", error)
+        return false
+    }
+}
+
+async function removeUserFromChat(userID, chatID) {
+    try {
+        const response = await fetch(`/api/chats/${chatID}/users/${userID}`, { method: "DELETE" })
+        return response.ok
+    } catch (error) {
+        console.error("Error removing user from chat:", error)
+        return false
+    }
+}
+
 async function fetchMessagesForChat(chatID) {
     try {
         const response = await fetch(`/api/chats/${chatID}/messages`)
@@ -67,6 +167,16 @@ async function fetchMessagesForChat(chatID) {
         return await response.json()
     } catch (error) {
         console.error("Error fetching data:", error)
+    }
+}
+
+async function deleteMessage(chatID, messageID) {
+    try {
+        const response = await fetch(`/api/chats/${chatID}/messages/${messageID}`, { method: "DELETE" })
+        return response.ok
+    } catch (error) {
+        console.error("Error deleting message:", error)
+        return false
     }
 }
 
