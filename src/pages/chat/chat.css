@@ -180,7 +180,38 @@
 }
 
 .message {
+    position: relative;
     margin-top: 2px;
+}
+
+.message-delete-button {
+    display: none;
+    position: absolute;
+    width: 0.8em;
+    height: 1.4em;
+    top: -8px;
+    background-color: var(--quaternary-fill-color);
+    backdrop-filter: blur(12px) saturate(120%);
+    -webkit-backdrop-filter: blur(12px) saturate(120%);
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 0 0 0.05em var(--shadow-color);
+}
+
+.messages-container.sent .message .message-delete-button {
+    left: -10px;
+}
+
+.messages-container.arrived .message .message-delete-button {
+    right: -10px;
+}
+
+.message-delete-button:hover {
+    background-color: var(--fill-color);
+}
+
+.message:hover .message-delete-button {
+    display: block;
 }
 
 .messages-container.arrived .message {
