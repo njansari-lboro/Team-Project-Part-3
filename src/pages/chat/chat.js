@@ -752,6 +752,7 @@ async function configureAddChatModal() {
 
     document.querySelector("#edit-chat-icon .image-upload").onchange = function () {
         uploadedImage(this)
+        checkEditChatCanSave()
     }
 
     document.getElementById("edit-chat-upload-image").onclick = () => document.querySelector("#edit-chat-icon .image-upload").click()
@@ -927,6 +928,7 @@ async function configureEditChatModal() {
     document.querySelector("#edit-chat-icon .image-upload").onchange = function () {
         uploadedImage(this)
         document.getElementById("edit-chat-icon").setAttribute("changed", "")
+        checkEditChatCanSave()
     }
 
     document.getElementById("edit-chat-upload-image").onclick = () => document.querySelector("#edit-chat-icon .image-upload").click()
