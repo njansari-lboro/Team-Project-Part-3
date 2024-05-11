@@ -143,6 +143,10 @@
     --fill-color: var(--selected-content-text-color);
 }
 
+.chat-row-content {
+    width: 100%;
+}
+
 .chat-row-header {
     display: flex;
     align-items: center;
@@ -150,7 +154,7 @@
 }
 
 .chat-name {
-    font-size: var(--body);
+    font-size: var(--callout);
 }
 
 .chat-last-updated {
@@ -159,8 +163,18 @@
     right: 15px;
 }
 
-.chat-member-count {
+.chat-last-message {
     font-size: var(--footnote);
+    color: var(--secondary-label-color);
+    width: calc(100% - 40px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 1px;
+}
+
+.chat-row.selected .chat-last-message {
+    color: rgba(255, 255, 255, 0.55);
 }
 
 #right-panel {
