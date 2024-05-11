@@ -486,6 +486,8 @@ async function parseMessagesForChat(chat) {
 }
 
 async function displayConversationMessages() {
+    await displayConversationHeader()
+
     const conversation = document.getElementById("conversation-messages")
 
     const chat = await fetchChat(getSelectedChatID())
@@ -504,21 +506,56 @@ async function displayConversationMessages() {
         conversation.innerHTML += messageGroupTimestampHTML(messageGroup.date)
 
         for (const messageContainer of messageGroup.containers) {
-            const messages = messageContainer.messages.map(messageHTML)
+            let messages = []
+            let messagesContainerHTML = ""
 
             switch (messageContainer.type) {
             case "sent":
-                conversation.innerHTML += sentMessagesContainerHTML(messages)
+                messages = messageContainer.messages.map((body) => messageHTML(body, true))
+                messagesContainerHTML = sentMessagesContainerHTML(messages)
                 break
+
             case "arrived":
-                conversation.innerHTML += arrivedMessagesContainerHTML(messages)
+                messages = messageContainer.messages.map((body) => messageHTML(body, false))
+                messagesContainerHTML = arrivedMessagesContainerHTML(messages)
                 break
+
             case "arrivedUser":
-                conversation.innerHTML += arrivedUserMessagesContainerHTML(messageContainer.user, messages)
+                messages = messageContainer.messages.map((body) => messageHTML(body, chat.owner_id === user.id))
+                messagesContainerHTML = arrivedUserMessagesContainerHTML(messageContainer.user, messages)
                 break
             }
+
+            conversation.innerHTML += messagesContainerHTML
         }
     }
+
+    document.querySelectorAll(".message-delete-button").forEach((button) => {
+        button.onclick = async function () {
+            const message = this.closest(".message")
+
+            await showDialogAsync(
+                "Delete Message?",
+                "This action cannot be undone.",
+                {
+                    title: "Delete",
+                    role: DESTRUCTIVE,
+                    action: async () => {
+                        const messages = document.querySelectorAll(".message")
+                        const messageIndex = Array.from(messages).indexOf(message)
+
+                        const chatID = getSelectedChatID()
+                        const chatMessages = await fetchMessagesForChat(chatID)
+                        const messageID = chatMessages[messageIndex].id
+
+                        if (await deleteMessage(chatID, messageID)) {
+                            await displayConversationMessages()
+                        }
+                    }
+                }
+            )
+        }
+    })
 
     resetConversationScrollPosition()
 }
