@@ -69,7 +69,18 @@
             </load-svg>
 
             <div id="right-panel">
-                <div id="header"></div>
+                <div id="header">
+                    <div id="header-chat-info">
+                        <div id="header-chat-icon-container"></div>
+                        <div id="header-chat-name"></div>
+                    </div>
+
+                    <div id="chat-details">
+                        <button id="edit-chat-button">Edit Chat</button>
+
+                        <div id="chat-users"></div>
+                    </div>
+                </div>
 
                 <div id="container">
                     <div id="conversation-messages"></div>
