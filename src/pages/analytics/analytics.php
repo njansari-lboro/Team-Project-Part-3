@@ -23,8 +23,9 @@
         <h1>Employee Performance</h1>
         <select id = "userDropdownMenu" onchange = "userPieChart(this.options[this.selectedIndex].userID);userLineChart(this.options[this.selectedIndex].userID)">Choose Project:</label>
         </select>
+        <h3 id = "userTasksOverdue"></h3>
         <div id = "usersPieChart" class = "chart-container"></div>
-        
+
 
     
     <div id = "lineChart" class = "chart-container"></div>
@@ -35,7 +36,9 @@
     <select id = "projectDropdownMenu" onchange = "displayProject(this.options[this.selectedIndex].projectID);ProjectLineChart(this.options[this.selectedIndex].projectID)">Choose Project:</label>
         </select>
         <h1 id="projectName"></h1>
+        <h3 id = "projectTasksOverdue"></h3>
         <div id = "projectAnalysisPieChart" class = "chart-container"></div>
+
         <h1 id = "projectLineName"></h1>
         <div id = "ProjectlineChart" class = "chart-container"></div>
         <div id = "projectBarChart" class = "chart-container"></div>
@@ -87,6 +90,7 @@
             };
             var usersPieChart = new google.visualization.PieChart(document.getElementById('usersPieChart'));
             usersPieChart.draw(project3Data, optionsTitle);
+            document.getElementById('userTasksOverdue').innerHTML = "user has "+data[4].overdue+" tasks overdue";
         }
 
                 },
@@ -384,6 +388,7 @@ function ProjectLineChart(project_id){
             var projectPieChart = new google.visualization.PieChart(document.getElementById('projectAnalysisPieChart'));
             projectPieChart.draw(projectPieData, optionsTitle);
             document.getElementById('projectAnalysisPieChart').style.display = "block";
+            document.getElementById('projectTasksOverdue').innerHTML = "project has "+project.overdue.overdue+" tasks overdue";
         }
 
                 }
