@@ -187,7 +187,7 @@
         $max_date=date_create($parts[0]."-".$parts[1]."-1");
         $max_date=date_format($max_date, "y-m-d");
 
-        $sql = "Select count(id) as completed from task where project_id = ? and date_completed > ?";
+        $sql = "Select count(id) as completed, sum(hours_spent) as hours from task where project_id = ? and date_completed > ?";
         $first_month = get_record($sql, "is", $project_id, strval($max_date));
         array_push($small_array, $parts[1]);
         array_push($small_array, $first_month);
@@ -204,7 +204,7 @@
             $min_date=date_format($min_date, "y-m-d");
         }
 
-        $sql = "Select count(id) as completed from task where project_id = ? and date_completed > ? and date_completed < ?";
+        $sql = "Select count(id) as completed, sum(hours_spent) as hours from task where project_id = ? and date_completed > ? and date_completed < ?";
         $next_month = get_record($sql, "iss", $project_id,strval($min_date),strval($max_date));
         $small_array = [];
         array_push($small_array, $parts[1]);
@@ -224,7 +224,7 @@
                 $min_date=date_format($min_date, "y-m-d");
             }
     
-            $sql = "Select count(id) as completed from task where project_id = ? and date_completed > ? and date_completed < ?";
+            $sql = "Select count(id) as completed, sum(hours_spent) as hours from task where project_id = ? and date_completed > ? and date_completed < ?";
             $next_month = get_record($sql, "iss", $project_id,strval($min_date),strval($max_date));
             $small_array = [];
             array_push($small_array, $parts[1]);
