@@ -44,8 +44,13 @@
         $is_private = $_POST["is_private"] ?? null;
         $icon_name = $_POST["icon_name"] ?? null;
 
-        if ($chat_id === null && $name !== null && $is_private !== null) {
-            $result = add_chat($name, $is_private, $icon_name);
+        if ($chat_id === null && $is_private !== null) {
+            if ($is_private === "true") {
+                $result = add_private_chat($current_user_id);
+            } else {
+                $result = add_group_chat($name, $icon_name, $current_user_id);
+            }
+
             http_response_code($result ? 201 : 500);
         } else {
             http_response_code(400);
