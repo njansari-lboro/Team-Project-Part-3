@@ -80,7 +80,7 @@
                             ['No tasks set', noTasks]]
                         );
             var optionsTitle = {
-                title: 'User statistics',
+                title: 'User task progression',
                 pieHole: 0.4,
                 backgroundColor: 'transparent',
                 titleTextStyle: {color: textColor},
@@ -141,7 +141,7 @@
                 [NumToMonths[data[0][0]],data[0][1].completed]]
                 );
     var optionsTitle = {
-        title: 'Employee statistics',
+        title: 'Tasks completed per month',
         backgroundColor: 'transparent',
         titleTextStyle: {color: textColor},
         legendTextStyle: {color: textColor},
@@ -180,7 +180,7 @@
                 [NumToMonths[data[0][0]],data[0][1].hours]]
                 );
     var optionsTitle = {
-        title: 'Employee statistics',
+        title: 'Hours spent on tasks per month',
         backgroundColor: 'transparent',
         titleTextStyle: {color: textColor},
         legendTextStyle: {color: textColor},
@@ -229,7 +229,7 @@ function ProjectLineChart(project_id){
                 [NumToMonths[data[0][0]],data[0][1].completed]]
                 );
     var optionsTitle = {
-        title: 'Project statistics',
+        title: 'Tasks completed per month',
         backgroundColor: 'transparent',
         titleTextStyle: {color: textColor},
         legendTextStyle: {color: textColor},
@@ -268,7 +268,7 @@ function ProjectLineChart(project_id){
                 [NumToMonths[data[0][0]],data[0][1].hours]]
                 );
     var optionsTitle = {
-        title: 'project statistics',
+        title: 'Hours spent to complete tasks per month',
         backgroundColor: 'transparent',
         titleTextStyle: {color: textColor},
         legendTextStyle: {color: textColor},
