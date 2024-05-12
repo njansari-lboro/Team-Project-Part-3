@@ -579,6 +579,9 @@ async function displayConversationHeader() {
     document.getElementById("header-chat-name").innerHTML = chatInfo.name
 
     document.getElementById("edit-chat-button").style.display = chat.is_private ? "none" : ""
+
+    document.getElementById("edit-chat-button-icon").style.display = chat.owner_id === user.id ? "" : "none"
+    document.getElementById("view-chat-button-icon").style.display = chat.owner_id === user.id ? "none" : ""
 }
 
 document.getElementById("add-chat-button").onclick = configureAddChatModal

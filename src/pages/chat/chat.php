@@ -73,6 +73,35 @@
                     <div id="header-chat-info">
                         <div id="header-chat-icon-container"></div>
                         <div id="header-chat-name"></div>
+
+                        <button id="edit-chat-button">
+                            <load-svg id="view-chat-button-icon" src="../assets/show-icon.svg">
+                                <style shadowRoot>
+                                    svg {
+                                        width: 24px;
+                                        height: 24px;
+                                        padding-top: 10px;
+                                    }
+
+                                    .fill {
+                                        fill: var(--icon-color)
+                                    }
+                                </style>
+                            </load-svg>
+
+                            <load-svg id="edit-chat-button-icon" src="../assets/edit-icon.svg">
+                                <style shadowRoot>
+                                    svg {
+                                        width: 20px;
+                                        height: 20px;
+                                    }
+
+                                    .fill {
+                                        fill: var(--icon-color)
+                                    }
+                                </style>
+                            </load-svg>
+                        </button>
                     </div>
 
                     <div id="chat-details">

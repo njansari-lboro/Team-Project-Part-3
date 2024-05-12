@@ -220,6 +220,28 @@
     font-weight: bold;
 }
 
+#edit-chat-button {
+    --icon-color: var(--accent-color);
+    background-color: transparent;
+    border: none;
+}
+
+#edit-chat-button:hover {
+    --icon-color: var(--link-color);
+}
+
+#edit-chat-button-icon {
+    width: 24px;
+    height: 24px;
+}
+
+#view-chat-button-icon {
+    width: 20px;
+    height: 20px;
+}
+
+}
+
 #conversation-messages {
     height: calc(100vh - 130px);
     overflow-y: scroll;
