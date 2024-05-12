@@ -287,7 +287,7 @@
      * ```
      */
     function fetch_users_in_chat(int $chat_id): array {
-        $sql = "SELECT user_id FROM chat_user WHERE chat_id = ?";
+        $sql = "SELECT user_id FROM chat_user WHERE chat_id = ? ORDER BY user_id";
         return fetch_records($sql, "i", $chat_id);
     }
 
