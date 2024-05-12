@@ -407,7 +407,7 @@ async function displayChatsList(chats) {
         const chatRowElement = document.createElement("div")
         chatRowElement.innerHTML = chatRowHTML
 
-        chatRowElement.querySelector(".chat-row").onclick = async function () {
+        chatRowElement.querySelector(".chat-row").onclick = async function() {
             document.querySelectorAll(".chat-row").forEach(row => {
                 row.classList.remove("selected")
             })
@@ -531,7 +531,7 @@ async function displayConversationMessages() {
     }
 
     document.querySelectorAll(".message-delete-button").forEach((button) => {
-        button.onclick = async function () {
+        button.onclick = async function() {
             const message = this.closest(".message")
 
             await showDialogAsync(
@@ -564,15 +564,6 @@ async function displayConversationHeader() {
     const selectedChatID = getSelectedChatID()
 
     const chat = await fetchChat(selectedChatID)
-    const usersList = await fetchMembersForChat(selectedChatID)
-
-    let displayNames = ""
-
-    for (const userID of usersList) {
-        const user = await fetchUser(userID.user_id)
-        displayNames += user.full_name + " "
-    }
-
     const chatInfo = await chatInfoHTML(chat, 40)
 
     document.getElementById("header-chat-icon-container").innerHTML = chatInfo.icon
@@ -623,7 +614,7 @@ document.querySelectorAll(".toggle-chat-list").forEach(toggle => {
     }
 })
 
-document.querySelector(".sidebar-input").oninput = async function () {
+document.querySelector(".sidebar-input").oninput = async function() {
     let chats
 
     if (this.value.trim().length === 0) {
@@ -640,7 +631,7 @@ function resetConversationScrollPosition() {
     conversationMessages.scrollTop = conversationMessages.scrollHeight
 }
 
-document.getElementById("compose-message-input").oninput = function () {
+document.getElementById("compose-message-input").oninput = function() {
     const submitButton = document.getElementById("compose-message-submit")
 
     if (this.value.trim().length === 0) {
@@ -778,7 +769,7 @@ async function configureAddChatModal() {
 
     document.getElementById("edit-chat-title").innerText = "New Chat"
 
-    document.querySelector("#edit-chat-icon .image-upload").onchange = function () {
+    document.querySelector("#edit-chat-icon .image-upload").onchange = function() {
         uploadedImage(this)
         checkEditChatCanSave()
     }
@@ -787,7 +778,7 @@ async function configureAddChatModal() {
 
     document.getElementById("edit-chat-name-input").oninput = checkEditChatCanSave
 
-    document.getElementById("edit-chat-type-option").onchange = async function () {
+    document.getElementById("edit-chat-type-option").onchange = async function() {
         switch (this.value) {
         case "private":
             document.getElementById("edit-chat-icon").style.display = "none"
@@ -817,7 +808,7 @@ async function configureAddChatModal() {
         checkEditChatCanSave()
     }
 
-    document.getElementById("add-chat-user").oninput = function () {
+    document.getElementById("add-chat-user").oninput = function() {
         const name = this.value.trim()
         const availableNames = Array.from(document.querySelectorAll("#chat-users-list option")).map((e) => e.value)
 
@@ -953,7 +944,7 @@ async function configureEditChatModal() {
 
     document.getElementById("close-edit-chat-modal-button").onclick = dismissEditChatModal
 
-    document.querySelector("#edit-chat-icon .image-upload").onchange = function () {
+    document.querySelector("#edit-chat-icon .image-upload").onchange = function() {
         uploadedImage(this)
         document.getElementById("edit-chat-icon").setAttribute("changed", "")
         checkEditChatCanSave()
@@ -961,12 +952,12 @@ async function configureEditChatModal() {
 
     document.getElementById("edit-chat-upload-image").onclick = () => document.querySelector("#edit-chat-icon .image-upload").click()
 
-    document.getElementById("edit-chat-name-input").oninput = function () {
+    document.getElementById("edit-chat-name-input").oninput = function() {
         this.setAttribute("changed", "")
         checkEditChatCanSave()
     }
 
-    document.getElementById("add-chat-user").oninput = function () {
+    document.getElementById("add-chat-user").oninput = function() {
         const name = this.value.trim()
         const availableNames = Array.from(document.querySelectorAll("#chat-users-list option")).map((e) => e.value)
 
