@@ -240,6 +240,19 @@
     height: 20px;
 }
 
+#chat-users {
+    margin-right: 10px;
+}
+
+.chat-user-profile-image {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--separator-color);
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    margin-right: -10px;
+    float: left;
 }
 
 #conversation-messages {

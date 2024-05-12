@@ -582,6 +582,31 @@ async function displayConversationHeader() {
 
     document.getElementById("edit-chat-button-icon").style.display = chat.owner_id === user.id ? "" : "none"
     document.getElementById("view-chat-button-icon").style.display = chat.owner_id === user.id ? "none" : ""
+
+    document.getElementById("chat-users").innerHTML = ""
+
+    if (!chat.is_private) {
+        const usersList = await fetchMembersForChat(selectedChatID)
+
+        let userImages = ""
+
+        for (const userID of usersList) {
+            const user = await fetchUser(userID.user_id)
+
+            if (user.profile_image_path) {
+                userImages += `<img class="chat-user-profile-image" src="${user.profile_image_path}" alt="User profile image">`
+            } else {
+                userImages += `
+                <picture>
+                    <source class="chat-user-profile-image-dark" srcset="../img/default-user-profile-image-dark.png" media="(prefers-color-scheme: dark)">
+                    <img class="chat-user-profile-image" src="../img/default-user-profile-image.png" alt="User profile image">
+                </picture>
+                `
+            }
+        }
+
+        document.getElementById("chat-users").innerHTML = userImages
+    }
 }
 
 document.getElementById("add-chat-button").onclick = configureAddChatModal

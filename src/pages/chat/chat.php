@@ -104,11 +104,7 @@
                         </button>
                     </div>
 
-                    <div id="chat-details">
-                        <button id="edit-chat-button">Edit Chat</button>
-
-                        <div id="chat-users"></div>
-                    </div>
+                    <div id="chat-users"></div>
                 </div>
 
                 <div id="container">
