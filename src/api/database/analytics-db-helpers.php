@@ -247,3 +247,14 @@
         $sql = "SELECT id, full_name from user";
         return fetch_records($sql);
     }
+
+    function get_manager_or_admin($user_id): ?object{
+        $sql = "select id from user where id = ? and (role = 'Manager' or role = 'Admin');";
+        $id = get_record($sql, "i", $user_id);
+        if ($id == $user_id){
+            return $id;
+        } else {
+            return $id;
+        }
+
+    }

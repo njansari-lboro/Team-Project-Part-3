@@ -17,9 +17,10 @@
     $project_id = $_GET["project_id"] ?? null;
     $taskCount = $_GET["taskCount"] ?? null;
 
-
+    $permission = get_manager_or_admin($requester_id);
     switch ($method) {
     case "GET":
+        if ($permission->id == $requester_id){
         if ($user_id === null && $taskCount === null){
             echo json_encode(get_user_task_stats($requester_id));
         } else if ($project_id === null && $taskCount === null){
@@ -30,6 +31,21 @@
             echo json_encode(get_user_task_count($requester_id));
         } else if($taskCount != null and $user_id != null){
             echo json_encode(get_user_task_count($user_id));
+        }
+        } else {
+            if ($user_id === null && $taskCount === null){
+                echo json_encode(get_user_task_stats($requester_id));
+            } else if ($project_id === null && $taskCount === null && $user_id == $requester_id){
+                echo json_encode(get_user_task_stats($user_id));
+            } else if ($project_id == -1 && $user_id == $requester_id){
+                echo json_encode(get_user_projects($user_id));
+            } else if ($taskCount != null and $user_id === null && $user_id == $requester_id){
+                echo json_encode(get_user_task_count($requester_id));
+            } else if($taskCount != null and $user_id != null && $user_id == $requester_id){
+                echo json_encode(get_user_task_count($user_id));
+            } else{
+                echo "Access Denied";
+            }
         }
         break;
     }

@@ -17,9 +17,13 @@
     $project_id = $_GET["project_id"] ?? null;
     $taskCount = $_GET["taskCount"] ?? null;
 
-
+    $permission = get_manager_or_admin($requester_id);
     switch ($method) {
     case "GET":
-        echo json_encode(get_all_users());
+        if ($permission->id == $requester_id){
+            echo json_encode(get_all_users());
+        } else {
+            echo json_encode("Access Denied");
+        }
     break;
     }
