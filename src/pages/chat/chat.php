@@ -102,6 +102,21 @@
                                 </style>
                             </load-svg>
                         </button>
+
+                        <button id="delete-chat-button">
+                            <load-svg id="delete-chat-button-icon" src="../assets/delete-icon.svg">
+                                <style shadowRoot>
+                                    svg {
+                                        width: 20px;
+                                        height: 20px;
+                                    }
+
+                                    .fill {
+                                        fill: var(--icon-color)
+                                    }
+                                </style>
+                            </load-svg>
+                        </button>
                     </div>
 
                     <div id="chat-users"></div>

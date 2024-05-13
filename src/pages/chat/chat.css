@@ -240,6 +240,23 @@
     height: 20px;
 }
 
+#delete-chat-button {
+    display: none;
+    background-color: transparent;
+    border: none;
+    width: 20px;
+    height: 20px;
+}
+
+#header:hover #delete-chat-button {
+    --icon-color: var(--reduced-red-color);
+    display: block;
+}
+
+#delete-chat-button:hover {
+    --icon-color: var(--red-color) !important;
+}
+
 #chat-users {
     margin-right: 10px;
 }

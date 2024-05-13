@@ -119,6 +119,16 @@ async function updateChat(chatID, name, iconName) {
     }
 }
 
+async function deleteChat(chatID) {
+    try {
+        const response = await fetch(`/api/chats/${chatID}`, { method: "DELETE" })
+        return response.ok
+    } catch (error) {
+        console.error("Error deleting chat:", error)
+        return false
+    }
+}
+
 async function fetchMembersForChat(chatID) {
     try {
         const response = await fetch(`/api/chats/${chatID}/users`)
@@ -574,6 +584,8 @@ async function displayConversationHeader() {
     document.getElementById("edit-chat-button-icon").style.display = chat.owner_id === user.id ? "" : "none"
     document.getElementById("view-chat-button-icon").style.display = chat.owner_id === user.id ? "none" : ""
 
+    document.getElementById("delete-chat-button").style.display = chat.is_private || chat.owner_id === user.id ? "" : "none"
+
     document.getElementById("chat-users").innerHTML = ""
 
     if (!chat.is_private) {
@@ -608,6 +620,23 @@ async function displaySelectedChat() {
 
 document.getElementById("add-chat-button").onclick = configureAddChatModal
 document.getElementById("edit-chat-button").onclick = configureEditChatModal
+
+document.getElementById("delete-chat-button").onclick = () => {
+    showDialog(
+        "Delete Chat?",
+        "This action cannot be undone.",
+        {
+            title: "Delete",
+            role: DESTRUCTIVE,
+            action: async () => {
+                if (await deleteChat(getSelectedChatID())) {
+                    await displayChatsList()
+                    await displaySelectedChat()
+                }
+            }
+        }
+    )
+}
 
 fetchChats().then(async (chats) => {
     await displayChatsList(chats)
