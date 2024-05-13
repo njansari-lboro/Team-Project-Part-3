@@ -19,8 +19,13 @@
     </head>
 
     <body>
-        <p class="some-text">Data Analytics</p>
-        <h1>Employee Performance</h1>
+        <h1 class="some-text">Data Analytics</h1>
+        <h4><label for="user_project_toggle">View user or project analysis:</label></h4>
+        <select id = "user_project_toggle" onchange = "show_stats(this.value)">
+        <option value="User">User</option>
+        <option value="Project">Project</option>
+    </select>
+        <h2 id="employeePerformance">Employee Performance</h2>
         <select id = "userDropdownMenu" onchange = "userPieChart(this.options[this.selectedIndex].userID);userLineChart(this.options[this.selectedIndex].userID)">Choose Project:</label>
         </select>
         <h3 id = "userTasksOverdue"></h3>
@@ -30,12 +35,12 @@
     
     <div id = "lineChart" class = "chart-container"></div>
     <div id = "userBarChart" class = "chart-container"></div>
-    <h1 id = "projectTitle">Project Progress</h1>
+    <h2 id = "projectTitle">Project Progress</h2>
 
     <div id="projectAnalysis">
     <select id = "projectDropdownMenu" onchange = "displayProject(this.options[this.selectedIndex].projectID);ProjectLineChart(this.options[this.selectedIndex].projectID)">Choose Project:</label>
         </select>
-        <h1 id="projectName"></h1>
+        <h3 id="projectName"></h3>
         <h3 id = "projectTasksOverdue"></h3>
         <div id = "projectAnalysisPieChart" class = "chart-container"></div>
 
@@ -394,6 +399,45 @@ function ProjectLineChart(project_id){
                 }
             })
         }
+
+        function show_stats(type){
+            if (type == "User"){
+                console.log("user stats!!!!!!!!!!!")
+                fillUserDropdown();
+                document.getElementById("projectDropdownMenu").style.display = "none";
+                document.getElementById("projectName").style.display = "none";
+                document.getElementById("projectLineName").style.display = "none";
+                document.getElementById("projectTitle").style.display = "none";
+                document.getElementById("projectBarChart").style.display = "none";
+                document.getElementById("ProjectlineChart").style.display = "none";
+                document.getElementById("projectAnalysisPieChart").style.display = "none";
+                document.getElementById("projectTasksOverdue").style.display = "none";
+                
+                document.getElementById("userDropdownMenu").style.display = "block";
+                document.getElementById("lineChart").style.display = "block";
+                document.getElementById("usersPieChart").style.display = "block";
+                document.getElementById("userBarChart").style.display = "block";
+                document.getElementById("userTasksOverdue").style.display = "block";
+                document.getElementById("employeePerformance").style.display = "block";
+            } else{
+                fillProjectDropdown();
+                document.getElementById("userDropdownMenu").style.display = "none";
+                document.getElementById("lineChart").style.display = "none";
+                document.getElementById("usersPieChart").style.display = "none";
+                document.getElementById("userTasksOverdue").style.display = "none";
+                document.getElementById("employeePerformance").style.display = "none";
+                document.getElementById("userBarChart").style.display = "none";
+
+                document.getElementById("projectDropdownMenu").style.display = "block";
+                document.getElementById("projectName").style.display = "block";
+                document.getElementById("projectLineName").style.display = "block";
+                document.getElementById("projectTitle").style.display = "block";
+                document.getElementById("projectBarChart").style.display = "block";
+                document.getElementById("ProjectlineChart").style.display = "block";
+                document.getElementById("projectAnalysisPieChart").style.display = "block";
+                document.getElementById("projectTasksOverdue").style.display = "block";
+            }
+        }
         
 if (user.role == "Employee"){
     userPieChart(user.id);
@@ -406,8 +450,7 @@ if (user.role == "Employee"){
     document.getElementById("projectBarChart").style.display = "none";
 }
 else{
-    fillProjectDropdown();
-    fillUserDropdown();
+    show_stats("User");
     //ProjectLineChart();
 }
   
