@@ -357,7 +357,7 @@ const getSelectedChatID = () => localStorage.getItem("selectedChat")
 async function displayChatsList(chats) {
     const chatsList = document.getElementById("chats-list")
 
-    chatsList.innerHTML = ""
+    let newListHTML = ""
 
     for (const chat of chats) {
         const chatInfo = await chatInfoHTML(chat, 30)
@@ -404,24 +404,24 @@ async function displayChatsList(chats) {
         </div>
         `
 
-        const chatRowElement = document.createElement("div")
-        chatRowElement.innerHTML = chatRowHTML
+        newListHTML += chatRowHTML
+    }
 
-        chatRowElement.querySelector(".chat-row").onclick = async function() {
+    chatsList.innerHTML = newListHTML
+
+    document.querySelectorAll(".chat-row").forEach((chatRow, index) => {
+        chatRow.onclick = async function() {
             document.querySelectorAll(".chat-row").forEach(row => {
                 row.classList.remove("selected")
             })
 
             this.classList.add("selected")
 
-            localStorage.setItem("selectedChat", chat.id)
+            localStorage.setItem("selectedChat", chats[index].id)
 
-            await displayConversationMessages()
-
+            await displaySelectedChat()
         }
-
-        chatsList.appendChild(chatRowElement)
-    }
+    })
 
     const chatRows = document.querySelectorAll(".chat-row")
 
@@ -486,8 +486,6 @@ async function parseMessagesForChat(chat) {
 }
 
 async function displayConversationMessages() {
-    await displayConversationHeader()
-
     const conversation = document.getElementById("conversation-messages")
 
     const chat = await fetchChat(getSelectedChatID())
@@ -498,12 +496,12 @@ async function displayConversationMessages() {
         conversation.classList.add("group")
     }
 
-    conversation.innerHTML = ""
+    let newConversation = ""
 
     const messages = await parseMessagesForChat(chat)
 
     for (const messageGroup of messages) {
-        conversation.innerHTML += messageGroupTimestampHTML(messageGroup.date)
+        newConversation += messageGroupTimestampHTML(messageGroup.date)
 
         for (const messageContainer of messageGroup.containers) {
             let messages = []
@@ -526,9 +524,11 @@ async function displayConversationMessages() {
                 break
             }
 
-            conversation.innerHTML += messagesContainerHTML
+            newConversation += messagesContainerHTML
         }
     }
+
+    conversation.innerHTML = newConversation
 
     document.querySelectorAll(".message-delete-button").forEach((button) => {
         button.onclick = async function() {
@@ -600,12 +600,18 @@ async function displayConversationHeader() {
     }
 }
 
+async function displaySelectedChat() {
+    await displayConversationHeader()
+    document.getElementById("conversation-messages").innerHTML = ""
+    await displayConversationMessages()
+}
+
 document.getElementById("add-chat-button").onclick = configureAddChatModal
 document.getElementById("edit-chat-button").onclick = configureEditChatModal
 
 fetchChats().then(async (chats) => {
     await displayChatsList(chats)
-    await displayConversationMessages()
+    await displaySelectedChat()
     await checkForUpdate(new Date())
 })
 
