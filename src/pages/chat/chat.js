@@ -365,6 +365,10 @@ const arrivedUserMessagesContainerHTML = (user, messages) => {
 const getSelectedChatID = () => localStorage.getItem("selectedChat")
 
 async function displayChatsList(chats) {
+    if (!chats) {
+        chats = await fetchChats()
+    }
+
     const chatsList = document.getElementById("chats-list")
 
     let newListHTML = ""
@@ -541,10 +545,10 @@ async function displayConversationMessages() {
     conversation.innerHTML = newConversation
 
     document.querySelectorAll(".message-delete-button").forEach((button) => {
-        button.onclick = async function() {
+        button.onclick = function() {
             const message = this.closest(".message")
 
-            await showDialogAsync(
+            showDialog(
                 "Delete Message?",
                 "This action cannot be undone.",
                 {
@@ -946,6 +950,8 @@ async function configureAddChatModal() {
 
             await addUserToChat(user.id, newChat.id)
         })
+
+        await displayChatsList()
     }
 
     const image = document.getElementById("edit-chat-icon-image")
@@ -1128,6 +1134,9 @@ async function configureEditChatModal() {
         difference.added.forEach(async (userID) => {
             await addUserToChat(userID, chat.id)
         })
+
+        await displayChatsList()
+        await displaySelectedChat()
     }
 
     const chatIconImage = document.getElementById("edit-chat-icon-image")
