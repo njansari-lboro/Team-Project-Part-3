@@ -606,6 +606,7 @@ document.getElementById("edit-chat-button").onclick = configureEditChatModal
 fetchChats().then(async (chats) => {
     await displayChatsList(chats)
     await displayConversationMessages()
+    await checkForUpdate(new Date())
 })
 
 document.querySelectorAll(".toggle-chat-list").forEach(toggle => {
@@ -678,6 +679,18 @@ async function submitMessage(event) {
         messageInput.value = ""
         document.getElementById("compose-message-submit").setAttribute("disabled", "")
     }
+}
+
+async function checkForUpdate(latest) {
+    const chats = await fetchChats()
+    const lastUpdated = new Date(chats[0].last_updated)
+
+    if (lastUpdated > latest) {
+        await displayChatsList(chats)
+        await displayConversationMessages()
+    }
+
+    setTimeout(() => checkForUpdate(lastUpdated), 2000)
 }
 
 const chatUserRowContainer = async (user, canEdit) => {
