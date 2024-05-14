@@ -17,14 +17,14 @@
 
     $new_user_id = $_POST["user_id"] ?? null;
 
-    if ($chat_id !== null && $new_user_id === null && !is_user_member_of_chat($_SESSION["user"]->id, $chat_id)) {
+    if ($chat_id !== null && !is_user_member_of_chat($_SESSION["user"]->id, $chat_id)) {
         http_response_code(403);
         die();
     }
 
     switch ($method) {
     case "GET":
-        if ($user_id === null && $chat_id !== null) {
+        if ($user_id === null && $new_user_id === null && $chat_id !== null) {
             echo json_encode(fetch_users_in_chat(chat_id: $chat_id));
         } else {
             http_response_code(400);
@@ -33,8 +33,8 @@
         break;
 
     case "POST":
-        if ($user_id !== null && $chat_id !== null) {
-            $result = add_user_to_chat($user_id, $chat_id);
+        if ($user_id === null && $new_user_id !== null && $chat_id !== null) {
+            $result = add_user_to_chat($new_user_id, $chat_id);
             http_response_code($result ? 201 : 500);
         } else {
             http_response_code(400);
@@ -43,7 +43,7 @@
         break;
 
     case "DELETE":
-        if ($user_id !== null && $chat_id !== null) {
+        if ($user_id !== null && $new_user_id === null && $chat_id !== null) {
             $result = delete_user_from_chat($user_id, $chat_id);
             http_response_code($result ? 204 : 404);
         } else {
