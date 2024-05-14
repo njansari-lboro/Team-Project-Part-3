@@ -365,9 +365,7 @@ const arrivedUserMessagesContainerHTML = (user, messages) => {
 const getSelectedChatID = () => localStorage.getItem("selectedChat")
 
 async function displayChatsList(chats) {
-    if (!chats) {
-        chats = await fetchChats()
-    }
+    chats ??= await fetchChats()
 
     const chatsList = document.getElementById("chats-list")
 
@@ -659,11 +657,11 @@ document.getElementById("delete-chat-button").onclick = () => {
 }
 
 fetchChats().then(async (chats) => {
-    await checkForUpdate(new Date())
     if (await displayChatsList(chats)) {
         await displaySelectedChat()
     }
 
+    await checkForUpdate()
 })
 
 document.querySelectorAll(".toggle-chat-list").forEach(toggle => {
@@ -740,14 +738,21 @@ async function submitMessage(event) {
 
 async function checkForUpdate(latest) {
     const chats = await fetchChats()
-    const lastUpdated = new Date(chats[0].last_updated)
+    if (chats.length === 0) return
 
-    if (lastUpdated > latest) {
+    const latestChat = chats[0]
+    const lastUpdated = new Date(latestChat.last_updated)
+
+    latest ??= {}
+    latest.chatID ??= latestChat.id
+    latest.update ??= lastUpdated
+
+    if (lastUpdated > latest.update || latestChat.id !== latest.chatID) {
         await displayChatsList(chats)
         await displayConversationMessages()
     }
 
-    setTimeout(() => checkForUpdate(lastUpdated), 2000)
+    setTimeout(() => checkForUpdate({ chatID: latestChat.id, update: lastUpdated }), 2000)
 }
 
 const editChatUserRowContainer = async (user, canEdit) => {
