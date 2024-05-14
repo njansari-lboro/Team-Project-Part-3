@@ -732,7 +732,7 @@ async function checkForUpdate(latest) {
     setTimeout(() => checkForUpdate(lastUpdated), 2000)
 }
 
-const chatUserRowContainer = async (user, canEdit) => {
+const editChatUserRowContainer = async (user, canEdit) => {
     let profileImage
 
     if (user.profile_image_name) {
@@ -887,7 +887,7 @@ async function configureAddChatModal() {
 
         if (selectedUser) {
             const chatUsersList = document.getElementById("edit-chat-users")
-            const container = await chatUserRowContainer(selectedUser, true)
+            const container = await editChatUserRowContainer(selectedUser, true)
             chatUsersList.append(container)
 
             addUserInput.value = ""
@@ -944,12 +944,12 @@ async function configureAddChatModal() {
 
         const users = await fetchAllUsers()
 
-        document.querySelectorAll("#edit-chat-users .edit-chat-user-name").forEach(async (e) => {
-            const userName = e.innerText
+        for (const chatUser of document.querySelectorAll("#edit-chat-users .edit-chat-user-name")) {
+            const userName = chatUser.innerText
             const user = users.find((e) => e.full_name === userName)
 
             await addUserToChat(user.id, newChat.id)
-        })
+        }
 
         await displayChatsList()
     }
@@ -1038,7 +1038,7 @@ async function configureEditChatModal() {
 
         if (selectedUser) {
             const chatUsersList = document.getElementById("edit-chat-users")
-            const container = await chatUserRowContainer(selectedUser, canEdit)
+            const container = await editChatUserRowContainer(selectedUser, canEdit)
             chatUsersList.append(container)
 
             addUserInput.value = ""
@@ -1110,8 +1110,12 @@ async function configureEditChatModal() {
         if (!document.getElementById("edit-chat-users").hasAttribute("changed")) return
 
         function findAddedRemoved(arr1, arr2) {
-            const added = new Set(arr2).difference(new Set(arr1))
-            const removed = new Set(arr1).difference(new Set(arr2))
+            const set1 = new Set(arr1)
+            const set2 = new Set(arr2)
+
+            const added = set2.difference(set1)
+            const removed = set1.difference(set2)
+
             return { added: [...added], removed: [...removed] }
         }
 
@@ -1127,13 +1131,13 @@ async function configureEditChatModal() {
 
         const difference = findAddedRemoved(previousMembers, newMembers)
 
-        difference.removed.forEach(async (userID) => {
+        for (const userID of difference.removed) {
             await removeUserFromChat(userID, chat.id)
-        })
+        }
 
-        difference.added.forEach(async (userID) => {
+        for (const userID of difference.added) {
             await addUserToChat(userID, chat.id)
-        })
+        }
 
         await displayChatsList()
         await displaySelectedChat()
@@ -1157,9 +1161,9 @@ async function configureEditChatModal() {
 
     const chatUsersList = document.getElementById("edit-chat-users")
 
-    chatMembers.forEach(async (chatUser) => {
+    for (const chatUser of chatMembers) {
         const member = await fetchUser(chatUser.user_id)
-        const container = await chatUserRowContainer(member, canEdit && member.id !== user.id)
+        const container = await editChatUserRowContainer(member, canEdit && member.id !== user.id)
         chatUsersList.append(container)
 
         document.querySelectorAll("#chat-users-list option").forEach((option) => {
@@ -1167,18 +1171,18 @@ async function configureEditChatModal() {
                 option.remove()
             }
         })
+    }
 
-        document.querySelectorAll(".edit-chat-remove-user").forEach((e) => {
-            e.onclick = () => {
-                const userRow = e.closest(".edit-chat-user")
-                const userName = userRow.querySelector(".edit-chat-user-name").innerText
-                document.getElementById("chat-users-list").innerHTML += `<option value="${userName}">`
-                userRow.remove()
+    document.querySelectorAll(".edit-chat-remove-user").forEach((e) => {
+        e.onclick = () => {
+            const userRow = e.closest(".edit-chat-user")
+            const userName = userRow.querySelector(".edit-chat-user-name").innerText
+            document.getElementById("chat-users-list").innerHTML += `<option value="${userName}">`
+            userRow.remove()
 
-                document.getElementById("edit-chat-users").setAttribute("changed", "")
-                checkEditChatCanSave()
-            }
-        })
+            document.getElementById("edit-chat-users").setAttribute("changed", "")
+            checkEditChatCanSave()
+        }
     })
 
     document.getElementById("edit-chat-type-option").value = "group"
