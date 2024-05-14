@@ -92,7 +92,13 @@
     </head>
 
     <body>
+        <script>
+            const user = JSON.parse(`<?php echo json_encode($_SESSION["user"]) ?>`)
+        </script>
+
         <!-- Navigation bar -->
+
+        <div id="profile-menu-dim" class="dimmed-overlay"></div>
 
         <div class="nav-bar">
             <load-svg id="sidebar-toggle" src="../assets/sidebar-toggle-icon.svg">
@@ -520,10 +526,6 @@
         <!-- Edit profile modal -->
 
         <div id="edit-profile-modal" class="modal">
-            <script>
-                const user = JSON.parse(`<?php echo json_encode($_SESSION["user"]) ?>`)
-            </script>
-
             <div class="dimmed-overlay"></div>
 
             <div id="edit-profile-card" class="modal-card center">
@@ -769,6 +771,97 @@
                 </div>
 
                 <span>This invite link will expire in 48 hours.</span>
+            </div>
+        </div>
+
+        <!-- Edit chat modal -->
+
+        <div id="edit-chat-modal" class="modal">
+            <div class="dimmed-overlay"></div>
+
+            <div id="edit-chat-card" class="modal-card center">
+                <button id="close-edit-chat-modal-button" class="modal-dismiss-button">
+                    <load-svg id="close-edit-chat-modal-icon" src="../assets/close-icon.svg">
+                        <style shadowRoot>
+                            svg {
+                                width: 1.5em;
+                                height: 1.5em;
+                            }
+
+                            .fill {
+                                fill: var(--secondary-label-color)
+                            }
+                        </style>
+                    </load-svg>
+                </button>
+
+                <h1 id="edit-chat-title"></h1>
+
+                <div id="edit-chat-container">
+                    <div id="edit-chat-info-container">
+                        <div id="edit-chat-type">
+                            <span id="edit-chat-type-label">Chat Type</span>
+                            <select id="edit-chat-type-option">
+                                <option value="private">Private</option>
+                                <option value="group">Group</option>
+                            </select>
+                        </div>
+
+                        <div id="edit-chat-icon">
+                            <img id="edit-chat-icon-image" alt="Chat icon">
+
+                            <load-svg id="edit-chat-placeholder-icon" src="../assets/chat-icon.svg">
+                                <style shadowRoot>
+                                    svg {
+                                        width: 10em;
+                                        height: 10em;
+                                    }
+
+                                    .fill {
+                                        fill: var(--label-color)
+                                    }
+                                </style>
+                            </load-svg>
+
+                            <div id="edit-chat-upload-image">
+                                <load-svg id="edit-chat-upload-image-icon" src="../assets/image-upload-icon.svg">
+                                    <style shadowRoot>
+                                        svg {
+                                            height: 3em;
+                                        }
+
+                                        .fill {
+                                            fill: var(--fill-color)
+                                        }
+                                    </style>
+                                </load-svg>
+                            </div>
+
+                            <input class="image-upload" type="file" accept="image/png, image/jpeg">
+                        </div>
+
+                        <div id="edit-chat-name">
+                            <span id="edit-chat-name-label">Name</span>
+                            <input id="edit-chat-name-input" type="text">
+                        </div>
+                    </div>
+
+                    <div class="divider vertical"></div>
+
+                    <div id="edit-chat-users-container">
+                        <input type="search" id="add-chat-user" placeholder="User Name" list="chat-users-list">
+                        <datalist id="chat-users-list"></datalist>
+
+                        <button id="chat-add-user-button" disabled></button>
+
+                        <div id="edit-chat-users"></div>
+                    </div>
+                </div>
+
+                <div id="edit-chat-dismiss-buttons">
+                    <button id="edit-chat-cancel-button" class="dismiss-edit-chat-button modal-dismiss-button">Cancel</button>
+                    <button id="edit-chat-save-button" class="dismiss-edit-chat-button" disabled>Save</button>
+                </div>
             </div>
         </div>
 

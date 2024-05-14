@@ -19,10 +19,44 @@
  * // "1 month ago"
  */
 function formatRelativeDate(date) {
+    const components = getRelativeDateComponents(date)
+
     const locale = navigator.language
+    const relative = new Intl.RelativeTimeFormat(locale)
+
+    if (components.seconds <= 1) {
+        return "Now"
+    } else if (components.seconds < 60) {
+        // Within a minute
+        return relative.format(-components.seconds, "seconds")
+    } else if (components.minutes < 60) {
+        // Within an hour
+        return relative.format(-components.minutes, "minutes")
+    } else if (components.hours < 24) {
+        // Within a day
+        return relative.format(-components.hours, "hours")
+    } else if (components.days < 7) {
+        // Within a week
+        return relative.format(-components.days, "days")
+    } else if (components.weeks < 4) {
+        // Within a month
+        return relative.format(-components.weeks, "weeks")
+    } else if (components.months < 12) {
+        // Within a year
+        return relative.format(-components.months, "months")
+    } else {
+        // Over a year ago
+        return relative.format(-components.years, "years")
+    }
+}
+
+function getRelativeDateComponents(date) {
+    const userTimeZoneOffset = new Date().getTimezoneOffset()
+    const timeZoneOffsetMillis = -userTimeZoneOffset * 60 * 1000
+    const offsetDate = new Date(date.getTime() + timeZoneOffsetMillis)
 
     const now = new Date()
-    const diff = now - date
+    const diff = now - offsetDate
 
     const seconds = Math.floor(diff / 1000)
     const minutes = Math.floor(seconds / 60)
@@ -32,29 +66,15 @@ function formatRelativeDate(date) {
     const months = Math.floor(weeks / 4)
     const years = Math.floor(months / 12)
 
-    const relative = new Intl.RelativeTimeFormat(locale)
-    if (seconds <= 1) {
-        return "Now"
-    } else if (seconds < 60) {
-        // Within a minute
-        return relative.format(-seconds, "seconds")
-    } else if (minutes < 60) {
-        // Within an hour
-        return relative.format(-minutes, "minutes")
-    } else if (hours < 24) {
-        // Within a day
-        return relative.format(-hours, "hours")
-    } else if (days < 7) {
-        // Within a week
-        return relative.format(-days, "days")
-    } else if (weeks < 4) {
-        // Within a month
-        return relative.format(-weeks, "weeks")
-    } else if (months < 12) {
-        // Within a year
-        return relative.format(-months, "months")
-    } else {
-        // Over a year ago
-        return relative.format(-years, "years")
+    return {
+        date: offsetDate,
+        now: now,
+        seconds: seconds,
+        minutes: minutes,
+        hours: hours,
+        days: days,
+        weeks: weeks,
+        months: months,
+        years: years
     }
 }
