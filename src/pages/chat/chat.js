@@ -423,27 +423,42 @@ async function displayChatsList(chats) {
 
     chatsList.innerHTML = newListHTML
 
-    document.querySelectorAll(".chat-row").forEach((chatRow, index) => {
-        chatRow.onclick = async function() {
-            document.querySelectorAll(".chat-row").forEach(row => {
-                row.classList.remove("selected")
-            })
+    if (chats.length === 0) {
+        document.getElementById("header-chat-info").style.visibility = "hidden"
+        document.getElementById("conversation-messages").innerHTML = ""
+        document.getElementById("compose-message-input").setAttribute("disabled", "")
 
-            this.classList.add("selected")
+        localStorage.setItem("selectedChat", "")
 
-            localStorage.setItem("selectedChat", chats[index].id)
+        return false
+    } else {
+        document.querySelectorAll(".chat-row").forEach((chatRow, index) => {
+            chatRow.onclick = async function() {
+                document.querySelectorAll(".chat-row").forEach(row => {
+                    row.classList.remove("selected")
+                })
 
-            await displaySelectedChat()
+                this.classList.add("selected")
+
+                localStorage.setItem("selectedChat", chats[index].id)
+
+                await displaySelectedChat()
+            }
+        })
+
+        const chatRows = document.querySelectorAll(".chat-row")
+
+        const isSelected = Array.from(chatRows).some(e => e.classList.contains("selected"))
+
+        if (!isSelected && chatRows.length > 0) {
+            chatRows[0].classList.add("selected")
+            localStorage.setItem("selectedChat", chats[0].id)
         }
-    })
 
-    const chatRows = document.querySelectorAll(".chat-row")
+        document.getElementById("header-chat-info").style.visibility = ""
+        document.getElementById("compose-message-input").removeAttribute("disabled")
 
-    const isSelected = Array.from(chatRows).some(e => e.classList.contains("selected"))
-
-    if (!isSelected && chatRows.length > 0) {
-        chatRows[0].classList.add("selected")
-        localStorage.setItem("selectedChat", chats[0].id)
+        return true
     }
 }
 
@@ -634,8 +649,9 @@ document.getElementById("delete-chat-button").onclick = () => {
             role: DESTRUCTIVE,
             action: async () => {
                 if (await deleteChat(getSelectedChatID())) {
-                    await displayChatsList()
-                    await displaySelectedChat()
+                    if (await displayChatsList()) {
+                        await displaySelectedChat()
+                    }
                 }
             }
         }
@@ -643,9 +659,11 @@ document.getElementById("delete-chat-button").onclick = () => {
 }
 
 fetchChats().then(async (chats) => {
-    await displayChatsList(chats)
-    await displaySelectedChat()
     await checkForUpdate(new Date())
+    if (await displayChatsList(chats)) {
+        await displaySelectedChat()
+    }
+
 })
 
 document.querySelectorAll(".toggle-chat-list").forEach(toggle => {
@@ -952,6 +970,7 @@ async function configureAddChatModal() {
         }
 
         await displayChatsList()
+        await displaySelectedChat()
     }
 
     const image = document.getElementById("edit-chat-icon-image")
