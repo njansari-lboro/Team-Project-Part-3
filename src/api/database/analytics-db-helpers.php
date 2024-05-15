@@ -258,3 +258,14 @@
         }
 
     }
+
+    function get_team_leader_projects($user_id):array {
+        $sql = "SELECT * FROM project WHERE lead_id = ?";
+        return fetch_records($sql, "i", $user_id);
+    }
+
+    function get_project_team_leader($project_id): array{
+        $sql = "SELECT lead_id from project where id = ?";
+        return fetch_records($sql, "i", $project_id);
+    }
+
