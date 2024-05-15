@@ -80,12 +80,12 @@
                         var project3Data = google.visualization.arrayToDataTable([
                             ['Task', 'Count'],
                             ['Completed',parseInt(data[1].completed)],
-                            ['Uncompleted',parseInt(data[3].not_started)],
+                            ['Not Started',parseInt(data[3].not_started)],
                             ['In Progress', parseInt(data[2].in_progress)],
                             ['No tasks set', noTasks]]
                         );
             var optionsTitle = {
-                title: 'User task progression',
+                title: 'User task progression in the past 30 days',
                 pieHole: 0.4,
                 backgroundColor: 'transparent',
                 titleTextStyle: {color: textColor},
@@ -382,7 +382,7 @@ function ProjectLineChart(project_id){
                             ['No tasks set', noTasks]]
                         );
             var optionsTitle = {
-                title: 'Project task completion',
+                title: 'Project task completion for the last 30 days',
                 pieHole: 0.4,
                 backgroundColor: 'transparent',
                 titleTextStyle: {color: textColor},
