@@ -56,7 +56,7 @@
         $sql = "Select Count(project_id) as overall from task where project_id = ?";
         $overall = get_record($sql, "i", $project_id);
         $return_project->overall = $overall;
-        $sql = "Select Count(project_id) as completed from task where project_id = ? and is_completed = true";
+        $sql = "Select Count(project_id) as completed from task where project_id = ? and is_completed = true and date_completed > (SELECT now() - INTERVAL 30 DAY)";
         $completed = get_record($sql, "i", $project_id);
         $return_project->completed = $completed;
         $sql = "Select Count(project_id) as in_progress from task where project_id = ? and hours_spent > 0 and is_completed = false";
@@ -105,7 +105,7 @@
         $sql = "Select count(assigned_user_id) as overall from task where assigned_user_id = ?";
         $overall = get_record($sql, "i", $user_id);
         array_push($return_array, $overall);
-        $sql = "Select count(assigned_user_id) as completed from task where is_completed = true and assigned_user_id = ?;";
+        $sql = "Select count(assigned_user_id) as completed from task where is_completed = true and assigned_user_id = ? and date_completed > (SELECT now() - INTERVAL 30 DAY);";
         $completed = get_record($sql, "i", $user_id);
         array_push($return_array, $completed);
         $sql = "select count(assigned_user_id) as in_progress from task where assigned_user_id = ? and hours_spent > 0 and is_completed = false;";
@@ -258,3 +258,14 @@
         }
 
     }
+
+    function get_team_leader_projects($user_id):array {
+        $sql = "SELECT * FROM project WHERE lead_id = ?";
+        return fetch_records($sql, "i", $user_id);
+    }
+
+    function get_project_team_leader($project_id): array{
+        $sql = "SELECT lead_id from project where id = ?";
+        return fetch_records($sql, "i", $project_id);
+    }
+

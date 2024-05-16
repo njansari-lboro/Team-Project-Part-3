@@ -31,7 +31,18 @@
             echo json_encode(get_project($project_id));
         }
     } else{
-        echo "Access Denied";
+        if($project_id === null){
+            echo json_encode(get_team_leader_projects($requester_id));
+        } else if ($tasks == "true"  && $requester_id == get_project_team_leader($project_id)[0]->lead_id) {
+            echo json_encode(get_project_tasks($project_id)); 
+        } else if($taskCount != null && $requester_id == get_project_team_leader($project_id)[0]->lead_id){
+            echo json_encode(get_project_task_count($project_id));
+        } else if ($requester_id == get_project_team_leader($project_id)[0]->lead_id){
+            echo json_encode(get_project($project_id));
+        } else{
+            echo "Access Denied";  
+        }
+
     }
         break;
     case "POST":
